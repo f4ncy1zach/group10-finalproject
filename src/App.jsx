@@ -1,8 +1,44 @@
+import { useState } from "react"
+import "./App.css"
+
 function App() {
+    const [step, setStep] = useState(0)
+
     return (
-        <div>
-            <h1>Travel Advisor</h1>
-            <p>Welcome to the Travel Advisor app. Development in progress.</p>
+        <div className="container">
+            {/* Header */}
+            <header className="header">
+                <div className="headerContent">
+                    <div className="logo">
+                        <h1 className="logoText">TRAVEL ADVISOR</h1>
+                    </div>
+                </div>
+            </header>
+
+            {/* Main content */}
+            <div className="mainContent">
+                <div className="glassCard">
+                    <div className="welcomeStep">
+                        <h2 className="welcomeTitle">TRAVEL ADVISOR</h2>
+                        <p className="welcomeText">
+                            Embark on a journey with your AI-powered travel companion, crafting magical trips tailored just for you.
+                        </p>
+                        <button
+                            onClick={() => setStep(1)}
+                            className="startButton"
+                        >
+                            Start Your Journey
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            {/* Footer */}
+            <footer className="footer">
+                <div className="footerContent">
+                    <p className="copyright">&copy; {new Date().getFullYear()} Travel Advisor. All rights reserved.</p>
+                </div>
+            </footer>
         </div>
     )
 }
