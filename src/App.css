@@ -9,6 +9,10 @@
   font-family: "Exo 2", sans-serif;
 }
 
+.dark .container {
+  background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+}
+
 /* Header */
 .header {
   position: relative;
@@ -18,6 +22,11 @@
   background-color: rgba(255, 255, 255, 0.7);
   border-bottom: 1px solid rgba(255, 255, 255, 0.8);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.dark .header {
+  background-color: rgba(15, 23, 42, 0.7);
+  border-bottom: 1px solid rgba(30, 41, 59, 0.8);
 }
 
 .headerContent {
@@ -43,6 +52,32 @@
   background-clip: text;
   color: transparent;
   letter-spacing: 0.05em;
+}
+
+/* Theme toggle */
+.themeToggle {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dark .themeToggle {
+  background-color: rgba(30, 41, 59, 0.5);
+  border: 1px solid rgba(30, 41, 59, 0.8);
+}
+
+.themeToggle:hover {
+  transform: rotate(15deg);
 }
 
 /* Main content */
@@ -73,6 +108,12 @@
   overflow: hidden;
 }
 
+.dark .glassCard {
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(30, 41, 59, 0.8);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2), 0 10px 15px rgba(56, 189, 248, 0.1);
+}
+
 /* Welcome step */
 .welcomeStep {
   text-align: center;
@@ -86,9 +127,17 @@
   letter-spacing: 0.05em;
 }
 
+.dark .welcomeTitle {
+  color: #f8fafc;
+}
+
 .welcomeText {
   color: #475569;
   margin-bottom: 2rem;
+}
+
+.dark .welcomeText {
+  color: #cbd5e1;
 }
 
 .startButton {
@@ -119,6 +168,11 @@
   margin-top: auto;
 }
 
+.dark .footer {
+  background-color: rgba(15, 23, 42, 0.7);
+  border-top: 1px solid rgba(30, 41, 59, 0.8);
+}
+
 .footerContent {
   max-width: 1200px;
   margin: 0 auto;
@@ -132,4 +186,8 @@
   color: #64748b;
   font-size: 0.875rem;
   text-align: center;
+}
+
+.dark .copyright {
+  color: #94a3b8;
 }
