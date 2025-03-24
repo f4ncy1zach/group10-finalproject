@@ -1,19 +1,41 @@
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "./components/ui/button"
 import { Slider } from "./components/ui/slider"
-import { Globe, Home, ArrowRight, ArrowLeft, Users } from 'lucide-react'
+import { Globe, Home, ArrowRight, ArrowLeft, Users, StampIcon as Passport, ChevronDown } from 'lucide-react'
 import "./App.css"
 
 function App() {
     const [step, setStep] = useState(0)
     const [travelers, setTravelers] = useState(2)
+    const [samePassport, setSamePassport] = useState(null)
+    const [passport, setPassport] = useState("")
+
+    // Custom select state
+    const [countryDropdownOpen, setCountryDropdownOpen] = useState(false)
+    const countryDropdownRef = useRef(null)
+
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (countryDropdownRef.current && !countryDropdownRef.current.contains(event.target)) {
+                setCountryDropdownOpen(false)
+            }
+        }
+
+        document.addEventListener("mousedown", handleClickOutside)
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside)
+        }
+    }, [])
 
     const totalSteps = 8 // Total number of steps in the final project
 
     const resetForm = () => {
         setStep(0)
         setTravelers(2)
+        setSamePassport(null)
+        setPassport("")
     }
 
     const nextStep = () => {
@@ -27,6 +49,19 @@ function App() {
             setStep(step - 1)
         }
     }
+
+    const countries = [
+        "Canada",
+        "United States",
+        "United Kingdom",
+        "France",
+        "Germany",
+        "Japan",
+        "Australia",
+        "Brazil",
+        "India",
+        "South Africa",
+    ]
 
     return (
         <div className="container">
@@ -174,6 +209,114 @@ function App() {
                                     </Button>
                                     <Button
                                         onClick={nextStep}
+                                        className="nextButton"
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                                        Next
+                                        <ArrowRight className="buttonIcon" />
+                                    </Button>
+                                </div>
+                            </div>
+                        )}
+
+                        {step === 2 && (
+                            <div className="formStep">
+                                <div className="questionHeader">
+                                    <motion.div
+                                        animate={{ rotate: 360 }}
+                                        transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                                        className="questionIcon"
+                                    >
+                                        <Passport className="stepIcon" />
+                                    </motion.div>
+                                    <h2 className="questionText">DOES EVERYONE HAVE THE SAME PASSPORT?</h2>
+                                </div>
+                                <div className="optionsGrid">
+                                    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                                        <Button
+                                            variant={samePassport === true ? "default" : "outline"}
+                                            onClick={() => setSamePassport(true)}
+                                            className={`optionButton ${samePassport === true ? "optionButtonActive" : ""}`}
+                                        >
+                                            Yes
+                                        </Button>
+                                    </motion.div>
+                                    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                                        <Button
+                                            variant={samePassport === false ? "default" : "outline"}
+                                            onClick={() => setSamePassport(false)}
+                                            className={`optionButton ${samePassport === false ? "optionButtonActive" : ""}`}
+                                        >
+                                            No
+                                        </Button>
+                                    </motion.div>
+                                </div>
+                                <div className="buttonContainer">
+                                    <Button variant="outline" onClick={prevStep} className="backButton">
+                                        <ArrowLeft className="buttonIcon" />
+                                        Back
+                                    </Button>
+                                    <Button
+                                        onClick={nextStep}
+                                        disabled={samePassport === null}
+                                        className="nextButton"
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                                        Next
+                                        <ArrowRight className="buttonIcon" />
+                                    </Button>
+                                </div>
+                            </div>
+                        )}
+
+                        {step === 3 && (
+                            <div className="formStep">
+                                <div className="questionHeader">
+                                    <motion.div
+                                        animate={{ y: [0, -5, 0, 5, 0] }}
+                                        transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
+                                        className="questionIcon"
+                                    >
+                                        <Passport className="stepIcon" />
+                                    </motion.div>
+                                    <h2 className="questionText">
+                                        WHAT PASSPORT {travelers > 1 && samePassport ? "DOES EVERYONE" : "DO YOU"} HAVE?
+                                    </h2>
+                                </div>
+                                <div className="inputContainer">
+                                    <div className="customSelect" ref={countryDropdownRef}>
+                                        <div className="customSelectTrigger" onClick={() => setCountryDropdownOpen(!countryDropdownOpen)}>
+                                            {passport || "Select a country"}
+                                            <ChevronDown size={16} />
+                                        </div>
+                                        {countryDropdownOpen && (
+                                            <div className="customSelectDropdown">
+                                                {countries.map((country) => (
+                                                    <div
+                                                        key={country}
+                                                        className={`customSelectOption ${passport === country ? "customSelectOptionSelected" : ""}`}
+                                                        onClick={() => {
+                                                            setPassport(country)
+                                                            setCountryDropdownOpen(false)
+                                                        }}
+                                                    >
+                                                        {country}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                                <div className="buttonContainer">
+                                    <Button variant="outline" onClick={prevStep} className="backButton">
+                                        <ArrowLeft className="buttonIcon" />
+                                        Back
+                                    </Button>
+                                    <Button
+                                        onClick={nextStep}
+                                        disabled={!passport}
                                         className="nextButton"
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
