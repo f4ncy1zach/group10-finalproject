@@ -77,7 +77,7 @@
   height: 1.25rem;
 }
 
-/* Progress tracker */
+/* Progress tracker - Fixed connector alignment */
 .progressContainer {
   max-width: 1200px;
   margin: 0 auto;
@@ -92,12 +92,12 @@
   justify-content: space-between;
   max-width: 800px;
   margin: 0 auto 2rem;
-  gap: 20px;
 }
 
 .progressStep {
   display: flex;
   align-items: center;
+  position: relative;
   flex: 1;
 }
 
@@ -122,6 +122,12 @@
   height: 0.25rem;
   flex: 1;
   background-color: #e5e7eb;
+  position: absolute;
+  left: 2rem; /* Start from the right edge of the dot */
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 5;
 }
 
 .progressLineActive {
@@ -411,7 +417,9 @@
 }
 
 /* Fix for horizontal overflow */
-html, body {
+html,
+body {
   overflow-x: hidden;
   max-width: 100%;
 }
+

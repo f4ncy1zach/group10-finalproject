@@ -1,8 +1,10 @@
+"use client"
+
 import { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "./components/ui/button"
 import { Slider } from "./components/ui/slider"
-import { Globe, Home, ArrowRight, ArrowLeft, Users, StampIcon as Passport, ChevronDown } from 'lucide-react'
+import { Globe, Home, ArrowRight, ArrowLeft, Users, StampIcon as Passport, ChevronDown } from "lucide-react"
 import "./App.css"
 
 function App() {
@@ -84,7 +86,7 @@ function App() {
                 </div>
             </header>
 
-            {/* Progress indicator */}
+            {/* Progress indicator - Fixed connector alignment */}
             <div className="progressContainer">
                 <div className="progressTracker">
                     {[...Array(totalSteps + 1)].map((_, i) => (
@@ -150,7 +152,8 @@ function App() {
                                     animate={{ opacity: 1 }}
                                     transition={{ delay: 0.5 }}
                                 >
-                                    Embark on a journey with your AI-powered travel companion, crafting magical trips tailored just for you.
+                                    Embark on a journey with your AI-powered travel companion, crafting magical trips tailored just for
+                                    you.
                                 </motion.p>
                                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}>
                                     <Button
@@ -342,3 +345,4 @@ function App() {
 }
 
 export default App
+
