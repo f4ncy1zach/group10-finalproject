@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Button } from "./components/ui/button"
 import "./App.css"
 
 function App() {
@@ -23,12 +24,12 @@ function App() {
                         <p className="welcomeText">
                             Embark on a journey with your AI-powered travel companion, crafting magical trips tailored just for you.
                         </p>
-                        <button
+                        <Button
                             onClick={() => setStep(1)}
                             className="startButton"
                         >
                             Start Your Journey
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </div>
