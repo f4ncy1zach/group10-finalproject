@@ -90,7 +90,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  max-width: 800px;
+  max-width: 700px; /* Reduced from 800px to make it more compact */
   margin: 0 auto 2rem;
 }
 
@@ -99,6 +99,7 @@
   align-items: center;
   position: relative;
   flex: 1;
+  max-width: 70px; /* Added max-width to limit the step width */
 }
 
 .progressDot {
@@ -120,11 +121,10 @@
 
 .progressLine {
   height: 0.25rem;
-  flex: 1;
+  width: calc(100% - 2rem); /* Set width to fill the space minus the dot width */
   background-color: #e5e7eb;
   position: absolute;
   left: 2rem; /* Start from the right edge of the dot */
-  right: 0;
   top: 50%;
   transform: translateY(-50%);
   z-index: 5;
@@ -423,3 +423,15 @@ body {
   max-width: 100%;
 }
 
+/* Add styles for the budget badge */
+.budgetBadge {
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  background: linear-gradient(to right, #38bdf8, #8b5cf6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+}

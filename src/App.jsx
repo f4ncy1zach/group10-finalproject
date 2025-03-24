@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "./components/ui/button"
 import { Slider } from "./components/ui/slider"
-import { Globe, Home, ArrowRight, ArrowLeft, Users, StampIcon as Passport, ChevronDown } from "lucide-react"
+import { Globe, Home, ArrowRight, ArrowLeft, Users, StampIcon as Passport, ChevronDown, DollarSign } from "lucide-react"
 import "./App.css"
 
 function App() {
@@ -12,6 +12,7 @@ function App() {
     const [travelers, setTravelers] = useState(2)
     const [samePassport, setSamePassport] = useState(null)
     const [passport, setPassport] = useState("")
+    const [budget, setBudget] = useState(2000)
 
     // Custom select state
     const [countryDropdownOpen, setCountryDropdownOpen] = useState(false)
@@ -38,6 +39,7 @@ function App() {
         setTravelers(2)
         setSamePassport(null)
         setPassport("")
+        setBudget(2000)
     }
 
     const nextStep = () => {
@@ -86,7 +88,7 @@ function App() {
                 </div>
             </header>
 
-            {/* Progress indicator - Fixed connector alignment */}
+            {/* Progress indicator - More compact */}
             <div className="progressContainer">
                 <div className="progressTracker">
                     {[...Array(totalSteps + 1)].map((_, i) => (
@@ -330,6 +332,63 @@ function App() {
                                 </div>
                             </div>
                         )}
+
+                        {step === 4 && (
+                            <div className="formStep">
+                                <div className="questionHeader">
+                                    <motion.div
+                                        animate={{
+                                            scale: [1, 1.2, 1],
+                                            rotate: [0, 10, 0, -10, 0],
+                                        }}
+                                        transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
+                                        className="questionIcon"
+                                    >
+                                        <DollarSign className="stepIcon" />
+                                    </motion.div>
+                                    <h2 className="questionText">WHAT IS YOUR BUDGET? (in CAD)</h2>
+                                </div>
+                                <div className="inputContainer">
+                                    <div className="sliderLabels">
+                                        <span className="sliderLabel">$500</span>
+                                        <span className="sliderLabel">$10,000</span>
+                                    </div>
+                                    <div className="sliderContainer">
+                                        <Slider
+                                            value={[budget]}
+                                            min={500}
+                                            max={10000}
+                                            step={100}
+                                            onValueChange={(value) => setBudget(value[0])}
+                                            className="slider"
+                                        />
+                                        <motion.div
+                                            className="budgetBadge"
+                                            animate={{ y: [0, -5, 0] }}
+                                            transition={{ duration: 1, delay: 0.2, repeat: Number.POSITIVE_INFINITY }}
+                                            whileHover={{ scale: 1.1 }}
+                                        >
+                                            ${budget}
+                                        </motion.div>
+                                    </div>
+                                </div>
+                                <div className="buttonContainer">
+                                    <Button variant="outline" onClick={prevStep} className="backButton">
+                                        <ArrowLeft className="buttonIcon" />
+                                        Back
+                                    </Button>
+                                    <Button
+                                        onClick={nextStep}
+                                        className="nextButton"
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                                        Next
+                                        <ArrowRight className="buttonIcon" />
+                                    </Button>
+                                </div>
+                            </div>
+                        )}
                     </motion.div>
                 </AnimatePresence>
             </div>
@@ -345,4 +404,3 @@ function App() {
 }
 
 export default App
-
