@@ -1,8 +1,8 @@
 import { useState } from "react"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "./components/ui/button"
 import { Slider } from "./components/ui/slider"
-import { Globe, Home, ArrowRight, ArrowLeft } from 'lucide-react'
+import { Globe, Home, ArrowRight, ArrowLeft, Users } from 'lucide-react'
 import "./App.css"
 
 function App() {
@@ -74,93 +74,118 @@ function App() {
 
             {/* Main content */}
             <div className="mainContent">
-                <motion.div
-                    className="glassCard"
-                    whileHover={{
-                        boxShadow: "0 10px 25px rgba(56, 189, 248, 0.3)",
-                        y: -5,
-                    }}
-                >
-                    {step === 0 && (
-                        <div className="welcomeStep">
-                            <motion.div
-                                initial={{ scale: 0 }}
-                                animate={{ scale: 1, rotate: [0, 5, 0, -5, 0] }}
-                                transition={{ duration: 0.5 }}
-                                className="welcomeIcon"
-                                whileHover={{
-                                    scale: 1.1,
-                                    boxShadow: "0 0 20px rgba(56, 189, 248, 0.5)",
-                                }}
-                            >
-                                <Globe className="welcomeGlobe" />
-                            </motion.div>
-                            <motion.h2
-                                className="welcomeTitle"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 0.3 }}
-                            >
-                                TRAVEL ADVISOR
-                            </motion.h2>
-                            <motion.p
-                                className="welcomeText"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 0.5 }}
-                            >
-                                Embark on a journey with your AI-powered travel companion, crafting magical trips tailored just for you.
-                            </motion.p>
-                            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}>
-                                <Button
-                                    onClick={nextStep}
-                                    className="startButton"
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={step}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        transition={{ duration: 0.5 }}
+                        className="glassCard"
+                        whileHover={{
+                            boxShadow: "0 10px 25px rgba(56, 189, 248, 0.3)",
+                            y: -5,
+                        }}
+                    >
+                        {step === 0 && (
+                            <div className="welcomeStep">
+                                <motion.div
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: 1, rotate: [0, 5, 0, -5, 0] }}
+                                    transition={{ duration: 0.5 }}
+                                    className="welcomeIcon"
+                                    whileHover={{
+                                        scale: 1.1,
+                                        boxShadow: "0 0 20px rgba(56, 189, 248, 0.5)",
+                                    }}
                                 >
-                                    Start Your Journey
-                                    <ArrowRight className="buttonIcon" />
-                                </Button>
-                            </motion.div>
-                        </div>
-                    )}
-
-                    {step === 1 && (
-                        <div className="formStep">
-                            <h2 className="questionText">HOW MANY PEOPLE ARE TRAVELING?</h2>
-                            <div className="inputContainer">
-                                <div className="sliderContainer">
-                                    <Slider
-                                        value={[travelers]}
-                                        min={1}
-                                        max={10}
-                                        step={1}
-                                        onValueChange={(value) => setTravelers(value[0])}
-                                        className="slider"
-                                    />
-                                    <motion.div
-                                        className="travelersBadge"
-                                        animate={{ scale: [1, 1.1, 1] }}
-                                        transition={{ duration: 0.5, delay: 0.2 }}
-                                        whileHover={{ scale: 1.2, rotate: 10 }}
+                                    <Globe className="welcomeGlobe" />
+                                </motion.div>
+                                <motion.h2
+                                    className="welcomeTitle"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ delay: 0.3 }}
+                                >
+                                    TRAVEL ADVISOR
+                                </motion.h2>
+                                <motion.p
+                                    className="welcomeText"
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ delay: 0.5 }}
+                                >
+                                    Embark on a journey with your AI-powered travel companion, crafting magical trips tailored just for you.
+                                </motion.p>
+                                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}>
+                                    <Button
+                                        onClick={nextStep}
+                                        className="startButton"
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
                                     >
-                                        {travelers}
+                                        Start Your Journey
+                                        <ArrowRight className="buttonIcon" />
+                                    </Button>
+                                </motion.div>
+                            </div>
+                        )}
+
+                        {step === 1 && (
+                            <div className="formStep">
+                                <div className="questionHeader">
+                                    <motion.div
+                                        animate={{ rotate: [0, 10, 0, -10, 0] }}
+                                        transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
+                                        className="questionIcon"
+                                    >
+                                        <Users className="stepIcon" />
                                     </motion.div>
+                                    <h2 className="questionText">HOW MANY PEOPLE ARE TRAVELING?</h2>
+                                </div>
+                                <div className="inputContainer">
+                                    <div className="sliderLabels">
+                                        <span className="sliderLabel">1</span>
+                                        <span className="sliderLabel">10</span>
+                                    </div>
+                                    <div className="sliderContainer">
+                                        <Slider
+                                            value={[travelers]}
+                                            min={1}
+                                            max={10}
+                                            step={1}
+                                            onValueChange={(value) => setTravelers(value[0])}
+                                            className="slider"
+                                        />
+                                        <motion.div
+                                            className="travelersBadge"
+                                            animate={{ scale: [1, 1.1, 1] }}
+                                            transition={{ duration: 0.5, delay: 0.2 }}
+                                            whileHover={{ scale: 1.2, rotate: 10 }}
+                                        >
+                                            {travelers}
+                                        </motion.div>
+                                    </div>
+                                </div>
+                                <div className="buttonContainer">
+                                    <Button variant="outline" onClick={prevStep} className="backButton">
+                                        <ArrowLeft className="buttonIcon" />
+                                        Back
+                                    </Button>
+                                    <Button
+                                        onClick={nextStep}
+                                        className="nextButton"
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                                        Next
+                                        <ArrowRight className="buttonIcon" />
+                                    </Button>
                                 </div>
                             </div>
-                            <div className="buttonContainer">
-                                <Button variant="outline" onClick={prevStep} className="backButton">
-                                    <ArrowLeft className="buttonIcon" />
-                                    Back
-                                </Button>
-                                <Button onClick={nextStep} className="nextButton">
-                                    Next
-                                    <ArrowRight className="buttonIcon" />
-                                </Button>
-                            </div>
-                        </div>
-                    )}
-                </motion.div>
+                        )}
+                    </motion.div>
+                </AnimatePresence>
             </div>
 
             {/* Footer */}
