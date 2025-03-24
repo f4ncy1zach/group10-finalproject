@@ -2,19 +2,30 @@ import { useState } from "react"
 import { motion } from "framer-motion"
 import { Button } from "./components/ui/button"
 import { Slider } from "./components/ui/slider"
-import { Textarea } from "./components/ui/textarea"
-import { Globe, Home, ArrowRight } from 'lucide-react'
+import { Globe, Home, ArrowRight, ArrowLeft } from 'lucide-react'
 import "./App.css"
 
 function App() {
     const [step, setStep] = useState(0)
     const [travelers, setTravelers] = useState(2)
-    const [chatMessage, setChatMessage] = useState("")
+
+    const totalSteps = 8 // Total number of steps in the final project
 
     const resetForm = () => {
         setStep(0)
         setTravelers(2)
-        setChatMessage("")
+    }
+
+    const nextStep = () => {
+        if (step < totalSteps) {
+            setStep(step + 1)
+        }
+    }
+
+    const prevStep = () => {
+        if (step > 0) {
+            setStep(step - 1)
+        }
     }
 
     return (
@@ -37,6 +48,29 @@ function App() {
                     </Button>
                 </div>
             </header>
+
+            {/* Progress indicator */}
+            <div className="progressContainer">
+                <div className="progressTracker">
+                    {[...Array(totalSteps + 1)].map((_, i) => (
+                        <div key={i} className="progressStep">
+                            <motion.div
+                                className={`progressDot ${i <= step ? "progressDotActive" : ""}`}
+                                initial={{ scale: 1 }}
+                                animate={{
+                                    scale: i === step ? [1, 1.2, 1] : 1,
+                                    boxShadow: i <= step ? "0 0 10px rgba(56, 189, 248, 0.5)" : "none",
+                                }}
+                                transition={{ duration: 1, repeat: i === step ? Number.POSITIVE_INFINITY : 0 }}
+                                whileHover={{ scale: 1.2 }}
+                            >
+                                <span className="progressNumber">{i + 1}</span>
+                            </motion.div>
+                            {i < totalSteps && <div className={`progressLine ${i < step ? "progressLineActive" : ""}`} />}
+                        </div>
+                    ))}
+                </div>
+            </div>
 
             {/* Main content */}
             <div className="mainContent">
@@ -79,7 +113,7 @@ function App() {
                             </motion.p>
                             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}>
                                 <Button
-                                    onClick={() => setStep(1)}
+                                    onClick={nextStep}
                                     className="startButton"
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
@@ -115,33 +149,13 @@ function App() {
                                 </div>
                             </div>
                             <div className="buttonContainer">
-                                <Button variant="outline" onClick={() => setStep(0)} className="backButton">
+                                <Button variant="outline" onClick={prevStep} className="backButton">
+                                    <ArrowLeft className="buttonIcon" />
                                     Back
                                 </Button>
-                                <Button onClick={() => setStep(2)} className="nextButton">
+                                <Button onClick={nextStep} className="nextButton">
                                     Next
-                                </Button>
-                            </div>
-                        </div>
-                    )}
-
-                    {step === 2 && (
-                        <div className="formStep">
-                            <h2 className="questionText">ANY ADDITIONAL COMMENTS?</h2>
-                            <div className="inputContainer">
-                                <Textarea
-                                    value={chatMessage}
-                                    onChange={(e) => setChatMessage(e.target.value)}
-                                    placeholder="Add any additional details about your trip..."
-                                    className="textarea"
-                                />
-                            </div>
-                            <div className="buttonContainer">
-                                <Button variant="outline" onClick={() => setStep(1)} className="backButton">
-                                    Back
-                                </Button>
-                                <Button onClick={() => setStep(0)} className="nextButton">
-                                    Submit
+                                    <ArrowRight className="buttonIcon" />
                                 </Button>
                             </div>
                         </div>

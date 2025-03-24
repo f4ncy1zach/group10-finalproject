@@ -74,12 +74,66 @@
   height: 1.25rem;
 }
 
+/* Progress tracker */
+.progressContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+  margin-top: 10px;
+}
+
+.progressTracker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 800px;
+  margin: 0 auto 2rem;
+  gap: 20px;
+}
+
+.progressStep {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.progressDot {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.75rem;
+  background-color: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  position: relative;
+}
+
+.progressNumber {
+  font-size: 0.75rem;
+  color: white;
+}
+
+.progressLine {
+  height: 0.25rem;
+  flex: 1;
+  background-color: #e5e7eb;
+}
+
+.progressLineActive {
+  background: linear-gradient(to right, #38bdf8, #8b5cf6);
+}
+
+.progressDotActive {
+  background: linear-gradient(to right, #38bdf8, #8b5cf6);
+}
+
 /* Main content */
 .mainContent {
   max-width: 1200px;
   width: 100%;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 0 1rem 2rem;
   display: flex;
   justify-content: center;
   position: relative;
@@ -200,12 +254,6 @@
   color: white;
   font-weight: 700;
   box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
-}
-
-.textarea {
-  width: 100%;
-  min-height: 150px;
-  resize: vertical;
 }
 
 .buttonContainer {
