@@ -35,12 +35,6 @@
   gap: 0.5rem;
 }
 
-.logoIconContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .logoIcon {
   width: 1.5rem;
   height: 1.5rem;
@@ -113,6 +107,24 @@
   text-align: center;
 }
 
+.welcomeIcon {
+  width: 5rem;
+  height: 5rem;
+  margin: 0 auto 1.5rem;
+  border-radius: 1.5rem;
+  background: linear-gradient(to right, #38bdf8, #8b5cf6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+}
+
+.welcomeGlobe {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: white;
+}
+
 .welcomeTitle {
   font-size: 2rem;
   font-weight: 700;
@@ -134,11 +146,20 @@
   font-weight: 500;
   box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
   transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .startButton:hover {
   box-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
   transform: translateY(-2px);
+}
+
+.buttonIcon {
+  width: 1.25rem;
+  height: 1.25rem;
 }
 
 /* Form steps */
@@ -197,6 +218,10 @@
   color: #475569;
   border-radius: 1rem;
   padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .nextButton {
@@ -204,6 +229,10 @@
   color: white;
   border-radius: 1rem;
   padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 /* Footer */
