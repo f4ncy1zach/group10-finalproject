@@ -106,6 +106,71 @@
   transform: translateY(-2px);
 }
 
+/* Form steps */
+.formStep {
+  width: 100%;
+}
+
+.questionText {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.05em;
+}
+
+.inputContainer {
+  margin-bottom: 2rem;
+}
+
+.sliderContainer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.slider {
+  flex: 1;
+}
+
+.travelersBadge {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 1rem;
+  background: linear-gradient(to right, #38bdf8, #8b5cf6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+}
+
+.textarea {
+  width: 100%;
+  min-height: 150px;
+  resize: vertical;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.backButton {
+  border: 1px solid rgba(209, 213, 219, 0.8);
+  color: #475569;
+  border-radius: 1rem;
+  padding: 0.75rem 1.5rem;
+}
+
+.nextButton {
+  background: linear-gradient(to right, #38bdf8, #8b5cf6);
+  color: white;
+  border-radius: 1rem;
+  padding: 0.75rem 1.5rem;
+}
+
 /* Footer */
 .footer {
   position: relative;

@@ -1,9 +1,13 @@
 import { useState } from "react"
 import { Button } from "./components/ui/button"
+import { Slider } from "./components/ui/slider"
+import { Textarea } from "./components/ui/textarea"
 import "./App.css"
 
 function App() {
     const [step, setStep] = useState(0)
+    const [travelers, setTravelers] = useState(2)
+    const [chatMessage, setChatMessage] = useState("")
 
     return (
         <div className="container">
@@ -19,18 +23,69 @@ function App() {
             {/* Main content */}
             <div className="mainContent">
                 <div className="glassCard">
-                    <div className="welcomeStep">
-                        <h2 className="welcomeTitle">TRAVEL ADVISOR</h2>
-                        <p className="welcomeText">
-                            Embark on a journey with your AI-powered travel companion, crafting magical trips tailored just for you.
-                        </p>
-                        <Button
-                            onClick={() => setStep(1)}
-                            className="startButton"
-                        >
-                            Start Your Journey
-                        </Button>
-                    </div>
+                    {step === 0 && (
+                        <div className="welcomeStep">
+                            <h2 className="welcomeTitle">TRAVEL ADVISOR</h2>
+                            <p className="welcomeText">
+                                Embark on a journey with your AI-powered travel companion, crafting magical trips tailored just for you.
+                            </p>
+                            <Button
+                                onClick={() => setStep(1)}
+                                className="startButton"
+                            >
+                                Start Your Journey
+                            </Button>
+                        </div>
+                    )}
+
+                    {step === 1 && (
+                        <div className="formStep">
+                            <h2 className="questionText">HOW MANY PEOPLE ARE TRAVELING?</h2>
+                            <div className="inputContainer">
+                                <div className="sliderContainer">
+                                    <Slider
+                                        value={[travelers]}
+                                        min={1}
+                                        max={10}
+                                        step={1}
+                                        onValueChange={(value) => setTravelers(value[0])}
+                                        className="slider"
+                                    />
+                                    <div className="travelersBadge">{travelers}</div>
+                                </div>
+                            </div>
+                            <div className="buttonContainer">
+                                <Button variant="outline" onClick={() => setStep(0)} className="backButton">
+                                    Back
+                                </Button>
+                                <Button onClick={() => setStep(2)} className="nextButton">
+                                    Next
+                                </Button>
+                            </div>
+                        </div>
+                    )}
+
+                    {step === 2 && (
+                        <div className="formStep">
+                            <h2 className="questionText">ANY ADDITIONAL COMMENTS?</h2>
+                            <div className="inputContainer">
+                                <Textarea
+                                    value={chatMessage}
+                                    onChange={(e) => setChatMessage(e.target.value)}
+                                    placeholder="Add any additional details about your trip..."
+                                    className="textarea"
+                                />
+                            </div>
+                            <div className="buttonContainer">
+                                <Button variant="outline" onClick={() => setStep(1)} className="backButton">
+                                    Back
+                                </Button>
+                                <Button onClick={() => setStep(0)} className="nextButton">
+                                    Submit
+                                </Button>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
 
