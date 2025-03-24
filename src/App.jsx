@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Button } from "./components/ui/button"
 import { Slider } from "./components/ui/slider"
 import { Textarea } from "./components/ui/textarea"
+import { Globe, Home } from 'lucide-react'
 import "./App.css"
 
 function App() {
@@ -9,14 +10,27 @@ function App() {
     const [travelers, setTravelers] = useState(2)
     const [chatMessage, setChatMessage] = useState("")
 
+    const resetForm = () => {
+        setStep(0)
+        setTravelers(2)
+        setChatMessage("")
+    }
+
     return (
         <div className="container">
             {/* Header */}
             <header className="header">
                 <div className="headerContent">
                     <div className="logo">
+                        <div className="logoIconContainer">
+                            <Globe className="logoIcon" />
+                        </div>
                         <h1 className="logoText">TRAVEL ADVISOR</h1>
                     </div>
+                    <Button variant="ghost" size="icon" className="homeButton" onClick={resetForm}>
+                        <Home className="homeIcon" />
+                        <span className="sr-only">Home</span>
+                    </Button>
                 </div>
             </header>
 
