@@ -4,7 +4,17 @@ import { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "./components/ui/button"
 import { Slider } from "./components/ui/slider"
-import { Globe, Home, ArrowRight, ArrowLeft, Users, StampIcon as Passport, ChevronDown, DollarSign } from "lucide-react"
+import {
+    Globe,
+    Home,
+    ArrowRight,
+    ArrowLeft,
+    Users,
+    StampIcon as Passport,
+    ChevronDown,
+    DollarSign,
+    Plane,
+} from "lucide-react"
 import "./App.css"
 
 function App() {
@@ -13,16 +23,24 @@ function App() {
     const [samePassport, setSamePassport] = useState(null)
     const [passport, setPassport] = useState("")
     const [budget, setBudget] = useState(2000)
+    const [origin, setOrigin] = useState("")
 
-    // Custom select state
+    // Custom select states
     const [countryDropdownOpen, setCountryDropdownOpen] = useState(false)
-    const countryDropdownRef = useRef(null)
+    const [originDropdownOpen, setOriginDropdownOpen] = useState(false)
 
-    // Close dropdown when clicking outside
+    // Refs for click outside detection
+    const countryDropdownRef = useRef(null)
+    const originDropdownRef = useRef(null)
+
+    // Close dropdowns when clicking outside
     useEffect(() => {
         function handleClickOutside(event) {
             if (countryDropdownRef.current && !countryDropdownRef.current.contains(event.target)) {
                 setCountryDropdownOpen(false)
+            }
+            if (originDropdownRef.current && !originDropdownRef.current.contains(event.target)) {
+                setOriginDropdownOpen(false)
             }
         }
 
@@ -40,6 +58,7 @@ function App() {
         setSamePassport(null)
         setPassport("")
         setBudget(2000)
+        setOrigin("")
     }
 
     const nextStep = () => {
@@ -379,6 +398,64 @@ function App() {
                                     </Button>
                                     <Button
                                         onClick={nextStep}
+                                        className="nextButton"
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                                        Next
+                                        <ArrowRight className="buttonIcon" />
+                                    </Button>
+                                </div>
+                            </div>
+                        )}
+
+                        {step === 5 && (
+                            <div className="formStep">
+                                <div className="questionHeader">
+                                    <motion.div
+                                        animate={{
+                                            x: [0, 10, 0, -10, 0],
+                                            rotate: [0, 10, 0, -10, 0],
+                                        }}
+                                        transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY }}
+                                        className="questionIcon"
+                                    >
+                                        <Plane className="stepIcon" />
+                                    </motion.div>
+                                    <h2 className="questionText">WHERE ARE YOU TRAVELING FROM?</h2>
+                                </div>
+                                <div className="inputContainer">
+                                    <div className="customSelect" ref={originDropdownRef}>
+                                        <div className="customSelectTrigger" onClick={() => setOriginDropdownOpen(!originDropdownOpen)}>
+                                            {origin || "Select a country"}
+                                            <ChevronDown size={16} />
+                                        </div>
+                                        {originDropdownOpen && (
+                                            <div className="customSelectDropdown">
+                                                {countries.map((country) => (
+                                                    <div
+                                                        key={country}
+                                                        className={`customSelectOption ${origin === country ? "customSelectOptionSelected" : ""}`}
+                                                        onClick={() => {
+                                                            setOrigin(country)
+                                                            setOriginDropdownOpen(false)
+                                                        }}
+                                                    >
+                                                        {country}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                                <div className="buttonContainer">
+                                    <Button variant="outline" onClick={prevStep} className="backButton">
+                                        <ArrowLeft className="buttonIcon" />
+                                        Back
+                                    </Button>
+                                    <Button
+                                        onClick={nextStep}
+                                        disabled={!origin}
                                         className="nextButton"
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
