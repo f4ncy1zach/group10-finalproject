@@ -256,6 +256,7 @@
 
 .inputContainer {
   margin-bottom: 2rem;
+  position: relative;
 }
 
 .sliderLabels {
@@ -281,6 +282,18 @@
 .travelersBadge {
   width: 3rem;
   height: 3rem;
+  border-radius: 1rem;
+  background: linear-gradient(to right, #38bdf8, #8b5cf6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+}
+
+.budgetBadge {
+  padding: 0.5rem 1rem;
   border-radius: 1rem;
   background: linear-gradient(to right, #38bdf8, #8b5cf6);
   display: flex;
@@ -362,6 +375,129 @@
   font-weight: 500;
 }
 
+/* Date picker styles */
+.dateButton {
+  width: 100%;
+  justify-content: space-between;
+  text-align: left;
+  font-weight: 400;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(209, 213, 219, 0.8);
+  color: #1e293b;
+  border-radius: 1rem;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: "Exo 2", sans-serif;
+  font-size: 1rem;
+}
+
+.dateButton:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+  border-color: rgba(56, 189, 248, 0.5);
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+}
+
+.calendarPopover {
+  position: absolute;
+  width: 320px;
+  padding: 0;
+  background-color: white;
+  border: 1px solid rgba(209, 213, 219, 0.8);
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+  margin-top: 0.5rem;
+}
+
+.calendar {
+  background-color: white;
+  color: #1e293b;
+  padding: 1.25rem;
+  border-radius: 1rem;
+  font-family: "Exo 2", sans-serif;
+}
+
+.calendarHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.calendarMonthTitle {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.calendarNavButton {
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.calendarNavButton:hover {
+  background-color: rgba(56, 189, 248, 0.1);
+}
+
+.calendarDayNames {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.calendarDayName {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.5rem;
+}
+
+.calendarDay {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+  font-family: "Exo 2", sans-serif;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}
+
+.calendarDay:hover:not(:disabled) {
+  background-color: rgba(56, 189, 248, 0.1);
+}
+
+.calendarDaySelected {
+  background: linear-gradient(to right, #38bdf8, #8b5cf6);
+  color: white;
+}
+
+.calendarDayDisabled {
+  color: #cbd5e1;
+  cursor: not-allowed;
+}
+
 .buttonContainer {
   display: flex;
   justify-content: space-between;
@@ -421,17 +557,4 @@ html,
 body {
   overflow-x: hidden;
   max-width: 100%;
-}
-
-/* Add styles for the budget badge */
-.budgetBadge {
-  padding: 0.5rem 1rem;
-  border-radius: 1rem;
-  background: linear-gradient(to right, #38bdf8, #8b5cf6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-weight: 700;
-  box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
 }
