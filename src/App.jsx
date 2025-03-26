@@ -18,7 +18,7 @@ import {
 } from "lucide-react"
 import "./App.css"
 
-// Simple date formatter function to replace date-fns
+// Simple date formatter function
 const formatDate = (date) => {
     if (!date) return ""
     const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" }
@@ -39,8 +39,10 @@ function App() {
     const [budget, setBudget] = useState(2000)
     const [origin, setOrigin] = useState("")
     const [departDate, setDepartDate] = useState(undefined)
+    const [returnDate, setReturnDate] = useState(undefined)
     const [currentMonth, setCurrentMonth] = useState(new Date())
     const [calendarOpen, setCalendarOpen] = useState(false)
+    const [returnCalendarOpen, setReturnCalendarOpen] = useState(false)
 
     // Custom select states
     const [countryDropdownOpen, setCountryDropdownOpen] = useState(false)
@@ -50,6 +52,7 @@ function App() {
     const countryDropdownRef = useRef(null)
     const originDropdownRef = useRef(null)
     const calendarRef = useRef(null)
+    const returnCalendarRef = useRef(null)
 
     // Close dropdowns when clicking outside
     useEffect(() => {
@@ -62,6 +65,9 @@ function App() {
             }
             if (calendarRef.current && !calendarRef.current.contains(event.target)) {
                 setCalendarOpen(false)
+            }
+            if (returnCalendarRef.current && !returnCalendarRef.current.contains(event.target)) {
+                setReturnCalendarOpen(false)
             }
         }
 
@@ -81,6 +87,7 @@ function App() {
         setBudget(2000)
         setOrigin("")
         setDepartDate(undefined)
+        setReturnDate(undefined)
         setCurrentMonth(new Date())
     }
 
@@ -607,6 +614,120 @@ function App() {
                                     <Button
                                         onClick={nextStep}
                                         disabled={!departDate}
+                                        className="nextButton"
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                                        Next
+                                        <ArrowRight className="buttonIcon" />
+                                    </Button>
+                                </div>
+                            </div>
+                        )}
+
+                        {step === 7 && (
+                            <div className="formStep">
+                                <div className="questionHeader">
+                                    <motion.div
+                                        animate={{ rotate: [0, 360] }}
+                                        transition={{ duration: 10, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+                                        className="questionIcon"
+                                    >
+                                        <Calendar className="stepIcon" />
+                                    </motion.div>
+                                    <h2 className="questionText">WHEN DO YOU WANT TO RETURN?</h2>
+                                </div>
+                                <div className="inputContainer" ref={returnCalendarRef}>
+                                    <div className="dateButton" onClick={() => setReturnCalendarOpen(!returnCalendarOpen)}>
+                                        {returnDate ? formatDate(returnDate) : "Select return date"}
+                                        <ChevronDown size={16} />
+                                    </div>
+                                    {returnCalendarOpen && (
+                                        <div className="calendarPopover">
+                                            <div className="calendar">
+                                                <div className="calendarHeader">
+                                                    <button className="calendarNavButton" onClick={onPrevMonth}>
+                                                        <ArrowLeft size={18} />
+                                                    </button>
+                                                    <div className="calendarMonthTitle">{formatMonthYear(currentMonth)}</div>
+                                                    <button className="calendarNavButton" onClick={onNextMonth}>
+                                                        <ArrowRight size={18} />
+                                                    </button>
+                                                </div>
+                                                <div className="calendarDayNames">
+                                                    {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => (
+                                                        <div key={day} className="calendarDayName">
+                                                            {day}
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                                <div className="calendarGrid">
+                                                    {/* Empty cells for days before the first day of the month */}
+                                                    {Array.from({
+                                                        length: getFirstDayOfMonth(currentMonth.getFullYear(), currentMonth.getMonth()),
+                                                    }).map((_, i) => (
+                                                        <div key={`empty-${i}`}></div>
+                                                    ))}
+
+                                                    {/* Calendar days */}
+                                                    {Array.from({
+                                                        length: getDaysInMonth(currentMonth.getFullYear(), currentMonth.getMonth()),
+                                                    }).map((_, i) => {
+                                                        const day = i + 1
+                                                        const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day)
+
+                                                        // Check if this date is the selected return date
+                                                        const isSelected =
+                                                            returnDate &&
+                                                            returnDate.getDate() === day &&
+                                                            returnDate.getMonth() === currentMonth.getMonth() &&
+                                                            returnDate.getFullYear() === currentMonth.getFullYear()
+
+                                                        // Disable dates before departure date
+                                                        const isDisabled = departDate && date < departDate
+
+                                                        return (
+                                                            <button
+                                                                key={day}
+                                                                className={`calendarDay ${isSelected ? "calendarDaySelected" : ""} ${
+                                                                    isDisabled ? "calendarDayDisabled" : ""
+                                                                }`}
+                                                                onClick={() => {
+                                                                    if (!isDisabled) {
+                                                                        setReturnDate(date)
+                                                                        setReturnCalendarOpen(false)
+                                                                    }
+                                                                }}
+                                                                disabled={isDisabled}
+                                                            >
+                                                                {day}
+                                                            </button>
+                                                        )
+                                                    })}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="tripDuration">
+                                    {departDate && returnDate && (
+                                        <motion.div
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            className="tripDurationText"
+                                        >
+                                            Trip duration: {Math.ceil((returnDate - departDate) / (1000 * 60 * 60 * 24))} days
+                                        </motion.div>
+                                    )}
+                                </div>
+                                <div className="buttonContainer">
+                                    <Button variant="outline" onClick={prevStep} className="backButton">
+                                        <ArrowLeft className="buttonIcon" />
+                                        Back
+                                    </Button>
+                                    <Button
+                                        onClick={nextStep}
+                                        disabled={!returnDate}
                                         className="nextButton"
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}

@@ -498,6 +498,21 @@
   cursor: not-allowed;
 }
 
+/* Trip duration */
+.tripDuration {
+  margin-bottom: 1.5rem;
+}
+
+.tripDurationText {
+  text-align: center;
+  color: #1e293b;
+  font-weight: 500;
+  background: rgba(56, 189, 248, 0.1);
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px dashed rgba(56, 189, 248, 0.3);
+}
+
 .buttonContainer {
   display: flex;
   justify-content: space-between;
