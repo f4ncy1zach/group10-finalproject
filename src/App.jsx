@@ -2,36 +2,35 @@
 
 import { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Button } from "./components/ui/button"
-import { Slider } from "./components/ui/slider"
 import {
     Globe,
-    Home,
-    ArrowRight,
-    ArrowLeft,
-    Users,
-    StampIcon as Passport,
-    ChevronDown,
-    DollarSign,
     Plane,
     Calendar,
+    DollarSign,
+    Users,
+    StampIcon as Passport,
+    ArrowRight,
+    ArrowLeft,
+    Home,
+    Send,
+    Camera,
+    Mountain,
+    Luggage,
+    MapIcon,
+    Cloud,
+    Sun,
+    Landmark,
+    ChevronDown,
+    MessageSquare,
 } from "lucide-react"
+import { Button } from "./components/ui/button"
+import { Slider } from "./components/ui/slider"
+import { Textarea } from "./components/ui/textarea"
+import { format, differenceInDays } from "date-fns"
+import { ThemeProvider } from "./components/theme-provider"
 import "./App.css"
 
-// Simple date formatter function
-const formatDate = (date) => {
-    if (!date) return ""
-    const options = { weekday: "long", year: "numeric", month: "long", day: "numeric" }
-    return date.toLocaleDateString("en-US", options)
-}
-
-// Format month and year for calendar header
-const formatMonthYear = (date) => {
-    const options = { month: "long", year: "numeric" }
-    return date.toLocaleDateString("en-US", options)
-}
-
-function App() {
+function TravelAdvisor() {
     const [step, setStep] = useState(0)
     const [travelers, setTravelers] = useState(2)
     const [samePassport, setSamePassport] = useState(null)
@@ -40,15 +39,52 @@ function App() {
     const [origin, setOrigin] = useState("")
     const [departDate, setDepartDate] = useState(undefined)
     const [returnDate, setReturnDate] = useState(undefined)
-    const [currentMonth, setCurrentMonth] = useState(new Date())
-    const [calendarOpen, setCalendarOpen] = useState(false)
-    const [returnCalendarOpen, setReturnCalendarOpen] = useState(false)
+    const [chatMessage, setChatMessage] = useState("")
+    const [chatHistory, setChatHistory] = useState([
+        { message: "Hello! I'm your AI travel assistant. How can I help you with your trip?", isUser: false },
+    ])
 
     // Custom select states
     const [countryDropdownOpen, setCountryDropdownOpen] = useState(false)
     const [originDropdownOpen, setOriginDropdownOpen] = useState(false)
+    const [calendarOpen, setCalendarOpen] = useState(false)
+    const [returnCalendarOpen, setReturnCalendarOpen] = useState(false)
+    const [currentMonth, setCurrentMonth] = useState(new Date())
+    const [returnMonth, setReturnMonth] = useState(new Date())
 
-    // Refs for click outside detection
+    // Add floating chat state and functionality
+    const [floatingChatOpen, setFloatingChatOpen] = useState(false)
+    const [floatingChatMessage, setFloatingChatMessage] = useState("")
+    const [floatingChatHistory, setFloatingChatHistory] = useState([
+        { message: "Hello! I'm your AI travel assistant. How can I help you plan your trip?", isUser: false },
+    ])
+
+    const floatingChatRef = useRef(null)
+
+    const sendFloatingChatMessage = () => {
+        if (floatingChatMessage.trim()) {
+            setFloatingChatHistory([...floatingChatHistory, { message: floatingChatMessage, isUser: true }])
+            setFloatingChatMessage("")
+
+            // Simulate AI response
+            setTimeout(() => {
+                setFloatingChatHistory((prev) => [
+                    ...prev,
+                    {
+                        message: "This is a placeholder response. The actual implementation will connect to the DeepSeek AI API.",
+                        isUser: false,
+                    },
+                ])
+
+                // Scroll to bottom of chat
+                if (floatingChatRef.current) {
+                    floatingChatRef.current.scrollTop = floatingChatRef.current.scrollHeight
+                }
+            }, 1000)
+        }
+    }
+
+    const chatContainerRef = useRef(null)
     const countryDropdownRef = useRef(null)
     const originDropdownRef = useRef(null)
     const calendarRef = useRef(null)
@@ -77,19 +113,7 @@ function App() {
         }
     }, [])
 
-    const totalSteps = 8 // Total number of steps in the final project
-
-    const resetForm = () => {
-        setStep(0)
-        setTravelers(2)
-        setSamePassport(null)
-        setPassport("")
-        setBudget(2000)
-        setOrigin("")
-        setDepartDate(undefined)
-        setReturnDate(undefined)
-        setCurrentMonth(new Date())
-    }
+    const totalSteps = 8
 
     const nextStep = () => {
         if (step < totalSteps) {
@@ -101,6 +125,46 @@ function App() {
         if (step > 0) {
             setStep(step - 1)
         }
+    }
+
+    const resetForm = () => {
+        setStep(0)
+        setTravelers(2)
+        setSamePassport(null)
+        setPassport("")
+        setBudget(2000)
+        setOrigin("")
+        setDepartDate(undefined)
+        setReturnDate(undefined)
+    }
+
+    const sendChatMessage = () => {
+        if (chatMessage.trim()) {
+            setChatHistory([...chatHistory, { message: chatMessage, isUser: true }])
+            setChatMessage("")
+
+            // Simulate AI response
+            setTimeout(() => {
+                setChatHistory((prev) => [
+                    ...prev,
+                    {
+                        message: "This is a placeholder response. The actual implementation will connect to the DeepSeek AI API.",
+                        isUser: false,
+                    },
+                ])
+
+                // Scroll to bottom of chat
+                if (chatContainerRef.current) {
+                    chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
+                }
+            }, 1000)
+        }
+    }
+
+    // Calculate trip duration
+    const calculateTripDuration = () => {
+        if (!departDate || !returnDate) return 0
+        return differenceInDays(returnDate, departDate) + 1
     }
 
     const countries = [
@@ -116,31 +180,208 @@ function App() {
         "South Africa",
     ]
 
-    // Calendar helper functions
-    const onPrevMonth = () => {
-        const newDate = new Date(currentMonth)
+    const onPrevMonth = (date, setMonth) => {
+        const newDate = new Date(date)
         newDate.setMonth(newDate.getMonth() - 1)
-        setCurrentMonth(newDate)
+        setMonth(newDate)
     }
 
-    const onNextMonth = () => {
-        const newDate = new Date(currentMonth)
+    const onNextMonth = (date, setMonth) => {
+        const newDate = new Date(date)
         newDate.setMonth(newDate.getMonth() + 1)
-        setCurrentMonth(newDate)
-    }
-
-    // Get days in month
-    const getDaysInMonth = (year, month) => {
-        return new Date(year, month + 1, 0).getDate()
-    }
-
-    // Get day of week for first day of month (0 = Sunday, 6 = Saturday)
-    const getFirstDayOfMonth = (year, month) => {
-        return new Date(year, month, 1).getDay()
+        setMonth(newDate)
     }
 
     return (
         <div className="container">
+            {/* Background elements */}
+            <div className="backgroundElements">
+                <div className="backgroundElement plane1">
+                    <motion.div
+                        animate={{
+                            x: [0, window.innerWidth + 200],
+                            y: [-20, 50, -30, 20],
+                        }}
+                        transition={{
+                            duration: 30,
+                            repeat: Number.POSITIVE_INFINITY,
+                            ease: "linear",
+                        }}
+                    >
+                        <Plane size={80} className="travelIcon" />
+                    </motion.div>
+                </div>
+
+                <div className="backgroundElement plane2">
+                    <motion.div
+                        animate={{
+                            x: [window.innerWidth + 100, -200],
+                            y: [50, 100, 30, 80],
+                        }}
+                        transition={{
+                            duration: 40,
+                            repeat: Number.POSITIVE_INFINITY,
+                            ease: "linear",
+                            delay: 5,
+                        }}
+                    >
+                        <Plane size={60} className="travelIcon" />
+                    </motion.div>
+                </div>
+
+                <div className="backgroundElement globe">
+                    <motion.div
+                        animate={{
+                            rotate: 360,
+                            y: [0, 15, 0],
+                        }}
+                        transition={{
+                            rotate: {
+                                duration: 20,
+                                repeat: Number.POSITIVE_INFINITY,
+                                ease: "linear",
+                            },
+                            y: {
+                                duration: 5,
+                                repeat: Number.POSITIVE_INFINITY,
+                                ease: "easeInOut",
+                            },
+                        }}
+                    >
+                        <Globe size={120} className="travelIcon" />
+                    </motion.div>
+                </div>
+
+                <div className="backgroundElement map">
+                    <motion.div
+                        animate={{
+                            rotate: [-5, 5, -5],
+                            y: [0, 10, 0],
+                        }}
+                        transition={{
+                            duration: 8,
+                            repeat: Number.POSITIVE_INFINITY,
+                            ease: "easeInOut",
+                        }}
+                    >
+                        <MapIcon size={100} className="travelIcon" />
+                    </motion.div>
+                </div>
+
+                <div className="backgroundElement camera">
+                    <motion.div
+                        animate={{
+                            rotate: [-10, 10, -10],
+                            scale: [1, 1.1, 1],
+                        }}
+                        transition={{
+                            duration: 7,
+                            repeat: Number.POSITIVE_INFINITY,
+                            ease: "easeInOut",
+                        }}
+                    >
+                        <Camera size={70} className="travelIcon" />
+                    </motion.div>
+                </div>
+
+                <div className="backgroundElement luggage">
+                    <motion.div
+                        animate={{
+                            y: [0, 15, 0],
+                            x: [0, 10, 0, -10, 0],
+                        }}
+                        transition={{
+                            duration: 9,
+                            repeat: Number.POSITIVE_INFINITY,
+                            ease: "easeInOut",
+                        }}
+                    >
+                        <Luggage size={80} className="travelIcon" />
+                    </motion.div>
+                </div>
+
+                <div className="backgroundElement mountain">
+                    <motion.div
+                        animate={{
+                            y: [0, 10, 0],
+                        }}
+                        transition={{
+                            duration: 10,
+                            repeat: Number.POSITIVE_INFINITY,
+                            ease: "easeInOut",
+                        }}
+                    >
+                        <Mountain size={110} className="travelIcon" />
+                    </motion.div>
+                </div>
+
+                <div className="backgroundElement landmark">
+                    <motion.div
+                        animate={{
+                            y: [0, 15, 0],
+                            rotate: [0, 2, 0, -2, 0],
+                        }}
+                        transition={{
+                            duration: 8,
+                            repeat: Number.POSITIVE_INFINITY,
+                            ease: "easeInOut",
+                        }}
+                    >
+                        <Landmark size={90} className="travelIcon" />
+                    </motion.div>
+                </div>
+
+                <div className="backgroundElement sun">
+                    <motion.div
+                        animate={{
+                            rotate: 360,
+                            scale: [1, 1.1, 1],
+                        }}
+                        transition={{
+                            rotate: {
+                                duration: 30,
+                                repeat: Number.POSITIVE_INFINITY,
+                                ease: "linear",
+                            },
+                            scale: {
+                                duration: 8,
+                                repeat: Number.POSITIVE_INFINITY,
+                                ease: "easeInOut",
+                            },
+                        }}
+                    >
+                        <Sun size={100} className="travelIcon" />
+                    </motion.div>
+                </div>
+
+                {/* Clouds */}
+                {[...Array(5)].map((_, i) => (
+                    <div
+                        key={i}
+                        className="backgroundElement cloud"
+                        style={{
+                            top: `${10 + i * 15}%`,
+                            left: `${-20 + i * 5}%`,
+                            opacity: 0.7 - i * 0.1,
+                        }}
+                    >
+                        <motion.div
+                            animate={{
+                                x: [0, window.innerWidth + 200],
+                            }}
+                            transition={{
+                                duration: 60 + i * 10,
+                                repeat: Number.POSITIVE_INFINITY,
+                                ease: "linear",
+                                delay: i * 5,
+                            }}
+                        >
+                            <Cloud size={80 + i * 20} className="travelIcon" />
+                        </motion.div>
+                    </div>
+                ))}
+            </div>
+
             {/* Header */}
             <header className="header">
                 <div className="headerContent">
@@ -160,7 +401,7 @@ function App() {
                 </div>
             </header>
 
-            {/* Progress indicator - More compact */}
+            {/* Progress indicator */}
             <div className="progressContainer">
                 <div className="progressTracker">
                     {[...Array(totalSteps + 1)].map((_, i) => (
@@ -177,7 +418,16 @@ function App() {
                             >
                                 <span className="progressNumber">{i + 1}</span>
                             </motion.div>
-                            {i < totalSteps && <div className={`progressLine ${i < step ? "progressLineActive" : ""}`} />}
+                            {i < totalSteps && (
+                                <motion.div
+                                    className="progressLine"
+                                    initial={{ background: "#e5e7eb" }}
+                                    animate={{
+                                        background: i < step ? "linear-gradient(to right, #38bdf8, #8b5cf6)" : "#e5e7eb",
+                                    }}
+                                    transition={{ duration: 0.5 }}
+                                />
+                            )}
                         </div>
                     ))}
                 </div>
@@ -418,7 +668,7 @@ function App() {
                                     >
                                         <DollarSign className="stepIcon" />
                                     </motion.div>
-                                    <h2 className="questionText">WHAT IS YOUR BUDGET? (in CAD)</h2>
+                                    <h2 className="questionText">WHAT IS YOUR BUDGET? (CAD)</h2>
                                 </div>
                                 <div className="inputContainer">
                                     <div className="sliderLabels">
@@ -440,7 +690,7 @@ function App() {
                                             transition={{ duration: 1, delay: 0.2, repeat: Number.POSITIVE_INFINITY }}
                                             whileHover={{ scale: 1.1 }}
                                         >
-                                            ${budget}
+                                            ${budget.toLocaleString()}
                                         </motion.div>
                                     </div>
                                 </div>
@@ -534,18 +784,24 @@ function App() {
                                 </div>
                                 <div className="inputContainer" ref={calendarRef}>
                                     <div className="dateButton" onClick={() => setCalendarOpen(!calendarOpen)}>
-                                        {departDate ? formatDate(departDate) : "Select departure date"}
+                                        {departDate ? format(departDate, "PPP") : "Select departure date"}
                                         <ChevronDown size={16} />
                                     </div>
                                     {calendarOpen && (
                                         <div className="calendarPopover">
                                             <div className="calendar">
                                                 <div className="calendarHeader">
-                                                    <button className="calendarNavButton" onClick={onPrevMonth}>
+                                                    <button
+                                                        className="calendarNavButton"
+                                                        onClick={() => onPrevMonth(currentMonth, setCurrentMonth)}
+                                                    >
                                                         <ArrowLeft size={18} />
                                                     </button>
-                                                    <div className="calendarMonthTitle">{formatMonthYear(currentMonth)}</div>
-                                                    <button className="calendarNavButton" onClick={onNextMonth}>
+                                                    <div className="calendarMonthTitle">{format(currentMonth, "MMMM yyyy")}</div>
+                                                    <button
+                                                        className="calendarNavButton"
+                                                        onClick={() => onNextMonth(currentMonth, setCurrentMonth)}
+                                                    >
                                                         <ArrowRight size={18} />
                                                     </button>
                                                 </div>
@@ -557,31 +813,23 @@ function App() {
                                                     ))}
                                                 </div>
                                                 <div className="calendarGrid">
-                                                    {/* Empty cells for days before the first day of the month */}
                                                     {Array.from({
-                                                        length: getFirstDayOfMonth(currentMonth.getFullYear(), currentMonth.getMonth()),
+                                                        length: new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay(),
                                                     }).map((_, i) => (
                                                         <div key={`empty-${i}`}></div>
                                                     ))}
-
-                                                    {/* Calendar days */}
                                                     {Array.from({
-                                                        length: getDaysInMonth(currentMonth.getFullYear(), currentMonth.getMonth()),
+                                                        length: new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 0).getDate(),
                                                     }).map((_, i) => {
                                                         const day = i + 1
                                                         const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day)
-
-                                                        // Check if this date is the selected departure date
                                                         const isSelected =
                                                             departDate &&
                                                             departDate.getDate() === day &&
                                                             departDate.getMonth() === currentMonth.getMonth() &&
                                                             departDate.getFullYear() === currentMonth.getFullYear()
 
-                                                        // Disable dates in the past
-                                                        const today = new Date()
-                                                        today.setHours(0, 0, 0, 0)
-                                                        const isDisabled = date < today
+                                                        const isDisabled = date < new Date(new Date().setHours(0, 0, 0, 0))
 
                                                         return (
                                                             <button
@@ -639,18 +887,31 @@ function App() {
                                 </div>
                                 <div className="inputContainer" ref={returnCalendarRef}>
                                     <div className="dateButton" onClick={() => setReturnCalendarOpen(!returnCalendarOpen)}>
-                                        {returnDate ? formatDate(returnDate) : "Select return date"}
+                                        {returnDate ? format(returnDate, "PPP") : "Select return date"}
                                         <ChevronDown size={16} />
                                     </div>
+
+                                    {departDate && returnDate && (
+                                        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="tripDuration">
+                                            <div className="tripDurationText">Trip duration: {calculateTripDuration()} days</div>
+                                        </motion.div>
+                                    )}
+
                                     {returnCalendarOpen && (
                                         <div className="calendarPopover">
                                             <div className="calendar">
                                                 <div className="calendarHeader">
-                                                    <button className="calendarNavButton" onClick={onPrevMonth}>
+                                                    <button
+                                                        className="calendarNavButton"
+                                                        onClick={() => onPrevMonth(returnMonth, setReturnMonth)}
+                                                    >
                                                         <ArrowLeft size={18} />
                                                     </button>
-                                                    <div className="calendarMonthTitle">{formatMonthYear(currentMonth)}</div>
-                                                    <button className="calendarNavButton" onClick={onNextMonth}>
+                                                    <div className="calendarMonthTitle">{format(returnMonth, "MMMM yyyy")}</div>
+                                                    <button
+                                                        className="calendarNavButton"
+                                                        onClick={() => onNextMonth(returnMonth, setReturnMonth)}
+                                                    >
                                                         <ArrowRight size={18} />
                                                     </button>
                                                 </div>
@@ -662,29 +923,25 @@ function App() {
                                                     ))}
                                                 </div>
                                                 <div className="calendarGrid">
-                                                    {/* Empty cells for days before the first day of the month */}
                                                     {Array.from({
-                                                        length: getFirstDayOfMonth(currentMonth.getFullYear(), currentMonth.getMonth()),
+                                                        length: new Date(returnMonth.getFullYear(), returnMonth.getMonth(), 1).getDay(),
                                                     }).map((_, i) => (
                                                         <div key={`empty-${i}`}></div>
                                                     ))}
-
-                                                    {/* Calendar days */}
                                                     {Array.from({
-                                                        length: getDaysInMonth(currentMonth.getFullYear(), currentMonth.getMonth()),
+                                                        length: new Date(returnMonth.getFullYear(), returnMonth.getMonth() + 1, 0).getDate(),
                                                     }).map((_, i) => {
                                                         const day = i + 1
-                                                        const date = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), day)
-
-                                                        // Check if this date is the selected return date
+                                                        const date = new Date(returnMonth.getFullYear(), returnMonth.getMonth(), day)
                                                         const isSelected =
                                                             returnDate &&
                                                             returnDate.getDate() === day &&
-                                                            returnDate.getMonth() === currentMonth.getMonth() &&
-                                                            returnDate.getFullYear() === currentMonth.getFullYear()
+                                                            returnDate.getMonth() === returnMonth.getMonth() &&
+                                                            returnDate.getFullYear() === returnMonth.getFullYear()
 
-                                                        // Disable dates before departure date
-                                                        const isDisabled = departDate && date < departDate
+                                                        const isDisabled = departDate
+                                                            ? date < departDate
+                                                            : date < new Date(new Date().setHours(0, 0, 0, 0))
 
                                                         return (
                                                             <button
@@ -709,17 +966,6 @@ function App() {
                                         </div>
                                     )}
                                 </div>
-                                <div className="tripDuration">
-                                    {departDate && returnDate && (
-                                        <motion.div
-                                            initial={{ opacity: 0, y: 10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            className="tripDurationText"
-                                        >
-                                            Trip duration: {Math.ceil((returnDate - departDate) / (1000 * 60 * 60 * 24))} days
-                                        </motion.div>
-                                    )}
-                                </div>
                                 <div className="buttonContainer">
                                     <Button variant="outline" onClick={prevStep} className="backButton">
                                         <ArrowLeft className="buttonIcon" />
@@ -738,6 +984,82 @@ function App() {
                                 </div>
                             </div>
                         )}
+
+                        {step === 8 && (
+                            <div className="resultsStep">
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.5 }}
+                                >
+                                    <h2 className="resultsTitle">YOUR DREAM DESTINATION AWAITS</h2>
+                                    <h3 className="resultsSubtitle">
+                                        Information will be retrieved from Travel Advisor API
+                                        <motion.div
+                                            className="titleUnderline"
+                                            initial={{ width: 0 }}
+                                            animate={{ width: 96 }}
+                                            transition={{ duration: 0.8, delay: 0.3 }}
+                                        />
+                                    </h3>
+                                </motion.div>
+
+                                {/* Chat with AI section */}
+                                <div className="chatSection">
+                                    <h3 className="chatTitle">Chat with Travel Assistant</h3>
+                                    <div ref={chatContainerRef} className="chatContainer">
+                                        {chatHistory.map((chat, index) => (
+                                            <motion.div
+                                                key={index}
+                                                initial={{ opacity: 0, y: 10 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ duration: 0.3 }}
+                                                className={`chatMessage ${chat.isUser ? "userMessage" : "aiMessage"}`}
+                                            >
+                                                <div className={chat.isUser ? "userBubble" : "aiBubble"}>{chat.message}</div>
+                                            </motion.div>
+                                        ))}
+                                    </div>
+                                    <div className="chatInputContainer">
+                                        <Textarea
+                                            value={chatMessage}
+                                            onChange={(e) => setChatMessage(e.target.value)}
+                                            placeholder="Ask about your destination..."
+                                            className="chatInput"
+                                            onKeyDown={(e) => {
+                                                if (e.key === "Enter" && !e.shiftKey) {
+                                                    e.preventDefault()
+                                                    sendChatMessage()
+                                                }
+                                            }}
+                                        />
+                                        <Button
+                                            onClick={sendChatMessage}
+                                            className="sendButton"
+                                            whileHover={{ scale: 1.05 }}
+                                            whileTap={{ scale: 0.95 }}
+                                        >
+                                            <Send className="sendIcon" />
+                                        </Button>
+                                    </div>
+                                </div>
+
+                                <div className="buttonContainer">
+                                    <Button variant="outline" onClick={prevStep} className="backButton">
+                                        <ArrowLeft className="buttonIcon" />
+                                        Back
+                                    </Button>
+                                    <Button
+                                        onClick={resetForm}
+                                        className="nextButton"
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                                        Start Over
+                                    </Button>
+                                </div>
+                            </div>
+                        )}
                     </motion.div>
                 </AnimatePresence>
             </div>
@@ -748,7 +1070,75 @@ function App() {
                     <p className="copyright">&copy; {new Date().getFullYear()} Travel Advisor. All rights reserved.</p>
                 </div>
             </footer>
+
+            {/* Floating orb with chat functionality */}
+            <motion.div
+                className="floatingOrb"
+                whileHover={{ scale: 1.1, boxShadow: "0 0 20px rgba(56, 189, 248, 0.5)" }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => setFloatingChatOpen(!floatingChatOpen)}
+                animate={{
+                    y: [0, -10, 0],
+                    boxShadow: [
+                        "0 5px 15px rgba(56, 189, 248, 0.3)",
+                        "0 10px 20px rgba(56, 189, 248, 0.5)",
+                        "0 5px 15px rgba(56, 189, 248, 0.3)",
+                    ],
+                }}
+                transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
+            >
+                <MessageSquare className="orbIcon" />
+            </motion.div>
+
+            {/* Floating Chat Window */}
+            {floatingChatOpen && (
+                <div className="floatingChatWindow">
+                    <div className="floatingChatHeader">
+                        <div className="floatingChatTitle">
+                            <Globe className="floatingChatIcon" />
+                            <span>Travel Assistant</span>
+                        </div>
+                        <button className="floatingChatClose" onClick={() => setFloatingChatOpen(false)}>
+                            &times;
+                        </button>
+                    </div>
+                    <div className="floatingChatBody">
+                        <div className="floatingChatMessages" ref={floatingChatRef}>
+                            {floatingChatHistory.map((chat, index) => (
+                                <div key={index} className={chat.isUser ? "floatingChatUserMessage" : "floatingChatAiMessage"}>
+                                    {chat.message}
+                                </div>
+                            ))}
+                        </div>
+                        <div className="floatingChatInput">
+              <textarea
+                  className="floatingChatTextarea"
+                  placeholder="Ask about your trip..."
+                  value={floatingChatMessage}
+                  onChange={(e) => setFloatingChatMessage(e.target.value)}
+                  onKeyDown={(e) => {
+                      if (e.key === "Enter" && !e.shiftKey) {
+                          e.preventDefault()
+                          sendFloatingChatMessage()
+                      }
+                  }}
+              />
+                            <button className="floatingChatSend" onClick={sendFloatingChatMessage}>
+                                <Send size={16} />
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
+    )
+}
+
+function App() {
+    return (
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+            <TravelAdvisor />
+        </ThemeProvider>
     )
 }
 

@@ -133,6 +133,14 @@ textarea {
   color: transparent;
 }
 
+/* Travel-themed decorative elements */
+.travel-icon {
+  position: absolute;
+  opacity: 0.1;
+  z-index: 0;
+  pointer-events: none;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -144,7 +152,3 @@ textarea {
   white-space: nowrap;
   border-width: 0;
 }
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
