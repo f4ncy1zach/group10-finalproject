@@ -477,6 +477,8 @@
 .dateButton:hover {
   background-color: rgba(255, 255, 255, 0.9);
   box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+  transform: none;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .calendarPopover {
@@ -847,6 +849,7 @@
 .floatingChatIcon {
   width: 1.25rem;
   height: 1.25rem;
+  color: white;
 }
 
 .floatingChatClose {
@@ -984,10 +987,15 @@ button {
 .sendButton:hover,
 .calendarNavButton:hover,
 .calendarDay:hover:not(:disabled),
-.dateButton:hover,
 .floatingChatSend:hover,
 .floatingChatClose:hover {
   transform: scale(1.05);
+  transition: transform 0.2s ease;
+}
+
+/* Add subtle hover effect for option buttons */
+.optionButton:hover {
+  transform: scale(1.03);
   transition: transform 0.2s ease;
 }
 

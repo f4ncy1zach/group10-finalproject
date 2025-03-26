@@ -553,7 +553,7 @@ function TravelAdvisor() {
                                     <h2 className="questionText">DOES EVERYONE HAVE THE SAME PASSPORT?</h2>
                                 </div>
                                 <div className="optionsGrid">
-                                    <motion.div whileTap={{ scale: 0.95 }}>
+                                    <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.95 }}>
                                         <Button
                                             variant={samePassport === true ? "default" : "outline"}
                                             onClick={() => setSamePassport(true)}
@@ -562,7 +562,7 @@ function TravelAdvisor() {
                                             Yes
                                         </Button>
                                     </motion.div>
-                                    <motion.div whileTap={{ scale: 0.95 }}>
+                                    <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.95 }}>
                                         <Button
                                             variant={samePassport === false ? "default" : "outline"}
                                             onClick={() => setSamePassport(false)}
