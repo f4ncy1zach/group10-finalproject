@@ -414,7 +414,6 @@ function TravelAdvisor() {
                                     boxShadow: i <= step ? "0 0 10px rgba(56, 189, 248, 0.5)" : "none",
                                 }}
                                 transition={{ duration: 1, repeat: i === step ? Number.POSITIVE_INFINITY : 0 }}
-                                whileHover={{ scale: 1.2 }}
                             >
                                 <span className="progressNumber">{i + 1}</span>
                             </motion.div>
@@ -523,7 +522,6 @@ function TravelAdvisor() {
                                             className="travelersBadge"
                                             animate={{ scale: [1, 1.1, 1] }}
                                             transition={{ duration: 0.5, delay: 0.2 }}
-                                            whileHover={{ scale: 1.2, rotate: 10 }}
                                         >
                                             {travelers}
                                         </motion.div>
@@ -668,7 +666,7 @@ function TravelAdvisor() {
                                     >
                                         <DollarSign className="stepIcon" />
                                     </motion.div>
-                                    <h2 className="questionText">WHAT IS YOUR BUDGET? (CAD)</h2>
+                                    <h2 className="questionText">WHAT IS YOUR BUDGET? (in CAD)</h2>
                                 </div>
                                 <div className="inputContainer">
                                     <div className="sliderLabels">
@@ -688,7 +686,6 @@ function TravelAdvisor() {
                                             className="budgetBadge"
                                             animate={{ y: [0, -5, 0] }}
                                             transition={{ duration: 1, delay: 0.2, repeat: Number.POSITIVE_INFINITY }}
-                                            whileHover={{ scale: 1.1 }}
                                         >
                                             ${budget.toLocaleString()}
                                         </motion.div>

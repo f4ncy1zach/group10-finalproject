@@ -156,6 +156,7 @@
   justify-content: space-between;
   max-width: 800px;
   margin: 0 auto 2rem;
+  padding: 0 1rem;
 }
 
 .progressStep {
@@ -163,6 +164,7 @@
   align-items: center;
   flex: 1;
   position: relative;
+  margin: 0 0.75rem;
 }
 
 .progressDot {
@@ -176,6 +178,7 @@
   z-index: 10;
   position: relative;
   border: none;
+  transition: background 0.3s ease;
 }
 
 .progressDotActive {
@@ -476,6 +479,7 @@
 .calendarPopover {
   position: absolute;
   width: 320px;
+  max-height: 350px;
   padding: 0;
   background-color: white;
   border: none;
@@ -483,6 +487,7 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   z-index: 100;
   margin-top: 0.5rem;
+  overflow: auto;
 }
 
 .calendar {
@@ -491,6 +496,7 @@
   padding: 1.25rem;
   border-radius: 1rem;
   font-family: "Exo 2", sans-serif;
+  min-height: 320px;
 }
 
 /* Calendar day buttons */
@@ -570,6 +576,8 @@
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 0.5rem;
+  max-height: 200px;
+  overflow-y: auto;
 }
 
 /* Trip duration */
@@ -960,4 +968,32 @@ input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
   box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.3);
+}
+
+/* Add cursor pointer to all buttons */
+button {
+  cursor: pointer;
+}
+
+/* Button hover effects */
+.startButton:hover,
+.backButton:hover,
+.nextButton:hover,
+.sendButton:hover,
+.calendarNavButton:hover,
+.calendarDay:hover:not(:disabled),
+.customSelectTrigger:hover,
+.dateButton:hover,
+.floatingChatSend:hover,
+.floatingChatClose:hover,
+.homeButton:hover,
+.optionButton:hover {
+  transform: scale(1.05);
+  transition: transform 0.2s ease;
+}
+
+/* Remove hover effects from badges */
+.travelersBadge,
+.budgetBadge {
+  pointer-events: none;
 }
