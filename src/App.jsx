@@ -479,12 +479,7 @@ function TravelAdvisor() {
                                     you.
                                 </motion.p>
                                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}>
-                                    <Button
-                                        onClick={nextStep}
-                                        className="startButton"
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
-                                    >
+                                    <Button onClick={nextStep} className="startButton" whileTap={{ scale: 0.95 }}>
                                         Start Your Journey
                                         <ArrowRight className="buttonIcon" />
                                     </Button>
@@ -558,7 +553,7 @@ function TravelAdvisor() {
                                     <h2 className="questionText">DOES EVERYONE HAVE THE SAME PASSPORT?</h2>
                                 </div>
                                 <div className="optionsGrid">
-                                    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                                    <motion.div whileTap={{ scale: 0.95 }}>
                                         <Button
                                             variant={samePassport === true ? "default" : "outline"}
                                             onClick={() => setSamePassport(true)}
@@ -567,7 +562,7 @@ function TravelAdvisor() {
                                             Yes
                                         </Button>
                                     </motion.div>
-                                    <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                                    <motion.div whileTap={{ scale: 0.95 }}>
                                         <Button
                                             variant={samePassport === false ? "default" : "outline"}
                                             onClick={() => setSamePassport(false)}

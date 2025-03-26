@@ -135,6 +135,8 @@
 
 .homeButton:hover {
   background-color: rgba(255, 255, 255, 0.8);
+  transform: scale(1.15);
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .homeIcon {
@@ -294,7 +296,8 @@
 
 .startButton:hover {
   box-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
-  transform: translateY(-2px);
+  transform: translateY(-2px) scale(1.03);
+  transition: all 0.3s ease;
 }
 
 .buttonIcon {
@@ -975,25 +978,41 @@ button {
   cursor: pointer;
 }
 
-/* Button hover effects */
-.startButton:hover,
+/* Button hover effects - with specific adjustments */
 .backButton:hover,
 .nextButton:hover,
 .sendButton:hover,
 .calendarNavButton:hover,
 .calendarDay:hover:not(:disabled),
-.customSelectTrigger:hover,
 .dateButton:hover,
 .floatingChatSend:hover,
-.floatingChatClose:hover,
-.homeButton:hover,
-.optionButton:hover {
+.floatingChatClose:hover {
   transform: scale(1.05);
   transition: transform 0.2s ease;
 }
 
-/* Remove hover effects from badges */
+/* Specific hover effects with custom scales */
+.homeButton:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+  transform: scale(1.15);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.startButton:hover {
+  box-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+  transform: translateY(-2px) scale(1.03);
+  transition: all 0.3s ease;
+}
+
+/* Remove hover effects from badges and selectors */
 .travelersBadge,
-.budgetBadge {
-  pointer-events: none;
+.budgetBadge,
+.customSelectTrigger {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.customSelectTrigger:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+  transition: background-color 0.2s ease;
 }
