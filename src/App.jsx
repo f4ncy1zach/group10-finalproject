@@ -34,8 +34,8 @@ import "./App.css"
 // Destination data
 const destinations = {
     "North America": {
-        "United States": ["New York City", "Los Angeles", "Las Vegas", "Miami", "San Francisco", "Seattle", "Chicago"],
         Canada: ["Toronto", "Vancouver", "Montreal", "Wennipeg", "Edminton", "Calgary"],
+        "United States": ["New York City", "Los Angeles", "Las Vegas", "Miami", "San Francisco", "Seattle", "Chicago"],
         Mexico: ["Mexico City", "Cancun", "Tulum", "Guadalajara"],
     },
     Asia: {
@@ -235,18 +235,20 @@ function TravelAdvisor() {
         return differenceInDays(returnDate, departDate) + 1
     }
 
-    const countries = [
-        "Canada",
-        "United States",
-        "United Kingdom",
-        "France",
-        "Germany",
-        "Japan",
-        "Australia",
-        "Brazil",
-        "India",
-        "South Africa",
-    ]
+    // Extract all countries from destinations object
+    const getAllCountries = () => {
+        const countryList = []
+
+        Object.keys(destinations).forEach((region) => {
+            Object.keys(destinations[region]).forEach((country) => {
+                countryList.push(country)
+            })
+        })
+
+        return countryList
+    }
+
+    const countries = getAllCountries()
 
     const onPrevMonth = (date, setMonth) => {
         const newDate = new Date(date)
