@@ -26,7 +26,6 @@ import {
 } from "lucide-react"
 import { Button } from "./components/ui/button"
 import { Slider } from "./components/ui/slider"
-import { Textarea } from "./components/ui/textarea"
 import { format, differenceInDays } from "date-fns"
 import { ThemeProvider } from "./components/theme-provider"
 import "./App.css"
@@ -40,7 +39,7 @@ const destinations = {
     },
     Asia: {
         Japan: ["Tokyo", "Yokohama", "Kyoto", "Osaka", "Nara", "Nagoya", "Fukuoka", "Sapporo"],
-        China: ["Beijing", "Shanghai", "Guangzhou", "Shenzhen", "Chengdu", "Hangzhou", "Hong kong"],
+        China: ["Beijing", "Shanghai", "Guangzhou", "Shenzhen", "Chengdu", "Hangzhou", "Hong Kong"],
         "South Korea": ["Seoul", "Busan", "Jeju City"],
         Taiwan: ["Taipei", "Taoyuan", "Taichung", "Kaohsiung"],
         Singapore: ["Singapore"],
@@ -1171,65 +1170,136 @@ function TravelAdvisor() {
                         )}
 
                         {step === 9 && (
-                            <div className="resultsStep">
+                            <div className="resultsPageContainer">
+                                <div className="resultsHeader">
+                                    <motion.h2
+                                        className="resultsTitle"
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ duration: 0.5 }}
+                                    >
+                                        YOUR DREAM DESTINATION AWAITS
+                                    </motion.h2>
+                                </div>
+
+                                <div className="resultsMainContent">
+                                    {/* Left side - Destination image placeholder */}
+                                    <motion.div
+                                        className="destinationImageContainer"
+                                        initial={{ opacity: 0, x: -20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ duration: 0.5, delay: 0.2 }}
+                                    >
+                                        <div className="destinationImagePlaceholder">
+                                            <MapPin size={50} className="mb-4 mx-auto opacity-50" />
+                                            <p>Destination image will be displayed here</p>
+                                            <p className="text-sm mt-2">
+                                                {selectedCity}, {selectedCountry}
+                                            </p>
+                                        </div>
+                                    </motion.div>
+
+                                    {/* Right side - Trip summary and destination description */}
+                                    <motion.div
+                                        className="destinationInfo"
+                                        initial={{ opacity: 0, x: 20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ duration: 0.5, delay: 0.3 }}
+                                    >
+                                        {/* Trip summary */}
+                                        <div className="tripSummary">
+                                            <h3 className="text-xl font-bold mb-4 text-gray-800">Trip Summary</h3>
+
+                                            <div className="summaryItem">
+                                                <div className="summaryLabel">Travelers:</div>
+                                                <div className="summaryValue">
+                                                    {travelers} {travelers === 1 ? "person" : "people"}
+                                                </div>
+                                            </div>
+
+                                            <div className="summaryItem">
+                                                <div className="summaryLabel">Passport:</div>
+                                                <div className="summaryValue">{passport}</div>
+                                            </div>
+
+                                            <div className="summaryItem">
+                                                <div className="summaryLabel">Budget:</div>
+                                                <div className="summaryValue">${budget.toLocaleString()} CAD</div>
+                                            </div>
+
+                                            <div className="summaryItem">
+                                                <div className="summaryLabel">Origin:</div>
+                                                <div className="summaryValue">{origin}</div>
+                                            </div>
+
+                                            <div className="summaryItem">
+                                                <div className="summaryLabel">Destination:</div>
+                                                <div className="summaryValue">
+                                                    {selectedCity}, {selectedCountry} ({selectedRegion})
+                                                </div>
+                                            </div>
+
+                                            <div className="summaryItem">
+                                                <div className="summaryLabel">Travel Dates:</div>
+                                                <div className="summaryValue">
+                                                    {departDate && format(departDate, "MMM d, yyyy")} -{" "}
+                                                    {returnDate && format(returnDate, "MMM d, yyyy")}
+                                                </div>
+                                            </div>
+
+                                            <div className="summaryItem">
+                                                <div className="summaryLabel">Duration:</div>
+                                                <div className="summaryValue">{calculateTripDuration()} days</div>
+                                            </div>
+                                        </div>
+
+                                        {/* Destination description placeholder */}
+                                        <div className="destinationDescription">
+                                            <div className="descriptionPlaceholder">
+                                                <Globe size={40} className="mb-3 mx-auto opacity-50" />
+                                                <p>Destination description will be loaded here</p>
+                                                <p className="text-sm mt-2">Information about {selectedCity} will be retrieved from the API</p>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                </div>
+
+                                {/* Category tabs and content */}
                                 <motion.div
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.5 }}
+                                    transition={{ duration: 0.5, delay: 0.4 }}
                                 >
-                                    <h2 className="resultsTitle">YOUR DREAM DESTINATION AWAITS</h2>
-                                    <h3 className="resultsSubtitle">
-                                        Information will be retrieved from Travel Advisor API
-                                        <motion.div
-                                            className="titleUnderline"
-                                            initial={{ width: 0 }}
-                                            animate={{ width: 96 }}
-                                            transition={{ duration: 0.8, delay: 0.3 }}
-                                        />
-                                    </h3>
-                                </motion.div>
-
-                                {/* Chat with AI section */}
-                                <div className="chatSection">
-                                    <h3 className="chatTitle">Chat with Travel Assistant</h3>
-                                    <div ref={chatContainerRef} className="chatContainer">
-                                        {chatHistory.map((chat, index) => (
-                                            <motion.div
-                                                key={index}
-                                                initial={{ opacity: 0, y: 10 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                transition={{ duration: 0.3 }}
-                                                className={`chatMessage ${chat.isUser ? "userMessage" : "aiMessage"}`}
+                                    {/* Add state for active category */}
+                                    <div className="categoryTabs">
+                                        {["Hotels", "Attractions", "Restaurants", "Itinerary"].map((category, index) => (
+                                            <button
+                                                key={category}
+                                                className={`categoryTab ${index === 0 ? "categoryTabActive" : ""}`}
+                                                onClick={() => {
+                                                    // This would normally update state to change the active tab
+                                                    // For now, we'll just have the first tab (Hotels) active by default
+                                                }}
                                             >
-                                                <div className={chat.isUser ? "userBubble" : "aiBubble"}>{chat.message}</div>
-                                            </motion.div>
+                                                {category}
+                                            </button>
                                         ))}
                                     </div>
-                                    <div className="chatInputContainer">
-                                        <Textarea
-                                            value={chatMessage}
-                                            onChange={(e) => setChatMessage(e.target.value)}
-                                            placeholder="Ask about your destination..."
-                                            className="chatInput"
-                                            onKeyDown={(e) => {
-                                                if (e.key === "Enter" && !e.shiftKey) {
-                                                    e.preventDefault()
-                                                    sendChatMessage()
-                                                }
-                                            }}
-                                        />
-                                        <Button
-                                            onClick={sendChatMessage}
-                                            className="sendButton"
-                                            whileHover={{ scale: 1.05 }}
-                                            whileTap={{ scale: 0.95 }}
-                                        >
-                                            <Send className="sendIcon" />
-                                        </Button>
-                                    </div>
-                                </div>
 
-                                <div className="buttonContainer">
+                                    {/* Content area for selected category */}
+                                    <div className="categoryContent">
+                                        <div className="contentPlaceholder">
+                                            <div>
+                                                <Luggage size={40} className="mb-3 mx-auto opacity-50" />
+                                                <p>Hotel recommendations will be displayed here</p>
+                                                <p className="text-sm mt-2">Information will be retrieved from the API</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </motion.div>
+
+                                {/* Action buttons */}
+                                <div className="resultsActions">
                                     <Button variant="outline" onClick={prevStep} className="backButton">
                                         <ArrowLeft className="buttonIcon" />
                                         Back
