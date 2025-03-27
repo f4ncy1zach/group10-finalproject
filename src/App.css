@@ -1045,7 +1045,7 @@ input[type="range"] {
 /* Results page redesign */
 .resultsPageContainer {
   width: 100%;
-  max-width: 1200px;
+  max-width: 90%; /* Changed from 1200px to 90% to make it much wider */
   margin: 0 auto;
   background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(15px);
@@ -1066,11 +1066,13 @@ input[type="range"] {
   display: flex;
   gap: 2rem;
   margin-bottom: 2rem;
+  align-items: stretch; /* Added to ensure equal height */
 }
 
 .destinationImageContainer {
   flex: 1;
-  height: 400px;
+  height: auto; /* Changed from fixed 400px to auto */
+  min-height: 450px; /* Added min-height to ensure it's not too small */
   background-color: rgba(56, 189, 248, 0.1);
   border-radius: 1.5rem;
   overflow: hidden;
@@ -1121,7 +1123,6 @@ input[type="range"] {
   border-radius: 1rem;
   padding: 1.5rem;
   flex: 1;
-  border: 1px solid rgba(255, 255, 255, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;

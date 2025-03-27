@@ -113,6 +113,9 @@ function TravelAdvisor() {
 
     const floatingChatRef = useRef(null)
 
+    // Add this with the other state variables at the top of the TravelAdvisor component
+    const [activeCategory, setActiveCategory] = useState("Hotels")
+
     const sendFloatingChatMessage = () => {
         if (floatingChatMessage.trim()) {
             setFloatingChatHistory([...floatingChatHistory, { message: floatingChatMessage, isUser: true }])
@@ -1270,16 +1273,13 @@ function TravelAdvisor() {
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.5, delay: 0.4 }}
                                 >
-                                    {/* Add state for active category */}
+                                    {/* Category tabs with click handlers */}
                                     <div className="categoryTabs">
-                                        {["Hotels", "Attractions", "Restaurants", "Itinerary"].map((category, index) => (
+                                        {["Hotels", "Attractions", "Restaurants", "Itinerary"].map((category) => (
                                             <button
                                                 key={category}
-                                                className={`categoryTab ${index === 0 ? "categoryTabActive" : ""}`}
-                                                onClick={() => {
-                                                    // This would normally update state to change the active tab
-                                                    // For now, we'll just have the first tab (Hotels) active by default
-                                                }}
+                                                className={`categoryTab ${activeCategory === category ? "categoryTabActive" : ""}`}
+                                                onClick={() => setActiveCategory(category)}
                                             >
                                                 {category}
                                             </button>
@@ -1288,13 +1288,42 @@ function TravelAdvisor() {
 
                                     {/* Content area for selected category */}
                                     <div className="categoryContent">
-                                        <div className="contentPlaceholder">
-                                            <div>
-                                                <Luggage size={40} className="mb-3 mx-auto opacity-50" />
-                                                <p>Hotel recommendations will be displayed here</p>
-                                                <p className="text-sm mt-2">Information will be retrieved from the API</p>
+                                        {activeCategory === "Hotels" && (
+                                            <div className="contentPlaceholder">
+                                                <div>
+                                                    <Luggage size={40} className="mb-3 mx-auto opacity-50" />
+                                                    <p>Hotel recommendations will be displayed here</p>
+                                                    <p className="text-sm mt-2">Information will be retrieved from the API</p>
+                                                </div>
                                             </div>
-                                        </div>
+                                        )}
+                                        {activeCategory === "Attractions" && (
+                                            <div className="contentPlaceholder">
+                                                <div>
+                                                    <Landmark size={40} className="mb-3 mx-auto opacity-50" />
+                                                    <p>Popular attractions will be displayed here</p>
+                                                    <p className="text-sm mt-2">Discover the best sights in {selectedCity}</p>
+                                                </div>
+                                            </div>
+                                        )}
+                                        {activeCategory === "Restaurants" && (
+                                            <div className="contentPlaceholder">
+                                                <div>
+                                                    <div className="mb-3 mx-auto opacity-50 flex justify-center">🍽️</div>
+                                                    <p>Restaurant recommendations will be displayed here</p>
+                                                    <p className="text-sm mt-2">Find the best dining options in {selectedCity}</p>
+                                                </div>
+                                            </div>
+                                        )}
+                                        {activeCategory === "Itinerary" && (
+                                            <div className="contentPlaceholder">
+                                                <div>
+                                                    <Calendar size={40} className="mb-3 mx-auto opacity-50" />
+                                                    <p>Your personalized itinerary will be displayed here</p>
+                                                    <p className="text-sm mt-2">Day-by-day plan for your {calculateTripDuration()}-day trip</p>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 </motion.div>
 
