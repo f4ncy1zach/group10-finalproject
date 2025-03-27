@@ -801,8 +801,8 @@
 /* Floating orb */
 .floatingOrb {
   position: fixed;
-  bottom: 2.5rem;
-  right: 3rem;
+  bottom: 3rem; /* Changed from 2.5rem to 3rem */
+  right: 2rem; /* Changed from 3rem to 2rem to match the chat window */
   width: 3rem;
   height: 3rem;
   border-radius: 1.2rem;
@@ -825,8 +825,8 @@
 /* Floating chat window */
 .floatingChatWindow {
   position: fixed;
-  bottom: 7rem;
-  right: 3rem;
+  bottom: 10rem; /* Changed from 7rem to 10rem to move upward */
+  right: 2rem; /* Changed from 3rem to 2rem to move leftward */
   width: 320px;
   height: 400px;
   background: white;
@@ -1040,4 +1040,147 @@ button {
 /* Range input (slider) cursor */
 input[type="range"] {
   cursor: pointer;
+}
+
+/* Results page redesign */
+.resultsPageContainer {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 10px 15px rgba(56, 189, 248, 0.1);
+  overflow: hidden;
+  padding: 2rem;
+}
+
+.resultsHeader {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.resultsMainContent {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.destinationImageContainer {
+  flex: 1;
+  height: 400px;
+  background-color: rgba(56, 189, 248, 0.1);
+  border-radius: 1.5rem;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed rgba(56, 189, 248, 0.3);
+}
+
+.destinationImagePlaceholder {
+  color: #64748b;
+  text-align: center;
+  padding: 2rem;
+}
+
+.destinationInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.tripSummary {
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+.summaryItem {
+  display: flex;
+  margin-bottom: 0.75rem;
+}
+
+.summaryLabel {
+  font-weight: 600;
+  width: 150px;
+  color: #1e293b;
+}
+
+.summaryValue {
+  color: #475569;
+  flex: 1;
+}
+
+.destinationDescription {
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  flex: 1;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed rgba(56, 189, 248, 0.3);
+}
+
+.descriptionPlaceholder {
+  color: #64748b;
+  text-align: center;
+}
+
+.categoryTabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.categoryTab {
+  padding: 0.75rem 1.5rem;
+  border-radius: 1rem;
+  font-weight: 500;
+  background: rgba(255, 255, 255, 0.6);
+  color: #475569;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  transition: all 0.3s ease;
+}
+
+.categoryTab:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+.categoryTabActive {
+  background: linear-gradient(to right, #38bdf8, #8b5cf6);
+  color: white;
+  box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+}
+
+.categoryContent {
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  height: 300px;
+  overflow-y: auto;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  margin-bottom: 1.5rem;
+}
+
+.contentPlaceholder {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  text-align: center;
+  border: 1px dashed rgba(56, 189, 248, 0.3);
+  border-radius: 0.75rem;
+}
+
+.resultsActions {
+  display: flex;
+  justify-content: space-between;
 }
