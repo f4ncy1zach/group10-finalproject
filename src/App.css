@@ -181,6 +181,7 @@
   position: relative;
   border: none;
   transition: background 0.3s ease;
+  cursor: default;
 }
 
 .progressDotActive {
@@ -346,6 +347,7 @@
 
 .sliderLabel {
   color: #64748b;
+  cursor: default;
 }
 
 .sliderContainer {
@@ -356,6 +358,7 @@
 
 .slider {
   flex: 1;
+  cursor: pointer;
 }
 
 .travelersBadge {
@@ -369,6 +372,7 @@
   color: white;
   font-weight: 700;
   box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+  cursor: default;
 }
 
 .budgetBadge {
@@ -382,6 +386,7 @@
   color: white;
   font-weight: 700;
   box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+  cursor: default;
 }
 
 .optionsGrid {
@@ -411,6 +416,10 @@
 .customSelect {
   position: relative;
   width: 100%;
+}
+
+.mt-4 {
+  margin-top: 1rem;
 }
 
 .customSelectTrigger {
@@ -575,6 +584,7 @@
   font-size: 0.8rem;
   color: #64748b;
   font-weight: 500;
+  cursor: default;
 }
 
 .calendarGrid {
@@ -1015,12 +1025,19 @@ button {
 /* Remove hover effects from badges and selectors */
 .travelersBadge,
 .budgetBadge,
-.customSelectTrigger {
+.progressDot,
+.progressNumber,
+.sliderLabel {
   pointer-events: auto;
-  cursor: pointer;
+  cursor: default;
 }
 
 .customSelectTrigger:hover {
   background-color: rgba(255, 255, 255, 0.9);
   transition: background-color 0.2s ease;
+}
+
+/* Range input (slider) cursor */
+input[type="range"] {
+  cursor: pointer;
 }

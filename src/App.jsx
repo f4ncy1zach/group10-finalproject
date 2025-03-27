@@ -22,6 +22,7 @@ import {
     Landmark,
     ChevronDown,
     MessageSquare,
+    MapPin,
 } from "lucide-react"
 import { Button } from "./components/ui/button"
 import { Slider } from "./components/ui/slider"
@@ -29,6 +30,50 @@ import { Textarea } from "./components/ui/textarea"
 import { format, differenceInDays } from "date-fns"
 import { ThemeProvider } from "./components/theme-provider"
 import "./App.css"
+
+// Destination data
+const destinations = {
+    "North America": {
+        "United States": ["New York City", "Los Angeles", "Las Vegas", "Miami", "San Francisco", "Seattle", "Chicago"],
+        Canada: ["Toronto", "Vancouver", "Montreal", "Wennipeg", "Edminton", "Calgary"],
+        Mexico: ["Mexico City", "Cancun", "Tulum", "Guadalajara"],
+    },
+    Asia: {
+        Japan: ["Tokyo", "Yokohama", "Kyoto", "Osaka", "Nara", "Nagoya", "Fukuoka", "Sapporo"],
+        "South Korea": ["Seoul", "Busan", "Jeju City"],
+        Thailand: ["Bangkok", "Chiang Mai", "Phuket", "Pattaya"],
+        China: ["Beijing", "Shanghai", "Guangzhou", "Shenzhen", "Chengdu", "Hangzhou", "Hongkong"],
+        Indonesia: ["Bali", "Jakarta", "Yogyakarta"],
+        Vietnam: ["Hanoi", "Ho Chi Minh City", "Da Nang", "Hoi An"],
+        Singapore: ["Singapore"],
+        Malaysia: ["Kuala Lumpar"],
+        India: ["Mumbai", "Delhi", "Bangalore"],
+        Taiwan: ["Taipei", "Taoyuan", "Taichung", "Kaohsiung"],
+    },
+    Europe: {
+        France: ["Paris", "Nice", "Lyon", "Marseille"],
+        Italy: ["Rome", "Venice", "Florence", "Milan"],
+        Spain: ["Barcelona", "Madrid", "Seville", "Valencia"],
+        "United Kingdom": ["London", "Edinburgh", "Manchester", "Liverpool"],
+        Germany: ["Berlin", "Munich", "Frankfurt", "Hamburg"],
+        Switzerland: ["Zurich", "Geneva", "Lucerne", "Interlaken"],
+        Greece: ["Athens", "Santorini", "Mykonos", "Thessaloniki"],
+    },
+    Africa: {
+        "South Africa": ["Cape Town", "Johannesburg", "Durban"],
+        Morocco: ["Marrakech", "Casablanca", "Fes", "Rabat"],
+        Egypt: ["Cairo", "Luxor", "Aswan", "Alexandria"],
+    },
+    Oceania: {
+        Australia: ["Sydney", "Melbourne", "Brisbane", "Perth"],
+        "New Zealand": ["Auckland", "Queenstown", "Wellington", "Christchurch"],
+    },
+    "South America": {
+        Brazil: ["Rio de Janeiro", "São Paulo", "Salvador"],
+        Argentina: ["Buenos Aires", "Mendoza", "Bariloche"],
+        Peru: ["Lima", "Cusco", "Arequipa"],
+    },
+}
 
 function TravelAdvisor() {
     const [step, setStep] = useState(0)
@@ -44,8 +89,16 @@ function TravelAdvisor() {
         { message: "Hello! I'm your AI travel assistant. How can I help you with your trip?", isUser: false },
     ])
 
-    // Custom select states
+    // Destination state
+    const [selectedRegion, setSelectedRegion] = useState("")
+    const [selectedCountry, setSelectedCountry] = useState("")
+    const [selectedCity, setSelectedCity] = useState("")
+    const [regionDropdownOpen, setRegionDropdownOpen] = useState(false)
     const [countryDropdownOpen, setCountryDropdownOpen] = useState(false)
+    const [cityDropdownOpen, setCityDropdownOpen] = useState(false)
+
+    // Custom select states
+    const [passportDropdownOpen, setPassportDropdownOpen] = useState(false)
     const [originDropdownOpen, setOriginDropdownOpen] = useState(false)
     const [calendarOpen, setCalendarOpen] = useState(false)
     const [returnCalendarOpen, setReturnCalendarOpen] = useState(false)
@@ -85,19 +138,31 @@ function TravelAdvisor() {
     }
 
     const chatContainerRef = useRef(null)
-    const countryDropdownRef = useRef(null)
+    const passportDropdownRef = useRef(null)
     const originDropdownRef = useRef(null)
+    const regionDropdownRef = useRef(null)
+    const countryDropdownRef = useRef(null)
+    const cityDropdownRef = useRef(null)
     const calendarRef = useRef(null)
     const returnCalendarRef = useRef(null)
 
     // Close dropdowns when clicking outside
     useEffect(() => {
         function handleClickOutside(event) {
-            if (countryDropdownRef.current && !countryDropdownRef.current.contains(event.target)) {
-                setCountryDropdownOpen(false)
+            if (passportDropdownRef.current && !passportDropdownRef.current.contains(event.target)) {
+                setPassportDropdownOpen(false)
             }
             if (originDropdownRef.current && !originDropdownRef.current.contains(event.target)) {
                 setOriginDropdownOpen(false)
+            }
+            if (regionDropdownRef.current && !regionDropdownRef.current.contains(event.target)) {
+                setRegionDropdownOpen(false)
+            }
+            if (countryDropdownRef.current && !countryDropdownRef.current.contains(event.target)) {
+                setCountryDropdownOpen(false)
+            }
+            if (cityDropdownRef.current && !cityDropdownRef.current.contains(event.target)) {
+                setCityDropdownOpen(false)
             }
             if (calendarRef.current && !calendarRef.current.contains(event.target)) {
                 setCalendarOpen(false)
@@ -113,7 +178,7 @@ function TravelAdvisor() {
         }
     }, [])
 
-    const totalSteps = 8
+    const totalSteps = 9 // Updated to include the new destination step
 
     const nextStep = () => {
         if (step < totalSteps) {
@@ -134,6 +199,9 @@ function TravelAdvisor() {
         setPassport("")
         setBudget(2000)
         setOrigin("")
+        setSelectedRegion("")
+        setSelectedCountry("")
+        setSelectedCity("")
         setDepartDate(undefined)
         setReturnDate(undefined)
     }
@@ -191,6 +259,15 @@ function TravelAdvisor() {
         newDate.setMonth(newDate.getMonth() + 1)
         setMonth(newDate)
     }
+
+    // Get available regions
+    const regions = Object.keys(destinations)
+
+    // Get available countries based on selected region
+    const availableCountries = selectedRegion ? Object.keys(destinations[selectedRegion]) : []
+
+    // Get available cities based on selected country and region
+    const availableCities = selectedRegion && selectedCountry ? destinations[selectedRegion][selectedCountry] : []
 
     return (
         <div className="container">
@@ -606,12 +683,12 @@ function TravelAdvisor() {
                                     </h2>
                                 </div>
                                 <div className="inputContainer">
-                                    <div className="customSelect" ref={countryDropdownRef}>
-                                        <div className="customSelectTrigger" onClick={() => setCountryDropdownOpen(!countryDropdownOpen)}>
+                                    <div className="customSelect" ref={passportDropdownRef}>
+                                        <div className="customSelectTrigger" onClick={() => setPassportDropdownOpen(!passportDropdownOpen)}>
                                             {passport || "Select a country"}
                                             <ChevronDown size={16} />
                                         </div>
-                                        {countryDropdownOpen && (
+                                        {passportDropdownOpen && (
                                             <div className="customSelectDropdown">
                                                 {countries.map((country) => (
                                                     <div
@@ -619,7 +696,7 @@ function TravelAdvisor() {
                                                         className={`customSelectOption ${passport === country ? "customSelectOptionSelected" : ""}`}
                                                         onClick={() => {
                                                             setPassport(country)
-                                                            setCountryDropdownOpen(false)
+                                                            setPassportDropdownOpen(false)
                                                         }}
                                                     >
                                                         {country}
@@ -766,6 +843,120 @@ function TravelAdvisor() {
                             <div className="formStep">
                                 <div className="questionHeader">
                                     <motion.div
+                                        animate={{
+                                            x: [0, 10, 0, -10, 0],
+                                            rotate: [0, 10, 0, -10, 0],
+                                        }}
+                                        transition={{ duration: 3, repeat: Number.POSITIVE_INFINITY }}
+                                        className="questionIcon"
+                                    >
+                                        <MapPin className="stepIcon" />
+                                    </motion.div>
+                                    <h2 className="questionText">WHERE IS YOUR DESTINATION?</h2>
+                                </div>
+                                <div className="inputContainer">
+                                    {/* Region Selection */}
+                                    <div className="customSelect" ref={regionDropdownRef}>
+                                        <div className="customSelectTrigger" onClick={() => setRegionDropdownOpen(!regionDropdownOpen)}>
+                                            {selectedRegion || "Select a region"}
+                                            <ChevronDown size={16} />
+                                        </div>
+                                        {regionDropdownOpen && (
+                                            <div className="customSelectDropdown">
+                                                {regions.map((region) => (
+                                                    <div
+                                                        key={region}
+                                                        className={`customSelectOption ${selectedRegion === region ? "customSelectOptionSelected" : ""}`}
+                                                        onClick={() => {
+                                                            setSelectedRegion(region)
+                                                            setSelectedCountry("")
+                                                            setSelectedCity("")
+                                                            setRegionDropdownOpen(false)
+                                                        }}
+                                                    >
+                                                        {region}
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Country Selection - only show if region is selected */}
+                                    {selectedRegion && (
+                                        <div className="customSelect mt-4" ref={countryDropdownRef}>
+                                            <div className="customSelectTrigger" onClick={() => setCountryDropdownOpen(!countryDropdownOpen)}>
+                                                {selectedCountry || "Select a country"}
+                                                <ChevronDown size={16} />
+                                            </div>
+                                            {countryDropdownOpen && (
+                                                <div className="customSelectDropdown">
+                                                    {availableCountries.map((country) => (
+                                                        <div
+                                                            key={country}
+                                                            className={`customSelectOption ${selectedCountry === country ? "customSelectOptionSelected" : ""}`}
+                                                            onClick={() => {
+                                                                setSelectedCountry(country)
+                                                                setSelectedCity("")
+                                                                setCountryDropdownOpen(false)
+                                                            }}
+                                                        >
+                                                            {country}
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+
+                                    {/* City Selection - only show if country is selected */}
+                                    {selectedRegion && selectedCountry && (
+                                        <div className="customSelect mt-4" ref={cityDropdownRef}>
+                                            <div className="customSelectTrigger" onClick={() => setCityDropdownOpen(!cityDropdownOpen)}>
+                                                {selectedCity || "Select a city"}
+                                                <ChevronDown size={16} />
+                                            </div>
+                                            {cityDropdownOpen && (
+                                                <div className="customSelectDropdown">
+                                                    {availableCities.map((city) => (
+                                                        <div
+                                                            key={city}
+                                                            className={`customSelectOption ${selectedCity === city ? "customSelectOptionSelected" : ""}`}
+                                                            onClick={() => {
+                                                                setSelectedCity(city)
+                                                                setCityDropdownOpen(false)
+                                                            }}
+                                                        >
+                                                            {city}
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="buttonContainer">
+                                    <Button variant="outline" onClick={prevStep} className="backButton">
+                                        <ArrowLeft className="buttonIcon" />
+                                        Back
+                                    </Button>
+                                    <Button
+                                        onClick={nextStep}
+                                        disabled={!selectedRegion || !selectedCountry || !selectedCity}
+                                        className="nextButton"
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                                        Next
+                                        <ArrowRight className="buttonIcon" />
+                                    </Button>
+                                </div>
+                            </div>
+                        )}
+
+                        {step === 7 && (
+                            <div className="formStep">
+                                <div className="questionHeader">
+                                    <motion.div
                                         animate={{ rotate: [0, 360] }}
                                         transition={{ duration: 10, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
                                         className="questionIcon"
@@ -865,7 +1056,7 @@ function TravelAdvisor() {
                             </div>
                         )}
 
-                        {step === 7 && (
+                        {step === 8 && (
                             <div className="formStep">
                                 <div className="questionHeader">
                                     <motion.div
@@ -977,7 +1168,7 @@ function TravelAdvisor() {
                             </div>
                         )}
 
-                        {step === 8 && (
+                        {step === 9 && (
                             <div className="resultsStep">
                                 <motion.div
                                     initial={{ opacity: 0, y: 20 }}
