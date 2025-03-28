@@ -1,0 +1,74 @@
+/* Itinerary styles */
+.itineraryContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.itineraryHeader {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.itineraryTitle {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+}
+
+.itinerarySubtitle {
+    color: #64748b;
+    font-size: 1rem;
+}
+
+.itineraryPlaceholder {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 1rem;
+    border: 1px dashed rgba(56, 189, 248, 0.3);
+}
+
+.itineraryMessage {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 1rem;
+}
+
+.itineraryDescription {
+    color: #64748b;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+}
+
+.itineraryGenerateButton {
+    margin-top: 1rem;
+}
+
+.generateButton {
+    background: linear-gradient(to right, #38bdf8, #8b5cf6);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 1rem;
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: none;
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.generateNote {
+    font-size: 0.8rem;
+    opacity: 0.8;
+    margin-top: 0.25rem;
+}
