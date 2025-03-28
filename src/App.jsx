@@ -1289,38 +1289,191 @@ function TravelAdvisor() {
                                     {/* Content area for selected category */}
                                     <div className="categoryContent">
                                         {activeCategory === "Hotels" && (
-                                            <div className="contentPlaceholder">
-                                                <div>
-                                                    <Luggage size={40} className="mb-3 mx-auto opacity-50" />
-                                                    <p>Hotel recommendations will be displayed here</p>
-                                                    <p className="text-sm mt-2">Information will be retrieved from the API</p>
-                                                </div>
+                                            <div className="listingsContainer">
+                                                {[...Array(6)].map((_, index) => (
+                                                    <div key={`hotel-${index}`} className="listingCard">
+                                                        <div className="listingImage">
+                                                            <div className="imagePlaceholder">
+                                                                <Luggage size={30} className="placeholderIcon" />
+                                                            </div>
+                                                        </div>
+                                                        <div className="listingDetails">
+                                                            <div className="listingMainInfo">
+                                                                <h3 className="listingName">Hotel {index + 1}</h3>
+                                                                <p className="listingAddress">123 Main Street, {selectedCity}</p>
+                                                                <div className="listingRating">
+                                                                    <div className="stars">
+                                                                        {[...Array(5)].map((_, i) => (
+                                                                            <span key={i} className={i < 4 ? "star filled" : "star"}>
+                                        ★
+                                      </span>
+                                                                        ))}
+                                                                    </div>
+                                                                    <span className="ratingText">4.0/5.0 ({80 + index * 10} reviews)</span>
+                                                                </div>
+                                                                <p className="listingPrice">${100 + index * 50}/night</p>
+                                                                <p className="listingPhone">+1 (555) 123-45{index}0</p>
+                                                            </div>
+                                                            <div className="listingSecondaryInfo">
+                                                                <div className="listingAbout">
+                                                                    <h4>About</h4>
+                                                                    <p>
+                                                                        A beautiful hotel located in the heart of {selectedCity}. Offering comfortable rooms
+                                                                        and excellent service.
+                                                                    </p>
+                                                                </div>
+                                                                <div className="listingFeatures">
+                                                                    <h4>Features</h4>
+                                                                    <ul className="featuresList">
+                                                                        <li>Free WiFi</li>
+                                                                        <li>Swimming Pool</li>
+                                                                        <li>Fitness Center</li>
+                                                                        <li>Restaurant</li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))}
                                             </div>
                                         )}
+
                                         {activeCategory === "Attractions" && (
-                                            <div className="contentPlaceholder">
-                                                <div>
-                                                    <Landmark size={40} className="mb-3 mx-auto opacity-50" />
-                                                    <p>Popular attractions will be displayed here</p>
-                                                    <p className="text-sm mt-2">Discover the best sights in {selectedCity}</p>
-                                                </div>
+                                            <div className="listingsContainer">
+                                                {[...Array(6)].map((_, index) => (
+                                                    <div key={`attraction-${index}`} className="listingCard">
+                                                        <div className="listingImage">
+                                                            <div className="imagePlaceholder">
+                                                                <Landmark size={30} className="placeholderIcon" />
+                                                            </div>
+                                                        </div>
+                                                        <div className="listingDetails">
+                                                            <div className="listingMainInfo">
+                                                                <h3 className="listingName">
+                                                                    {selectedCity} Attraction {index + 1}
+                                                                </h3>
+                                                                <p className="listingAddress">
+                                                                    {456 + index * 10} Tourist Avenue, {selectedCity}
+                                                                </p>
+                                                                <div className="listingRating">
+                                                                    <div className="stars">
+                                                                        {[...Array(5)].map((_, i) => (
+                                                                            <span key={i} className={i < 4.5 - index * 0.5 ? "star filled" : "star"}>
+                                        ★
+                                      </span>
+                                                                        ))}
+                                                                    </div>
+                                                                    <span className="ratingText">
+                                    {4.5 - index * 0.5}/5.0 ({120 + index * 15} reviews)
+                                  </span>
+                                                                </div>
+                                                                <p className="listingPrice">${15 + index * 5} per person</p>
+                                                                <p className="listingPhone">+1 (555) 789-{index}123</p>
+                                                            </div>
+                                                            <div className="listingSecondaryInfo">
+                                                                <div className="listingAbout">
+                                                                    <h4>About</h4>
+                                                                    <p>
+                                                                        A popular tourist destination in {selectedCity}. Known for its cultural significance
+                                                                        and beautiful views.
+                                                                    </p>
+                                                                </div>
+                                                                <div className="listingFeatures">
+                                                                    <h4>Features</h4>
+                                                                    <ul className="featuresList">
+                                                                        <li>Guided Tours</li>
+                                                                        <li>Gift Shop</li>
+                                                                        <li>Photo Spots</li>
+                                                                        <li>Accessible</li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))}
                                             </div>
                                         )}
+
                                         {activeCategory === "Restaurants" && (
-                                            <div className="contentPlaceholder">
-                                                <div>
-                                                    <div className="mb-3 mx-auto opacity-50 flex justify-center">🍽️</div>
-                                                    <p>Restaurant recommendations will be displayed here</p>
-                                                    <p className="text-sm mt-2">Find the best dining options in {selectedCity}</p>
-                                                </div>
+                                            <div className="listingsContainer">
+                                                {[...Array(6)].map((_, index) => (
+                                                    <div key={`restaurant-${index}`} className="listingCard">
+                                                        <div className="listingImage">
+                                                            <div className="imagePlaceholder">
+                                                                <div className="placeholderIcon">🍽️</div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="listingDetails">
+                                                            <div className="listingMainInfo">
+                                                                <h3 className="listingName">
+                                                                    {selectedCity} Restaurant {index + 1}
+                                                                </h3>
+                                                                <p className="listingAddress">
+                                                                    {789 + index * 10} Dining Street, {selectedCity}
+                                                                </p>
+                                                                <div className="listingRating">
+                                                                    <div className="stars">
+                                                                        {[...Array(5)].map((_, i) => (
+                                                                            <span key={i} className={i < 5 - index * 0.5 ? "star filled" : "star"}>
+                                        ★
+                                      </span>
+                                                                        ))}
+                                                                    </div>
+                                                                    <span className="ratingText">
+                                    {5 - index * 0.5}/5.0 ({90 + index * 20} reviews)
+                                  </span>
+                                                                </div>
+                                                                <p className="listingPrice">
+                                                                    {index < 2 ? "$$$" : index < 4 ? "$$" : "$"} • {index < 3 ? "Fine Dining" : "Casual"}
+                                                                </p>
+                                                                <p className="listingPhone">+1 (555) 456-78{index}9</p>
+                                                            </div>
+                                                            <div className="listingSecondaryInfo">
+                                                                <div className="listingAbout">
+                                                                    <h4>About</h4>
+                                                                    <p>
+                                                                        A {index < 3 ? "high-end" : "cozy"} restaurant serving{" "}
+                                                                        {index % 2 === 0 ? "local" : "international"} cuisine with a modern twist.
+                                                                    </p>
+                                                                </div>
+                                                                <div className="listingFeatures">
+                                                                    <h4>Features</h4>
+                                                                    <ul className="featuresList">
+                                                                        <li>{index % 2 === 0 ? "Outdoor" : "Indoor"} Seating</li>
+                                                                        <li>Reservations {index < 4 ? "Required" : "Recommended"}</li>
+                                                                        <li>{index < 3 ? "Full Bar" : "BYOB"}</li>
+                                                                        <li>{index % 2 === 0 ? "Vegan Options" : "Gluten-Free Options"}</li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))}
                                             </div>
                                         )}
+
                                         {activeCategory === "Itinerary" && (
-                                            <div className="contentPlaceholder">
-                                                <div>
+                                            <div className="itineraryContainer">
+                                                <div className="itineraryHeader">
+                                                    <h3 className="itineraryTitle">
+                                                        Your {calculateTripDuration()}-Day Trip to {selectedCity}
+                                                    </h3>
+                                                    <p className="itinerarySubtitle">Personalized itinerary powered by AI</p>
+                                                </div>
+
+                                                <div className="itineraryPlaceholder">
                                                     <Calendar size={40} className="mb-3 mx-auto opacity-50" />
-                                                    <p>Your personalized itinerary will be displayed here</p>
-                                                    <p className="text-sm mt-2">Day-by-day plan for your {calculateTripDuration()}-day trip</p>
+                                                    <p className="itineraryMessage">Your personalized itinerary will be generated here</p>
+                                                    <p className="itineraryDescription">
+                                                        We'll create a day-by-day plan for your {calculateTripDuration()}-day trip to {selectedCity}
+                                                        , including recommended hotels, attractions, restaurants, and travel tips.
+                                                    </p>
+                                                    <div className="itineraryGenerateButton" disabled>
+                                                        <button className="generateButton">
+                                                            <span>Generate Itinerary</span>
+                                                            <span className="generateNote"></span>
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         )}
