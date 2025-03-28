@@ -1,0 +1,67 @@
+/* Background elements */
+.backgroundElements {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.backgroundElement {
+    position: absolute;
+    z-index: 0;
+}
+
+.travelIcon {
+    color: rgba(56, 189, 248, 0.2);
+    filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.1));
+}
+
+.plane1 {
+    top: 10%;
+    left: -100px;
+}
+
+.plane2 {
+    top: 30%;
+    right: -100px;
+}
+
+.globe {
+    top: 15%;
+    right: 10%;
+}
+
+.map {
+    bottom: 20%;
+    left: 5%;
+}
+
+.camera {
+    top: 40%;
+    left: 10%;
+}
+
+.luggage {
+    top: 60%;
+    right: 20%;
+}
+
+.mountain {
+    bottom: 30%;
+    left: 20%;
+}
+
+.landmark {
+    top: 25%;
+    left: 30%;
+}
+
+.sun {
+    top: 5%;
+    left: 15%;
+}
+
+.cloud {
+    position: absolute;
+}
