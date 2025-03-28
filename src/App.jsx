@@ -1468,7 +1468,7 @@ function TravelAdvisor() {
                                                         We'll create a day-by-day plan for your {calculateTripDuration()}-day trip to {selectedCity}
                                                         , including recommended hotels, attractions, restaurants, and travel tips.
                                                     </p>
-                                                    <div className="itineraryGenerateButton" disabled>
+                                                    <div className="itineraryGenerateButton">
                                                         <button className="generateButton">
                                                             <span>Generate Itinerary</span>
                                                             <span className="generateNote"></span>
