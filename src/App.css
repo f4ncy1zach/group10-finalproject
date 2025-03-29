@@ -2,12 +2,12 @@
 @import "./styles/base.css";
 @import "./styles/components/BackgroundElements.css";
 @import "./styles/components/Header.css";
-@import "./styles/components/ProgressTracker.css";
 @import "./styles/components/HomePage.css";
 @import "./styles/components/QuestionFlow.css";
 @import "./styles/components/ResultsPage.css";
 @import "./styles/components/Footer.css";
 @import "./styles/components/FloatingChat.css";
+@import "./styles/components/PassportVisaForm.css";
 @import "./styles/components/categories/CategoryTabs.css";
 @import "./styles/components/categories/Listings.css";
 @import "./styles/components/categories/ItineraryView.css";
