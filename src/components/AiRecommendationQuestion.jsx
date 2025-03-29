@@ -37,7 +37,7 @@ export default function AiRecommendationQuestion({ setUseAiRecommendation, nextS
                 </div>
 
                 <div className="optionsGrid">
-                    <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.95 }}>
+                    <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.95 }}>
                         <Button
                             variant={selectedOption === true ? "default" : "outline"}
                             onClick={() => handleOptionSelect(true)}
@@ -47,7 +47,7 @@ export default function AiRecommendationQuestion({ setUseAiRecommendation, nextS
                         </Button>
                     </motion.div>
 
-                    <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.95 }}>
+                    <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.95 }}>
                         <Button
                             variant={selectedOption === false ? "default" : "outline"}
                             onClick={() => handleOptionSelect(false)}
