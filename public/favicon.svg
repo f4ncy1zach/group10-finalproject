@@ -1,4 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" viewBox="0 0 512 512" role="img" aria-label="Travel Advisor Logo" style="display: block; margin: 0 auto;">
-    <path d="M32 272l128 48 16 160 80-112 112 112L480 32 32 272z" fill="#000000"/>
-    <path d="M350.7 417.4L256 320l128-176-192 153.8-82.6-31 322-172.5-80.7 323.1z" fill="#ffffff"/>
+<svg width="48" height="48" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <radialGradient id="globeGradient" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#8ff9d0" />
+            <stop offset="100%" stop-color="#6abed3" />
+        </radialGradient>
+        <linearGradient id="pinGradient" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#b1a8f5" />
+            <stop offset="100%" stop-color="#6e5cf5" />
+        </linearGradient>
+    </defs>
+    <circle cx="64" cy="64" r="36" fill="url(#globeGradient)" stroke="#6e5cf5" stroke-width="3" />
+    <ellipse cx="64" cy="64" rx="32" ry="12" stroke="#ffffff" stroke-width="1.5"/>
+    <ellipse cx="64" cy="64" rx="12" ry="32" stroke="#ffffff" stroke-width="1.5"/>
+    <path d="M64 22C76 22 85 32 85 44C85 59 64 86 64 86C64 86 43 59 43 44C43 32 52 22 64 22Z" fill="url(#pinGradient)" stroke="#6e5cf5" stroke-width="2"/>
+    <circle cx="64" cy="44" r="6" fill="white"/>
+    <path d="M92 30L60 62L72 66L74 78L80 64L92 30Z" fill="#ffffff" stroke="#6e5cf5" stroke-width="2" />
 </svg>
