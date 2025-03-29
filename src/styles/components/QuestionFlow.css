@@ -1,6 +1,7 @@
 /* Form steps */
 .formStep {
     width: 100%;
+    padding: 1rem 0;
 }
 
 .questionHeader {
@@ -31,56 +32,6 @@
     position: relative;
 }
 
-.sliderLabels {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 0.5rem;
-}
-
-.sliderLabel {
-    color: #64748b;
-    cursor: default;
-}
-
-.sliderContainer {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.slider {
-    flex: 1;
-    cursor: pointer;
-}
-
-.travelersBadge {
-    width: 3rem;
-    height: 3rem;
-    border-radius: 1rem;
-    background: linear-gradient(to right, #38bdf8, #8b5cf6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: 700;
-    box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
-    cursor: default;
-}
-
-.budgetBadge {
-    min-width: 5rem;
-    padding: 0.75rem 1.25rem;
-    border-radius: 1rem;
-    background: linear-gradient(to right, #38bdf8, #8b5cf6);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: 700;
-    box-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
-    cursor: default;
-}
-
 .optionsGrid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -104,57 +55,35 @@
     color: white;
 }
 
-/* Custom select styles */
-.customSelect {
-    position: relative;
-    width: 100%;
-}
-
-.mt-4 {
-    margin-top: 1rem;
-}
-
-.customSelectTrigger {
+/* Text input styles */
+.textInput {
     width: 100%;
     background-color: rgba(255, 255, 255, 0.8);
     border: none;
     color: #1e293b;
     border-radius: 1rem;
     padding: 0.75rem 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    cursor: pointer;
+    font-family: "Exo 2", sans-serif;
+    transition: all 0.2s ease;
 }
 
-.customSelectDropdown {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background-color: white;
-    border: none;
-    border-radius: 1rem;
-    margin-top: 0.5rem;
-    max-height: 250px; /* Increased max-height */
-    overflow-y: auto;
-    z-index: 100;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding-bottom: 12px; /* Increased padding */
+.textInput:focus {
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
 }
 
-.customSelectOption {
-    padding: 0.75rem 1rem;
-    cursor: pointer;
+.textInput::placeholder {
+    color: #94a3b8;
 }
 
-.customSelectOption:hover {
-    background-color: rgba(243, 244, 246, 0.8);
+.errorText {
+    color: #ef4444;
+    font-size: 0.8rem;
+    margin-top: 0.25rem;
 }
 
-.customSelectOptionSelected {
-    background-color: rgba(56, 189, 248, 0.1);
-    font-weight: 500;
+.mt-4 {
+    margin-top: 1rem;
 }
 
 /* Improved date selector */
@@ -186,16 +115,13 @@
 .calendarPopover {
     position: absolute;
     width: 320px;
-    max-height: 400px; /* Increased max-height */
-    padding: 0;
     background-color: white;
     border: none;
     border-radius: 1rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     z-index: 100;
     margin-top: 0.5rem;
-    overflow: auto;
-    padding-bottom: 12px; /* Increased padding */
+    overflow: hidden;
 }
 
 .calendar {
@@ -204,37 +130,6 @@
     padding: 1.25rem;
     border-radius: 1rem;
     font-family: "Exo 2", sans-serif;
-    min-height: 320px;
-}
-
-/* Calendar day buttons */
-.calendarDay {
-    width: 2.5rem;
-    height: 2.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 0.75rem;
-    font-family: "Exo 2", sans-serif;
-    font-size: 0.9rem;
-    transition: all 0.2s ease;
-    cursor: pointer;
-    border: none;
-    background: transparent;
-}
-
-.calendarDay:hover:not(:disabled) {
-    background-color: rgba(56, 189, 248, 0.1);
-}
-
-.calendarDaySelected {
-    background: linear-gradient(to right, #38bdf8, #8b5cf6);
-    color: white;
-}
-
-.calendarDayDisabled {
-    color: #cbd5e1;
-    cursor: not-allowed;
 }
 
 .calendarHeader {
@@ -266,10 +161,16 @@
     background-color: rgba(56, 189, 248, 0.1);
 }
 
+.calendarBody {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
 .calendarDayNames {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 0.5rem;
+    gap: 0.25rem;
     margin-bottom: 0.5rem;
 }
 
@@ -278,16 +179,46 @@
     font-size: 0.8rem;
     color: #64748b;
     font-weight: 500;
-    cursor: default;
+    padding: 0.5rem 0;
 }
 
-.calendarGrid {
+.calendarDays {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 0.5rem;
-    max-height: 250px; /* Increased max-height */
-    overflow-y: auto;
-    padding-bottom: 12px; /* Increased padding */
+    gap: 0.25rem;
+    border-radius: 0.5rem;
+}
+
+.calendarDayEmpty {
+    aspect-ratio: 1 / 1;
+}
+
+.calendarDay {
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    font-family: "Exo 2", sans-serif;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+}
+
+.calendarDay:hover:not(:disabled) {
+    background-color: rgba(56, 189, 248, 0.1);
+}
+
+.calendarDaySelected {
+    background: linear-gradient(to right, #38bdf8, #8b5cf6);
+    color: white;
+}
+
+.calendarDayDisabled {
+    color: #cbd5e1;
+    cursor: not-allowed;
 }
 
 /* Trip duration */
@@ -349,44 +280,11 @@
     box-shadow: none;
 }
 
-/* Add styles for text inputs */
-.inputField {
-    margin-bottom: 1rem;
-}
-
-.inputLabel {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-    color: #1e293b;
-}
-
-.textInput {
-    width: 100%;
-    background-color: rgba(255, 255, 255, 0.8);
-    border: none;
-    color: #1e293b;
-    border-radius: 1rem;
-    padding: 0.75rem 1rem;
-    font-family: "Exo 2", sans-serif;
-    transition: all 0.2s ease;
-}
-
-.textInput:focus {
-    background-color: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
-}
-
-.textInput::placeholder {
-    color: #94a3b8;
-}
-
 /* Fix for small screens */
 @media (max-height: 700px) {
-    .customSelectDropdown,
     .calendarPopover {
-        max-height: 200px; /* Adjusted for small screens */
-        position: absolute !important; /* Ensure proper positioning */
+        max-height: 200px;
+        position: absolute !important;
     }
 
     .calendarGrid {
