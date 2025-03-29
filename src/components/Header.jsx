@@ -7,7 +7,7 @@ export default function Header({ resetForm }) {
         <header className="header">
             <div className="headerContent">
                 <div className="logo">
-                    <Logo className="logoIcon" size={28} />
+                    <Logo size={50} />
                     <h1 className="logoText">TRAVEL ADVISOR</h1>
                 </div>
                 <Button variant="ghost" size="icon" className="homeButton" onClick={resetForm}>
