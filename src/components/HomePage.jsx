@@ -22,13 +22,9 @@ export default function HomePage({ nextStep }) {
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
                     transition={{ duration: 0.5 }}
-                    className="welcomeIcon"
-                    whileHover={{
-                        scale: 1.1,
-                        boxShadow: "0 0 20px rgba(56, 189, 248, 0.5)",
-                    }}
+                    className="homepageLogoContainer"
                 >
-                    <Logo className="welcomeGlobe" size={48} />
+                    <Logo size={110} />
                 </motion.div>
                 <motion.h2
                     className="welcomeTitle"
