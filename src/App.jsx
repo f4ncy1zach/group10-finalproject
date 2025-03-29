@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useRef, useEffect } from "react"
 import { differenceInDays } from "date-fns"
 import { ThemeProvider } from "./components/theme-provider"
