@@ -12,7 +12,7 @@
 .headerContent {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 1rem;
+    padding: 0.7rem 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -22,21 +22,19 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    margin-left: -0.5rem;
 }
 
 .logoIcon {
-    width: 1.75rem;
-    height: 1.75rem;
+    width: 2rem;
+    height: 2rem;
     color: #38bdf8;
 }
 
 .logoText {
     font-size: 1.5rem;
     font-weight: 700;
-    background: linear-gradient(to right, #38bdf8, #8b5cf6);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: #1e293b;
     letter-spacing: 0.05em;
 }
 
@@ -52,6 +50,7 @@
     justify-content: center;
     width: 2.5rem;
     height: 2.5rem;
+    margin-right: -0.5rem;
 }
 
 .homeButton:hover {
