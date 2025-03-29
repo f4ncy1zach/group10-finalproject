@@ -1,5 +1,3 @@
-"use client"
-
 export function Slider({ value, min = 0, max = 100, step = 1, onValueChange, className = "" }) {
     const handleChange = (e) => {
         const newValue = Number.parseFloat(e.target.value)

@@ -1,5 +1,3 @@
-"use client"
-
 import { motion } from "framer-motion"
 
 export default function ProgressTracker({ step, totalSteps }) {
@@ -13,7 +11,6 @@ export default function ProgressTracker({ step, totalSteps }) {
                             initial={{ scale: 1 }}
                             animate={{
                                 scale: i === step ? [1, 1.2, 1] : 1,
-                                // Removed box shadow animation
                             }}
                             transition={{ duration: 1, repeat: i === step ? Number.POSITIVE_INFINITY : 0 }}
                         >

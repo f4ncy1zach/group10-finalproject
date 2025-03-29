@@ -1,5 +1,3 @@
-"use client"
-
 import { motion, AnimatePresence } from "framer-motion"
 import {
     Users,
@@ -32,18 +30,10 @@ export default function QuestionFlow({
                                          setDepartDate,
                                          returnDate,
                                          setReturnDate,
-                                         selectedRegion,
-                                         setSelectedRegion,
-                                         selectedCountry,
-                                         setSelectedCountry,
-                                         selectedCity,
-                                         setSelectedCity,
-                                         regionDropdownOpen,
-                                         setRegionDropdownOpen,
-                                         countryDropdownOpen,
-                                         setCountryDropdownOpen,
-                                         cityDropdownOpen,
-                                         setCityDropdownOpen,
+                                         destinationCountry,
+                                         setDestinationCountry,
+                                         destinationCity,
+                                         setDestinationCity,
                                          passportDropdownOpen,
                                          setPassportDropdownOpen,
                                          originDropdownOpen,
@@ -59,17 +49,11 @@ export default function QuestionFlow({
                                          nextStep,
                                          prevStep,
                                          countries,
-                                         regions,
-                                         availableCountries,
-                                         availableCities,
                                          onPrevMonth,
                                          onNextMonth,
                                          calculateTripDuration,
                                          passportDropdownRef,
                                          originDropdownRef,
-                                         regionDropdownRef,
-                                         countryDropdownRef,
-                                         cityDropdownRef,
                                          calendarRef,
                                          returnCalendarRef,
                                      }) {
@@ -368,84 +352,35 @@ export default function QuestionFlow({
                             <h2 className="questionText">WHERE IS YOUR DESTINATION?</h2>
                         </div>
                         <div className="inputContainer">
-                            {/* Region Selection */}
-                            <div className="customSelect" ref={regionDropdownRef}>
-                                <div className="customSelectTrigger" onClick={() => setRegionDropdownOpen(!regionDropdownOpen)}>
-                                    {selectedRegion || "Select a region"}
-                                    <ChevronDown size={16} />
-                                </div>
-                                {regionDropdownOpen && (
-                                    <div className="customSelectDropdown">
-                                        {regions.map((region) => (
-                                            <div
-                                                key={region}
-                                                className={`customSelectOption ${selectedRegion === region ? "customSelectOptionSelected" : ""}`}
-                                                onClick={() => {
-                                                    setSelectedRegion(region)
-                                                    setSelectedCountry("")
-                                                    setSelectedCity("")
-                                                    setRegionDropdownOpen(false)
-                                                }}
-                                            >
-                                                {region}
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
+                            {/* Country Input */}
+                            <div className="inputField">
+                                <label htmlFor="destinationCountry" className="inputLabel">
+                                    Country
+                                </label>
+                                <input
+                                    id="destinationCountry"
+                                    type="text"
+                                    value={destinationCountry}
+                                    onChange={(e) => setDestinationCountry(e.target.value)}
+                                    placeholder="Enter destination country"
+                                    className="textInput"
+                                />
                             </div>
 
-                            {/* Country Selection - only show if region is selected */}
-                            {selectedRegion && (
-                                <div className="customSelect mt-4" ref={countryDropdownRef}>
-                                    <div className="customSelectTrigger" onClick={() => setCountryDropdownOpen(!countryDropdownOpen)}>
-                                        {selectedCountry || "Select a country"}
-                                        <ChevronDown size={16} />
-                                    </div>
-                                    {countryDropdownOpen && (
-                                        <div className="customSelectDropdown">
-                                            {availableCountries.map((country) => (
-                                                <div
-                                                    key={country}
-                                                    className={`customSelectOption ${selectedCountry === country ? "customSelectOptionSelected" : ""}`}
-                                                    onClick={() => {
-                                                        setSelectedCountry(country)
-                                                        setSelectedCity("")
-                                                        setCountryDropdownOpen(false)
-                                                    }}
-                                                >
-                                                    {country}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-                            )}
-
-                            {/* City Selection - only show if country is selected */}
-                            {selectedRegion && selectedCountry && (
-                                <div className="customSelect mt-4" ref={cityDropdownRef}>
-                                    <div className="customSelectTrigger" onClick={() => setCityDropdownOpen(!cityDropdownOpen)}>
-                                        {selectedCity || "Select a city"}
-                                        <ChevronDown size={16} />
-                                    </div>
-                                    {cityDropdownOpen && (
-                                        <div className="customSelectDropdown">
-                                            {availableCities.map((city) => (
-                                                <div
-                                                    key={city}
-                                                    className={`customSelectOption ${selectedCity === city ? "customSelectOptionSelected" : ""}`}
-                                                    onClick={() => {
-                                                        setSelectedCity(city)
-                                                        setCityDropdownOpen(false)
-                                                    }}
-                                                >
-                                                    {city}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-                            )}
+                            {/* City Input */}
+                            <div className="inputField mt-4">
+                                <label htmlFor="destinationCity" className="inputLabel">
+                                    City
+                                </label>
+                                <input
+                                    id="destinationCity"
+                                    type="text"
+                                    value={destinationCity}
+                                    onChange={(e) => setDestinationCity(e.target.value)}
+                                    placeholder="Enter destination city"
+                                    className="textInput"
+                                />
+                            </div>
                         </div>
                         <div className="buttonContainer">
                             <Button variant="outline" onClick={prevStep} className="backButton">
@@ -454,7 +389,7 @@ export default function QuestionFlow({
                             </Button>
                             <Button
                                 onClick={nextStep}
-                                disabled={!selectedRegion || !selectedCountry || !selectedCity}
+                                disabled={!destinationCountry || !destinationCity}
                                 className="nextButton"
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}

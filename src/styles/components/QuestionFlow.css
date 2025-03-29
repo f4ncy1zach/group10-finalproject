@@ -349,6 +349,38 @@
     box-shadow: none;
 }
 
+/* Add styles for text inputs */
+.inputField {
+    margin-bottom: 1rem;
+}
+
+.inputLabel {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #1e293b;
+}
+
+.textInput {
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
+    color: #1e293b;
+    border-radius: 1rem;
+    padding: 0.75rem 1rem;
+    font-family: "Exo 2", sans-serif;
+    transition: all 0.2s ease;
+}
+
+.textInput:focus {
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+}
+
+.textInput::placeholder {
+    color: #94a3b8;
+}
+
 /* Fix for small screens */
 @media (max-height: 700px) {
     .customSelectDropdown,

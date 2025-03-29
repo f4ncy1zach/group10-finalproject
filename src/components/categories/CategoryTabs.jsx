@@ -1,4 +1,3 @@
-"use client"
 import { motion, AnimatePresence } from "framer-motion"
 import HotelsList from "./HotelsList"
 import AttractionsList from "./AttractionsList"
@@ -6,7 +5,6 @@ import RestaurantsList from "./RestaurantsList"
 import ItineraryView from "./ItineraryView"
 
 export default function CategoryTabs({ activeCategory, setActiveCategory, selectedCity, calculateTripDuration }) {
-    // Remove the isAnimating state and setTimeout delay
     return (
         <>
             {/* Category tabs with click handlers */}
@@ -30,7 +28,7 @@ export default function CategoryTabs({ activeCategory, setActiveCategory, select
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    transition={{ duration: 0.2 }} // Reduced animation time for faster response
+                    transition={{ duration: 0.2 }}
                 >
                     {activeCategory === "Hotels" && <HotelsList selectedCity={selectedCity} />}
                     {activeCategory === "Attractions" && <AttractionsList selectedCity={selectedCity} />}

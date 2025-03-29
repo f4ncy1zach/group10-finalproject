@@ -1,5 +1,3 @@
-"use client"
-
 import { motion } from "framer-motion"
 import { Plane, Globe, MapIcon, Camera, Luggage, Mountain, Landmark, Sun, Cloud } from "lucide-react"
 

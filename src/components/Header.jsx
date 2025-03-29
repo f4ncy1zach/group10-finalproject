@@ -1,4 +1,3 @@
-"use client"
 import { Home } from "lucide-react"
 import { Button } from "../components/ui/button"
 import Logo from "./Logo"
@@ -19,4 +18,3 @@ export default function Header({ resetForm }) {
         </header>
     )
 }
-

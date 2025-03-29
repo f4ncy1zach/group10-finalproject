@@ -1,5 +1,3 @@
-"use client"
-
 import { motion } from "framer-motion"
 import { MapPin, Globe, ArrowLeft } from "lucide-react"
 import { Button } from "../components/ui/button"
@@ -7,9 +5,8 @@ import { format } from "date-fns"
 import CategoryTabs from "./categories/CategoryTabs"
 
 export default function ResultsPage({
-                                        selectedCity,
-                                        selectedCountry,
-                                        selectedRegion,
+                                        destinationCity,
+                                        destinationCountry,
                                         travelers,
                                         passport,
                                         budget,
@@ -47,7 +44,7 @@ export default function ResultsPage({
                         <MapPin size={50} className="mb-4 mx-auto opacity-50" />
                         <p>Destination image will be displayed here</p>
                         <p className="text-sm mt-2">
-                            {selectedCity}, {selectedCountry}
+                            {destinationCity}, {destinationCountry}
                         </p>
                     </div>
                 </motion.div>
@@ -88,7 +85,7 @@ export default function ResultsPage({
                         <div className="summaryItem">
                             <div className="summaryLabel">Destination:</div>
                             <div className="summaryValue">
-                                {selectedCity}, {selectedCountry} ({selectedRegion})
+                                {destinationCity}, {destinationCountry}
                             </div>
                         </div>
 
@@ -110,7 +107,7 @@ export default function ResultsPage({
                         <div className="descriptionPlaceholder">
                             <Globe size={40} className="mb-3 mx-auto opacity-50" />
                             <p>Destination description will be loaded here</p>
-                            <p className="text-sm mt-2">Information about {selectedCity} will be retrieved from the API</p>
+                            <p className="text-sm mt-2">Information about {destinationCity} will be retrieved from the API</p>
                         </div>
                     </div>
                 </motion.div>
@@ -128,7 +125,7 @@ export default function ResultsPage({
                 <CategoryTabs
                     activeCategory={activeCategory}
                     setActiveCategory={setActiveCategory}
-                    selectedCity={selectedCity}
+                    selectedCity={destinationCity}
                     calculateTripDuration={calculateTripDuration}
                 />
             </motion.div>

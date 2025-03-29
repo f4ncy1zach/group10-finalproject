@@ -1,6 +1,7 @@
+"use client"
+
 import { useState, useRef, useEffect } from "react"
 import { differenceInDays } from "date-fns"
-import { ThemeProvider } from "./components/theme-provider"
 import BackgroundElements from "./components/BackgroundElements"
 import Header from "./components/Header"
 import ProgressTracker from "./components/ProgressTracker"
@@ -10,50 +11,6 @@ import ResultsPage from "./components/ResultsPage"
 import Footer from "./components/Footer"
 import FloatingChat from "./components/FloatingChat"
 import "./App.css"
-
-// Destination data
-const destinations = {
-    "North America": {
-        Canada: ["Toronto", "Vancouver", "Montreal", "Winnipeg", "Edmonton", "Calgary"],
-        "United States": ["New York City", "Los Angeles", "Las Vegas", "Miami", "San Francisco", "Seattle", "Chicago"],
-        Mexico: ["Mexico City", "Cancun", "Tulum", "Guadalajara"],
-    },
-    Asia: {
-        Japan: ["Tokyo", "Yokohama", "Kyoto", "Osaka", "Nara", "Nagoya", "Fukuoka", "Sapporo"],
-        China: ["Beijing", "Shanghai", "Guangzhou", "Shenzhen", "Chengdu", "Hangzhou", "Hong Kong"],
-        "South Korea": ["Seoul", "Busan", "Jeju City"],
-        Taiwan: ["Taipei", "Taoyuan", "Taichung", "Kaohsiung"],
-        Singapore: ["Singapore"],
-        Malaysia: ["Kuala Lumpur"],
-        India: ["Mumbai", "Delhi", "Bangalore"],
-        Thailand: ["Bangkok", "Chiang Mai", "Phuket", "Pattaya"],
-        Indonesia: ["Bali", "Jakarta", "Yogyakarta"],
-        Vietnam: ["Hanoi", "Ho Chi Minh City", "Da Nang", "Hoi An"],
-    },
-    Europe: {
-        "United Kingdom": ["London", "Edinburgh", "Manchester", "Liverpool"],
-        France: ["Paris", "Nice", "Lyon", "Marseille"],
-        Italy: ["Rome", "Venice", "Florence", "Milan"],
-        Germany: ["Berlin", "Munich", "Frankfurt", "Hamburg"],
-        Spain: ["Barcelona", "Madrid", "Seville", "Valencia"],
-        Switzerland: ["Zurich", "Geneva", "Lucerne", "Interlaken"],
-        Greece: ["Athens", "Santorini", "Mykonos", "Thessaloniki"],
-    },
-    Africa: {
-        "South Africa": ["Cape Town", "Johannesburg", "Durban"],
-        Morocco: ["Marrakech", "Casablanca", "Fes", "Rabat"],
-        Egypt: ["Cairo", "Luxor", "Aswan", "Alexandria"],
-    },
-    Oceania: {
-        Australia: ["Sydney", "Melbourne", "Brisbane", "Perth"],
-        "New Zealand": ["Auckland", "Queenstown", "Wellington", "Christchurch"],
-    },
-    "South America": {
-        Brazil: ["Rio de Janeiro", "São Paulo", "Salvador"],
-        Argentina: ["Buenos Aires", "Mendoza", "Bariloche"],
-        Peru: ["Lima", "Cusco", "Arequipa"],
-    },
-}
 
 function TravelAdvisor() {
     const [step, setStep] = useState(0)
@@ -67,12 +24,8 @@ function TravelAdvisor() {
     const [activeCategory, setActiveCategory] = useState("Hotels")
 
     // Destination state
-    const [selectedRegion, setSelectedRegion] = useState("")
-    const [selectedCountry, setSelectedCountry] = useState("")
-    const [selectedCity, setSelectedCity] = useState("")
-    const [regionDropdownOpen, setRegionDropdownOpen] = useState(false)
-    const [countryDropdownOpen, setCountryDropdownOpen] = useState(false)
-    const [cityDropdownOpen, setCityDropdownOpen] = useState(false)
+    const [destinationCountry, setDestinationCountry] = useState("")
+    const [destinationCity, setDestinationCity] = useState("")
 
     // Custom select states
     const [passportDropdownOpen, setPassportDropdownOpen] = useState(false)
@@ -95,9 +48,6 @@ function TravelAdvisor() {
     const floatingChatRef = useRef(null)
     const passportDropdownRef = useRef(null)
     const originDropdownRef = useRef(null)
-    const regionDropdownRef = useRef(null)
-    const countryDropdownRef = useRef(null)
-    const cityDropdownRef = useRef(null)
     const calendarRef = useRef(null)
     const returnCalendarRef = useRef(null)
 
@@ -109,15 +59,6 @@ function TravelAdvisor() {
             }
             if (originDropdownRef.current && !originDropdownRef.current.contains(event.target)) {
                 setOriginDropdownOpen(false)
-            }
-            if (regionDropdownRef.current && !regionDropdownRef.current.contains(event.target)) {
-                setRegionDropdownOpen(false)
-            }
-            if (countryDropdownRef.current && !countryDropdownRef.current.contains(event.target)) {
-                setCountryDropdownOpen(false)
-            }
-            if (cityDropdownRef.current && !cityDropdownRef.current.contains(event.target)) {
-                setCityDropdownOpen(false)
             }
             if (calendarRef.current && !calendarRef.current.contains(event.target)) {
                 setCalendarOpen(false)
@@ -133,7 +74,7 @@ function TravelAdvisor() {
         }
     }, [])
 
-    const totalSteps = 9 // Updated to include the new destination step
+    const totalSteps = 9
 
     const nextStep = () => {
         if (step < totalSteps) {
@@ -154,9 +95,8 @@ function TravelAdvisor() {
         setPassport("")
         setBudget(2000)
         setOrigin("")
-        setSelectedRegion("")
-        setSelectedCountry("")
-        setSelectedCity("")
+        setDestinationCountry("")
+        setDestinationCity("")
         setDepartDate(undefined)
         setReturnDate(undefined)
     }
@@ -172,7 +112,7 @@ function TravelAdvisor() {
                     ...prev,
                     {
                         message:
-                            "This is a placeholder for the actual message, which will be answered by the ChatGPT API.",
+                            "Thanks for your message! This is Trippy, your travel companion. The actual implementation will connect to the DeepSeek AI API.",
                         isUser: false,
                     },
                 ])
@@ -191,20 +131,27 @@ function TravelAdvisor() {
         return differenceInDays(returnDate, departDate) + 1
     }
 
-    // Extract all countries from destinations object
-    const getAllCountries = () => {
-        const countryList = []
-
-        Object.keys(destinations).forEach((region) => {
-            Object.keys(destinations[region]).forEach((country) => {
-                countryList.push(country)
-            })
-        })
-
-        return countryList
-    }
-
-    const countries = getAllCountries()
+    // Sample list of countries for passport dropdown
+    const countries = [
+        "United States",
+        "Canada",
+        "United Kingdom",
+        "Australia",
+        "Germany",
+        "France",
+        "Japan",
+        "China",
+        "Brazil",
+        "India",
+        "Mexico",
+        "Italy",
+        "Spain",
+        "South Korea",
+        "Russia",
+        "Netherlands",
+        "Sweden",
+        "Switzerland",
+    ]
 
     const onPrevMonth = (date, setMonth) => {
         const newDate = new Date(date)
@@ -218,14 +165,24 @@ function TravelAdvisor() {
         setMonth(newDate)
     }
 
-    // Get available regions
-    const regions = Object.keys(destinations)
-
-    // Get available countries based on selected region
-    const availableCountries = selectedRegion ? Object.keys(destinations[selectedRegion]) : []
-
-    // Get available cities based on selected country and region
-    const availableCities = selectedRegion && selectedCountry ? destinations[selectedRegion][selectedCountry] : []
+    // Function to prepare travel data for API
+    const prepareTravelData = () => {
+        return {
+            travelers,
+            passport,
+            budget,
+            origin,
+            destination: {
+                country: destinationCountry,
+                city: destinationCity,
+            },
+            dates: {
+                departure: departDate,
+                return: returnDate,
+                duration: calculateTripDuration(),
+            },
+        }
+    }
 
     // Props for question flow
     const questionProps = {
@@ -244,18 +201,10 @@ function TravelAdvisor() {
         setDepartDate,
         returnDate,
         setReturnDate,
-        selectedRegion,
-        setSelectedRegion,
-        selectedCountry,
-        setSelectedCountry,
-        selectedCity,
-        setSelectedCity,
-        regionDropdownOpen,
-        setRegionDropdownOpen,
-        countryDropdownOpen,
-        setCountryDropdownOpen,
-        cityDropdownOpen,
-        setCityDropdownOpen,
+        destinationCountry,
+        setDestinationCountry,
+        destinationCity,
+        setDestinationCity,
         passportDropdownOpen,
         setPassportDropdownOpen,
         originDropdownOpen,
@@ -271,26 +220,20 @@ function TravelAdvisor() {
         nextStep,
         prevStep,
         countries,
-        regions,
-        availableCountries,
-        availableCities,
         onPrevMonth,
         onNextMonth,
         calculateTripDuration,
         passportDropdownRef,
         originDropdownRef,
-        regionDropdownRef,
-        countryDropdownRef,
-        cityDropdownRef,
         calendarRef,
         returnCalendarRef,
+        prepareTravelData,
     }
 
     // Props for results page
     const resultsProps = {
-        selectedCity,
-        selectedCountry,
-        selectedRegion,
+        destinationCity,
+        destinationCountry,
         travelers,
         passport,
         budget,
@@ -331,11 +274,7 @@ function TravelAdvisor() {
 }
 
 function App() {
-    return (
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
-            <TravelAdvisor />
-        </ThemeProvider>
-    )
+    return <TravelAdvisor />
 }
 
 export default App
