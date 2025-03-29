@@ -36,8 +36,8 @@ export default function FloatingChat({
                 <div className="floatingChatWindow">
                     <div className="floatingChatHeader">
                         <div className="floatingChatTitle">
-                            <Logo className="floatingChatIcon" size={20} />
-                            <span>Trippy - Travel Assistant</span>
+                            <Logo size={35} />
+                            <span>Travel Assistant</span>
                         </div>
                         <button className="floatingChatClose" onClick={() => setFloatingChatOpen(false)}>
                             &times;
@@ -54,7 +54,7 @@ export default function FloatingChat({
                         <div className="floatingChatInput">
               <textarea
                   className="floatingChatTextarea"
-                  placeholder="Ask Trippy about your trip..."
+                  placeholder="Ask about your trip..."
                   value={floatingChatMessage}
                   onChange={(e) => setFloatingChatMessage(e.target.value)}
                   onKeyDown={(e) => {
