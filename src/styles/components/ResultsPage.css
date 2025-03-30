@@ -67,7 +67,7 @@
     border-radius: 1rem;
     padding: 1.5rem;
     margin-bottom: 1.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.8);
+    border: 1px dashed rgba(56, 189, 248, 0.3); /* Added dashed border to match other sections */
 }
 
 .summaryItem {
@@ -91,7 +91,6 @@
     border-radius: 1rem;
     padding: 1.5rem;
     flex: 1;
-    border: 1px solid rgba(255, 255, 255, 0.8);
     display: flex;
     align-items: center;
     justify-content: center;
