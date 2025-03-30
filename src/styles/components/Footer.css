@@ -7,7 +7,6 @@
     background-color: rgba(255, 255, 255, 0.5);
     border-top: 1px solid rgba(255, 255, 255, 0.8);
     width: 100%;
-    /* Remove margin-top: auto to prevent it from pushing up */
 }
 
 .footerContent {
