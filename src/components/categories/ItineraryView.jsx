@@ -20,7 +20,6 @@ export default function ItineraryView({ selectedCity, tripDuration }) {
                 <div className="itineraryGenerateButton">
                     <button className="generateButton" disabled>
                         <span>Generate Itinerary</span>
-                        <span className="generateNote">(Coming Soon)</span>
                     </button>
                 </div>
             </div>
