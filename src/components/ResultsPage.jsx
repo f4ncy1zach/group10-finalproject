@@ -1,16 +1,15 @@
 import { motion } from "framer-motion"
 import { MapPin, Globe, ArrowLeft } from "lucide-react"
-import { Button } from "../components/ui/button"
+import { Button } from "./ui/button"
 import { format } from "date-fns"
 import CategoryTabs from "./categories/CategoryTabs"
 
 export default function ResultsPage({
+                                        useAiRecommendation,
                                         destinationCity,
                                         destinationCountry,
                                         travelers,
-                                        passport,
                                         budget,
-                                        origin,
                                         departDate,
                                         returnDate,
                                         calculateTripDuration,
@@ -28,7 +27,7 @@ export default function ResultsPage({
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
                 >
-                    YOUR DREAM DESTINATION AWAITS
+                    {useAiRecommendation ? "THE DESTINATION DESIGNATED FOR YOU AWAITS" : "YOUR DESIRED DESTINATION AWAITS"}
                 </motion.h2>
             </div>
 
@@ -60,27 +59,15 @@ export default function ResultsPage({
                     <div className="tripSummary">
                         <h3 className="text-xl font-bold mb-4 text-gray-800">Trip Summary</h3>
 
-                        <div className="summaryItem">
-                            <div className="summaryLabel">Travelers:</div>
-                            <div className="summaryValue">
-                                {travelers} {travelers === 1 ? "person" : "people"}
+                        {/* Only show travelers count if AI recommendation was used */}
+                        {useAiRecommendation && (
+                            <div className="summaryItem">
+                                <div className="summaryLabel">Travelers:</div>
+                                <div className="summaryValue">
+                                    {travelers.length} {travelers.length === 1 ? "person" : "people"}
+                                </div>
                             </div>
-                        </div>
-
-                        <div className="summaryItem">
-                            <div className="summaryLabel">Passport:</div>
-                            <div className="summaryValue">{passport}</div>
-                        </div>
-
-                        <div className="summaryItem">
-                            <div className="summaryLabel">Budget:</div>
-                            <div className="summaryValue">${budget.toLocaleString()} CAD</div>
-                        </div>
-
-                        <div className="summaryItem">
-                            <div className="summaryLabel">Origin:</div>
-                            <div className="summaryValue">{origin}</div>
-                        </div>
+                        )}
 
                         <div className="summaryItem">
                             <div className="summaryLabel">Destination:</div>
@@ -136,7 +123,7 @@ export default function ResultsPage({
                     <ArrowLeft className="buttonIcon" />
                     Back
                 </Button>
-                <Button onClick={resetForm} className="nextButton" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Button onClick={resetForm} className="nextButton">
                     Start Over
                 </Button>
             </div>
