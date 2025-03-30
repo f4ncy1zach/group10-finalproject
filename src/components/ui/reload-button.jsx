@@ -1,3 +1,4 @@
+// Reload button components for hotels, attractions, and restaurants of result page
 import { RefreshCw } from "lucide-react"
 
 export default function ReloadButton({ onClick, isLoading }) {

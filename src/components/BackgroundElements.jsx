@@ -1,3 +1,4 @@
+// Background icons and elements for styling and decorations, with animations and dynamic effects
 import { motion } from "framer-motion"
 import { Plane, Globe, MapIcon, Camera, Luggage, Mountain, Landmark, Sun, Cloud } from "lucide-react"
 

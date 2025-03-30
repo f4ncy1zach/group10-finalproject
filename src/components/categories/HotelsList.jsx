@@ -1,3 +1,4 @@
+// Hotels list in result page
 import { useState } from "react"
 import { Luggage } from "lucide-react"
 import ReloadButton from "../ui/reload-button"

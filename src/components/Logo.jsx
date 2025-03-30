@@ -1,3 +1,4 @@
+// Logo component
 const TravelIcon = ({ size = 24 }) => {
     const viewBoxSize = 128
     const width = size

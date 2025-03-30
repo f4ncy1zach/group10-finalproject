@@ -1,3 +1,4 @@
+// Result page, showing destination image, trip summary, destination description, and 4 category tabs
 import { motion } from "framer-motion"
 import { MapPin, Globe, ArrowLeft } from "lucide-react"
 import { Button } from "./ui/button"
@@ -100,7 +101,7 @@ export default function ResultsPage({
                 </motion.div>
             </div>
 
-            {/* Added separator between upper section and categories */}
+            {/* Separator between upper section and categories */}
             <div className="categoriesSeparator"></div>
 
             {/* Category tabs and content */}

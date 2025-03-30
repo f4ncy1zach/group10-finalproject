@@ -1,4 +1,4 @@
-/* Results page redesign */
+/* Results page design */
 .resultsPageContainer {
     width: 100%;
     max-width: 90%;
@@ -67,7 +67,7 @@
     border-radius: 1rem;
     padding: 1.5rem;
     margin-bottom: 1.5rem;
-    border: 1px dashed rgba(56, 189, 248, 0.3); /* Added dashed border to match other sections */
+    border: 1px dashed rgba(56, 189, 248, 0.3);
 }
 
 .summaryItem {
@@ -91,10 +91,10 @@
     border-radius: 1rem;
     padding: 1.5rem;
     flex: 1;
+    border: 1px dashed rgba(56, 189, 248, 0.3);
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 1px dashed rgba(56, 189, 248, 0.3);
 }
 
 .descriptionPlaceholder {
@@ -102,7 +102,6 @@
     text-align: center;
 }
 
-/* Added separator between upper section and categories */
 .categoriesSeparator {
     height: 1px;
     background: linear-gradient(to right, transparent, rgba(56, 189, 248, 0.5), rgba(139, 92, 246, 0.5), transparent);

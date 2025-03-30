@@ -1,3 +1,4 @@
+// Restaurants list in result page
 import { useState } from "react"
 import ReloadButton from "../ui/reload-button"
 import { Select } from "../ui/select"
@@ -17,7 +18,6 @@ export default function RestaurantsList({ selectedCity }) {
 
     const handleReload = () => {
         setIsLoading(true)
-        // Simulate loading
         setTimeout(() => {
             setIsLoading(false)
         }, 1000)
@@ -100,11 +100,10 @@ export default function RestaurantsList({ selectedCity }) {
                                 <div className="listingAbout">
                                     <h4>About</h4>
                                     <p>
-                                        A {index < 3 ? "high-end" : "cozy"} restaurant serving {index % 2 === 0 ? "local" : "international"}{" "}
+                                        A {index < 3 ? "high-end" : "cozy"} restaurant serving {index % 2 === 0 ? "local" : "international"}
                                         cuisine with a modern twist.
                                     </p>
                                 </div>
-                                {/* Features section removed as requested */}
                             </div>
                         </div>
                     </div>

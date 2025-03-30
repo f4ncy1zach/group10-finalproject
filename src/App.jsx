@@ -35,14 +35,14 @@ function TravelAdvisor() {
     // Results page
     const [activeCategory, setActiveCategory] = useState("Hotels")
 
-    // Budget (for AI recommendation)
+    // Budget (optional)
     const [budget, setBudget] = useState(2000)
 
     // Dropdown states
     const [countryDropdownOpen, setCountryDropdownOpen] = useState(false)
     const [cityDropdownOpen, setCityDropdownOpen] = useState(false)
 
-    // Add floating chat state and functionality
+    // Floating chat state and functionality
     const [floatingChatOpen, setFloatingChatOpen] = useState(false)
     const [floatingChatMessage, setFloatingChatMessage] = useState("")
     const [floatingChatHistory, setFloatingChatHistory] = useState([
@@ -58,6 +58,15 @@ function TravelAdvisor() {
     const returnCalendarRef = useRef(null)
     const countryDropdownRef = useRef(null)
     const cityDropdownRef = useRef(null)
+
+    // Calendar navigation functions
+    const onPrevMonth = () => {
+        setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1))
+    }
+
+    const onNextMonth = () => {
+        setCurrentMonth(new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1))
+    }
 
     // Close dropdowns when clicking outside
     useEffect(() => {
@@ -155,19 +164,6 @@ function TravelAdvisor() {
     const calculateTripDuration = () => {
         if (!departDate || !returnDate) return 0
         return differenceInDays(returnDate, departDate) + 1
-    }
-
-    // Calendar navigation
-    const onPrevMonth = (date, setMonth) => {
-        const newDate = new Date(date)
-        newDate.setMonth(newDate.getMonth() - 1)
-        setMonth(newDate)
-    }
-
-    const onNextMonth = (date, setMonth) => {
-        const newDate = new Date(date)
-        newDate.setMonth(newDate.getMonth() + 1)
-        setMonth(newDate)
     }
 
     // Props for destination selection

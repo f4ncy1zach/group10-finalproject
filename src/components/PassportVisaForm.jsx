@@ -1,3 +1,4 @@
+// Passport and visa form if the user has selected AI recommendation
 import { motion } from "framer-motion"
 import { ArrowLeft, ArrowRight, StampIcon as Passport, Plus, X } from "lucide-react"
 import { Button } from "./ui/button"

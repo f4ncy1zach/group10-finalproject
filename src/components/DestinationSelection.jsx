@@ -1,3 +1,4 @@
+// Destination selection for the user if they choose not to use AI recommendation
 import { motion } from "framer-motion"
 import { ArrowLeft, ArrowRight, MapPin } from "lucide-react"
 import { Button } from "./ui/button"

@@ -1,3 +1,4 @@
+// First question asking the user if they want a destination recommended by the AI
 import { motion } from "framer-motion"
 import { useState } from "react"
 import { ArrowLeft, ArrowRight, Bot } from "lucide-react"

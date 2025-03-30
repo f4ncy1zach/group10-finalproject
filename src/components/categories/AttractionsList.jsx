@@ -1,3 +1,4 @@
+// Attractions list in result page
 import { useState } from "react"
 import { Landmark } from "lucide-react"
 import ReloadButton from "../ui/reload-button"
@@ -7,7 +8,6 @@ export default function AttractionsList({ selectedCity }) {
 
     const handleReload = () => {
         setIsLoading(true)
-        // Simulate loading
         setTimeout(() => {
             setIsLoading(false)
         }, 1000)
@@ -82,7 +82,6 @@ export default function AttractionsList({ selectedCity }) {
                                         views.
                                     </p>
                                 </div>
-                                {/* Features section removed as requested */}
                             </div>
                         </div>
                     </div>

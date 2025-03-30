@@ -1,3 +1,4 @@
+// Buttons in this project, styled with Tailwind CSS and Radix UI
 export function Button({ children, className = "", variant = "default", size = "default", ...props }) {
     const baseStyles =
         "inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 font-['Exo_2']"

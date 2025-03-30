@@ -1,3 +1,4 @@
+// Header components, showing website logo and home button
 import { Home } from "lucide-react"
 import { Button } from "../components/ui/button"
 import Logo from "./Logo"
