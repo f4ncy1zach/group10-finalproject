@@ -33,6 +33,7 @@
     background: rgba(255, 255, 255, 0.7);
     border-radius: 1rem;
     border: 1px dashed rgba(56, 189, 248, 0.3);
+    margin-bottom: 2rem;
 }
 
 .itineraryMessage {
@@ -45,8 +46,8 @@
 .itineraryDescription {
     color: #64748b;
     max-width: 600px;
-    margin: 0 auto 2rem;
     line-height: 1.6;
+    margin: 0 auto 1rem;
 }
 
 .itineraryGenerateButton {
@@ -65,10 +66,4 @@
     border: none;
     opacity: 0.7;
     cursor: not-allowed;
-}
-
-.generateNote {
-    font-size: 0.8rem;
-    opacity: 0.8;
-    margin-top: 0.25rem;
 }
