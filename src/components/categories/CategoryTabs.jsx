@@ -5,11 +5,14 @@ import RestaurantsList from "./RestaurantsList"
 import ItineraryView from "./ItineraryView"
 
 export default function CategoryTabs({ activeCategory, setActiveCategory, selectedCity, calculateTripDuration }) {
+    // Define all available categories
+    const categories = ["Hotels", "Attractions", "Restaurants", "Itinerary"]
+
     return (
         <>
             {/* Category tabs with click handlers */}
             <div className="categoryTabs">
-                {["Hotels", "Attractions", "Restaurants", "Itinerary"].map((category) => (
+                {categories.map((category) => (
                     <button
                         key={category}
                         className={`categoryTab ${activeCategory === category ? "categoryTabActive" : ""}`}
