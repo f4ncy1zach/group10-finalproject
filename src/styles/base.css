@@ -141,7 +141,7 @@ textarea {
     max-width: 1200px;
     width: 100%;
     margin: 0 auto;
-    padding: 3rem 1rem 4rem; /* Increased top and bottom padding */
+    padding: 7rem 1rem 7rem;
     display: flex;
     justify-content: center;
     position: relative;
