@@ -92,6 +92,7 @@ export default function DateSelection({
                 boxShadow: "0 10px 25px rgba(56, 189, 248, 0.3)",
                 y: -5,
             }}
+            style={{ minHeight: "600px" }} /* Added to ensure enough vertical space */
         >
             <div className="formStep">
                 <div className="questionHeader">
