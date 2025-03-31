@@ -4,6 +4,7 @@ import { MapPin, Globe, ArrowLeft } from "lucide-react"
 import { Button } from "./ui/button"
 import { format } from "date-fns"
 import CategoryTabs from "./categories/CategoryTabs"
+import getDestination from "./api/chatGPT"
 
 export default function ResultsPage({
                                         useAiRecommendation,
@@ -18,7 +19,19 @@ export default function ResultsPage({
                                         resetForm,
                                         activeCategory,
                                         setActiveCategory,
-                                    }) {
+                                    }) 
+{
+    let prompt;
+    if(useAiRecommendation == true){
+        prompt = {
+            "No. of travelers": travelers.length,
+            "Traveler(s) information": travelers,
+            "Departure Date": departDate,
+            "Return Date": returnDate,
+        };
+        getDestination(prompt);
+    }
+
     return (
         <div className="resultsPageContainer">
             <div className="resultsHeader">
