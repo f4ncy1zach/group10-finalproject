@@ -1,9 +1,9 @@
 // Restaurants list in result page
 import { useState, useEffect } from "react"
-import { getAggregatedLocationData } from "../../utils/tripAdvisorService"
+import { getAggregatedLocationData } from "@/utils/tripAdvisorService.js"
 import ReloadButton from "../ui/reload-button"
 import { Utensils } from "lucide-react"
-import "../../styles.css"
+import '@/styles/resultPageStyles.css';
 
 export default function RestaurantsList({ destinationCity, destinationCountry }) {
     const [restaurants, setRestaurants] = useState([])

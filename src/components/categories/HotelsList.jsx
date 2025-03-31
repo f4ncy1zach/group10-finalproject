@@ -1,9 +1,9 @@
 // Hotels list in result page
 import { useState, useEffect } from "react"
-import { getAggregatedLocationData } from "../../utils/tripAdvisorService"
+import { getAggregatedLocationData } from "@/utils/tripAdvisorService.js"
 import ReloadButton from "../ui/reload-button"
 import { Luggage } from "lucide-react"
-import "../../styles/resultPageStyles.css"
+import '@/styles/resultPageStyles.css';
 
 export default function HotelsList({ destinationCity, destinationCountry }) {
     const [hotels, setHotels] = useState([])
