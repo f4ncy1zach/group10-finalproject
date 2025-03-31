@@ -38,7 +38,7 @@ export default function CategoryTabs({ activeCategory, setActiveCategory, destin
                     {activeCategory === "Attractions" && <AttractionsList destinationCity={destinationCity} destinationCountry={destinationCountry} />}
                     {activeCategory === "Restaurants" && <RestaurantsList destinationCity={destinationCity} destinationCountry={destinationCountry} />}
                     {activeCategory === "Itinerary" && (
-                        <ItineraryView selectedCity={selectedCity} tripDuration={calculateTripDuration()} />
+                        <ItineraryView selectedCity={destinationCity} tripDuration={calculateTripDuration()} />
                     )}
                 </motion.div>
             </AnimatePresence>
