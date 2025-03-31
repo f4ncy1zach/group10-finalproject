@@ -5,7 +5,7 @@ import AttractionsList from "./AttractionsList"
 import RestaurantsList from "./RestaurantsList"
 import ItineraryView from "./ItineraryView"
 
-export default function CategoryTabs({ activeCategory, setActiveCategory, selectedCity, calculateTripDuration }) {
+export default function CategoryTabs({ activeCategory, setActiveCategory, destinationCity, destinationCountry, calculateTripDuration }) {
     // Define all available categories
     const categories = ["Hotels", "Attractions", "Restaurants", "Itinerary"]
 
@@ -34,9 +34,9 @@ export default function CategoryTabs({ activeCategory, setActiveCategory, select
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.2 }}
                 >
-                    {activeCategory === "Hotels" && <HotelsList selectedCity={selectedCity} />}
-                    {activeCategory === "Attractions" && <AttractionsList selectedCity={selectedCity} />}
-                    {activeCategory === "Restaurants" && <RestaurantsList selectedCity={selectedCity} />}
+                    {activeCategory === "Hotels" && <HotelsList destinationCity={destinationCity} destinationCountry={destinationCountry} />}
+                    {activeCategory === "Attractions" && <AttractionsList destinationCity={destinationCity} destinationCountry={destinationCountry} />}
+                    {activeCategory === "Restaurants" && <RestaurantsList destinationCity={destinationCity} destinationCountry={destinationCountry} />}
                     {activeCategory === "Itinerary" && (
                         <ItineraryView selectedCity={selectedCity} tripDuration={calculateTripDuration()} />
                     )}

@@ -1,114 +1,154 @@
 // Restaurants list in result page
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { getAggregatedLocationData } from "../../utils/tripAdvisorService"
 import ReloadButton from "../ui/reload-button"
-import { Select } from "../ui/select"
+import { Utensils } from "lucide-react"
+import "./styles.css"
 
-export default function RestaurantsList({ selectedCity }) {
-    const [isLoading, setIsLoading] = useState(false)
-    const [selectedHotel, setSelectedHotel] = useState(null)
+export default function RestaurantsList({ destinationCity, destinationCountry }) {
+    const [restaurants, setRestaurants] = useState([])
+    const [restaurantsLoading, setRestaurantsLoading] = useState(false)
+    const [restaurantsError, setRestaurantsError] = useState(null)
 
-    const hotelOptions = [
-        { value: "hotel1", label: "Hotel 1" },
-        { value: "hotel2", label: "Hotel 2" },
-        { value: "hotel3", label: "Hotel 3" },
-        { value: "hotel4", label: "Hotel 4" },
-        { value: "hotel5", label: "Hotel 5" },
-        { value: "hotel6", label: "Hotel 6" },
-    ]
+    const refreshRestaurants = () => {
+        setRestaurants([]);
+        setRestaurantsError(null);
+        setRestaurantsLoading(true);
+        fetchRestaurants();
+    };
 
-    const handleReload = () => {
-        setIsLoading(true)
-        setTimeout(() => {
-            setIsLoading(false)
-        }, 1000)
-    }
+    const fetchRestaurants = async () => {
+        if (!destinationCity || !destinationCountry) return;
+        
+        setRestaurantsLoading(true);
+        setRestaurantsError(null);
+        
+        try {
+            const response = await getAggregatedLocationData(destinationCity+','+destinationCountry, 'restaurants');
+            if (response.data) {
+                setRestaurants(response.data);
+            } else {
+                setRestaurantsError('No restaurant information found');
+            }
+        } catch (error) {
+            console.error('Failed to fetch restaurant data:', error);
+            setRestaurantsError('Error occurred while fetching restaurant data');
+        } finally {
+            setRestaurantsLoading(false);
+        }
+    };
 
-    const handleHotelChange = (option) => {
-        setSelectedHotel(option)
-    }
+    useEffect(() => {
+        fetchRestaurants();
+    }, [destinationCity, destinationCountry]);
 
-    // Function to render stars based on rating
     const renderStars = (rating) => {
         return [...Array(5)].map((_, i) => {
             if (i < Math.floor(rating)) {
-                // Full star
                 return (
                     <span key={i} className="star star-full">
-            ★
-          </span>
+                        ★
+                    </span>
                 )
             } else if (i === Math.floor(rating) && rating % 1 !== 0) {
-                // Half star
                 return (
                     <span key={i} className="star star-half">
-            ☆<span className="half-star">★</span>
-          </span>
+                        ☆<span className="half-star">★</span>
+                    </span>
                 )
             } else {
-                // Empty star
                 return (
                     <span key={i} className="star">
-            ☆
-          </span>
+                        ☆
+                    </span>
                 )
             }
         })
     }
 
+    const getDescription = (restaurant) => {
+        const defaultDesc = `A charming restaurant in ${destinationCity} offering delicious cuisine and a welcoming atmosphere.`;
+        const description = restaurant.description || restaurant.locationDetails?.description || defaultDesc;
+        return description;
+    };
+
     return (
         <div className="listingsContainer">
             <div className="listingsHeader">
-                <ReloadButton onClick={handleReload} isLoading={isLoading} />
-                <Select
-                    options={hotelOptions}
-                    onChange={handleHotelChange}
-                    placeholder="Select hotel"
-                    className="hotelSelect"
+                <ReloadButton 
+                    onClick={refreshRestaurants} 
+                    isLoading={restaurantsLoading}
                 />
             </div>
 
-            {[...Array(6)].map((_, index) => {
-                const rating = 5 - index * 0.5
-
-                return (
+            {restaurantsLoading ? (
+                <div className="loadingMessage">Loading restaurants...</div>
+            ) : restaurantsError ? (
+                <div className="errorMessage">{restaurantsError}</div>
+            ) : restaurants.length === 0 ? (
+                <div className="noDataMessage">No restaurants found</div>
+            ) : (
+                restaurants.map((restaurant, index) => (
                     <div key={`restaurant-${index}`} className="listingCard">
                         <div className="listingImage">
-                            <div className="imagePlaceholder">
-                                <div className="placeholderIcon">🍽️</div>
-                            </div>
+                            {restaurant.locationPhotos?.[0]?.images?.medium?.url ? (
+                                <img 
+                                    src={restaurant.locationPhotos[0].images.medium.url} 
+                                    alt={restaurant.name}
+                                    className="listingImage"
+                                />
+                            ) : (
+                                <div className="imagePlaceholder">
+                                    <Utensils size={30} className="placeholderIcon" />
+                                </div>
+                            )}
                         </div>
                         <div className="listingDetails">
                             <div className="listingMainInfo">
-                                <h3 className="listingName">
-                                    {selectedCity} Restaurant {index + 1}
-                                </h3>
-                                <p className="listingAddress">
-                                    {789 + index * 10} Dining Street, {selectedCity}
-                                </p>
+                                <h3 className="listingName">{restaurant.name}</h3>
+                                <p className="listingAddress">{restaurant.address_obj?.address_string || 'Address not available'}</p>
                                 <div className="listingRating">
-                                    <div className="stars">{renderStars(rating)}</div>
+                                    <div className="stars">
+                                        {renderStars(parseFloat(restaurant.rating || 0))}
+                                    </div>
                                     <span className="ratingText">
-                    {rating.toFixed(1)}/5.0 ({90 + index * 20} reviews)
-                  </span>
+                                        {restaurant.rating || '0.0'}/5.0 ({restaurant.num_reviews || 0} reviews)
+                                    </span>
                                 </div>
-                                <p className="listingPrice">
-                                    {index < 2 ? "$$$" : index < 4 ? "$$" : "$"} • {index < 3 ? "Fine Dining" : "Casual"}
-                                </p>
-                                <p className="listingPhone">+1 (555) 456-78{index}9</p>
+                                {/* <p className="listingPrice">{restaurant.price_level || 'Price not available'}</p> */}
+                                <p className="listingPhone">{restaurant.phone || 'Phone not available'}</p>
                             </div>
                             <div className="listingSecondaryInfo">
                                 <div className="listingAbout">
                                     <h4>About</h4>
                                     <p>
-                                        A {index < 3 ? "high-end" : "cozy"} restaurant serving {index % 2 === 0 ? "local" : "international"}
-                                        cuisine with a modern twist.
+                                        {getDescription(restaurant)}
                                     </p>
+                                </div>
+                                <div className="listingFeatures">
+                                    <h4>Features</h4>
+                                    <ul className="featuresList">
+                                        {restaurant.cuisine && restaurant.cuisine.map((cuisine, idx) => (
+                                            <li key={idx}>{cuisine.name}</li>
+                                        ))}
+                                        {restaurant.dietary_restrictions && restaurant.dietary_restrictions.map((diet, idx) => (
+                                            <li key={`diet-${idx}`}>{diet.name}</li>
+                                        ))}
+                                        {(!restaurant.cuisine && !restaurant.dietary_restrictions) && (
+                                            <>
+                                                <li>Outdoor Seating</li>
+                                                <li>Takeaway Available</li>
+                                                <li>Reservations</li>
+                                                <li>Full Bar</li>
+                                            </>
+                                        )}
+                                    </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
-                )
-            })}
+                ))
+            )}
         </div>
     )
 }

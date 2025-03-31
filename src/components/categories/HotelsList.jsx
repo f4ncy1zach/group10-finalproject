@@ -1,99 +1,157 @@
 // Hotels list in result page
-import { useState } from "react"
-import { Luggage } from "lucide-react"
+import { useState, useEffect } from "react"
+import { getAggregatedLocationData } from "../../utils/tripAdvisorService"
 import ReloadButton from "../ui/reload-button"
+import { Luggage } from "lucide-react"
+import "./styles.css"
 
-export default function HotelsList({ selectedCity }) {
-    const [isLoading, setIsLoading] = useState(false)
+export default function HotelsList({ destinationCity, destinationCountry }) {
+    const [hotels, setHotels] = useState([])
+    const [hotelsLoading, setHotelsLoading] = useState(false)
+    const [hotelsError, setHotelsError] = useState(null)
 
-    const handleReload = () => {
-        setIsLoading(true)
-        // Simulate loading
-        setTimeout(() => {
-            setIsLoading(false)
-        }, 1000)
-    }
+    const refreshHotels = () => {
+        setHotels([]);
+        setHotelsError(null);
+        setHotelsLoading(true);
+        fetchHotels();
+    };
 
-    // Function to render stars based on rating
+    const fetchHotels = async () => {
+        console.log("fetchHotels",destinationCity,destinationCountry);
+        if (!destinationCity || !destinationCountry) return;
+        
+        setHotelsLoading(true);
+        setHotelsError(null);
+        
+        try {
+            const response = await getAggregatedLocationData(destinationCity+','+destinationCountry, 'hotels');
+            if (response.data) {
+                setHotels(response.data);
+            } else {
+                setHotelsError('No hotel information found');
+            }
+        } catch (error) {
+            console.error('Failed to fetch hotel data:', error);
+            setHotelsError('Error occurred while fetching hotel data');
+        } finally {
+            setHotelsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchHotels();
+    }, [destinationCity, destinationCountry]);
+
     const renderStars = (rating) => {
         return [...Array(5)].map((_, i) => {
             if (i < Math.floor(rating)) {
                 // Full star
                 return (
                     <span key={i} className="star star-full">
-            ★
-          </span>
+                        ★
+                    </span>
                 )
             } else if (i === Math.floor(rating) && rating % 1 !== 0) {
                 // Half star
                 return (
                     <span key={i} className="star star-half">
-            ☆<span className="half-star">★</span>
-          </span>
+                        ☆<span className="half-star">★</span>
+                    </span>
                 )
             } else {
                 // Empty star
                 return (
                     <span key={i} className="star">
-            ☆
-          </span>
+                        ☆
+                    </span>
                 )
             }
         })
     }
 
+    const getDescription = (hotel) => {
+        const defaultDesc = `A beautiful hotel located in the heart of ${destinationCity}. Offering comfortable rooms and excellent service.`;
+        const description = hotel.description || hotel.locationDetails?.description || defaultDesc;
+        return description;
+    };
+
     return (
         <div className="listingsContainer">
             <div className="listingsHeader">
-                <ReloadButton onClick={handleReload} isLoading={isLoading} />
+                <ReloadButton 
+                    onClick={refreshHotels} 
+                    isLoading={hotelsLoading}
+                />
             </div>
 
-            {[...Array(6)].map((_, index) => {
-                // Vary the rating slightly for each hotel
-                const rating = 4.0 + (index % 3) * 0.5
-
-                return (
+            {hotelsLoading ? (
+                <div className="loadingMessage">Loading hotels...</div>
+            ) : hotelsError ? (
+                <div className="errorMessage">{hotelsError}</div>
+            ) : hotels.length === 0 ? (
+                <div className="noDataMessage">No hotels found</div>
+            ) : (
+                hotels.map((hotel, index) => (
                     <div key={`hotel-${index}`} className="listingCard">
                         <div className="listingImage">
-                            <div className="imagePlaceholder">
-                                <Luggage size={30} className="placeholderIcon" />
-                            </div>
+                            {hotel.locationPhotos?.[0]?.images?.medium?.url ? (
+                                <img 
+                                    src={hotel.locationPhotos[0].images.medium.url} 
+                                    alt={hotel.name}
+                                    className="listingImage"
+                                />
+                            ) : (
+                                <div className="imagePlaceholder">
+                                    <Luggage size={30} className="placeholderIcon" />
+                                </div>
+                            )}
                         </div>
                         <div className="listingDetails">
                             <div className="listingMainInfo">
-                                <h3 className="listingName">Hotel {index + 1}</h3>
-                                <p className="listingAddress">123 Main Street, {selectedCity}</p>
+                                <h3 className="listingName">{hotel.name}</h3>
+                                <p className="listingAddress">{hotel.address_obj?.address_string || 'Address not available'}</p>
                                 <div className="listingRating">
-                                    <div className="stars">{renderStars(rating)}</div>
+                                    <div className="stars">
+                                        {renderStars(parseFloat(hotel.rating || 0))}
+                                    </div>
                                     <span className="ratingText">
-                    {rating.toFixed(1)}/5.0 ({80 + index * 10} reviews)
-                  </span>
+                                        {hotel.rating || '0.0'}/5.0 ({hotel.num_reviews || 0} reviews)
+                                    </span>
                                 </div>
-                                <p className="listingPrice">${100 + index * 50}/night</p>
-                                <p className="listingPhone">+1 (555) 123-45{index}0</p>
+                                <p className="listingPrice">{hotel.price_level || '/Night'}</p> 
+                                <p className="listingPhone">{hotel.phone || 'Phone not available'}</p>
                             </div>
                             <div className="listingSecondaryInfo">
                                 <div className="listingAbout">
                                     <h4>About</h4>
                                     <p>
-                                        A beautiful hotel located in the heart of {selectedCity}. Offering comfortable rooms and excellent
-                                        service.
+                                        {getDescription(hotel)}
                                     </p>
                                 </div>
-                                <div className="listingFeatures scrollable-features">
+                                <div className="listingFeatures  scrollable-features">
                                     <h4>Features</h4>
                                     <ul className="featuresList">
-                                        <li>Free WiFi</li>
-                                        <li>Swimming Pool</li>
-                                        <li>Fitness Center</li>
-                                        <li>Restaurant</li>
+                                        {(hotel.amenities || hotel.locationDetails?.amenities || [])
+                                            .slice(0, 4)
+                                            .map((amenity, index) => (
+                                                <li key={index}>{amenity}</li>
+                                            ))}
+                                        {(!hotel.amenities && !hotel.locationDetails?.amenities) && (
+                                            <>
+                                                <li>Free WiFi</li>
+                                                <li>Swimming Pool</li>
+                                                <li>Fitness Center</li>
+                                                <li>Restaurant</li>
+                                            </>
+                                        )}
                                     </ul>
                                 </div>
                             </div>
                         </div>
                     </div>
-                )
-            })}
+                ))
+            )}
         </div>
     )
 }
