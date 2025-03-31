@@ -4,6 +4,8 @@ import { MapPin, Globe, ArrowLeft } from "lucide-react"
 import { Button } from "./ui/button"
 import { format } from "date-fns"
 import CategoryTabs from "./categories/CategoryTabs"
+import { getCityInfo } from "../utils/tripAdvisorService"
+import { useState, useEffect } from "react"
 
 export default function ResultsPage({
                                         useAiRecommendation,
@@ -19,6 +21,37 @@ export default function ResultsPage({
                                         activeCategory,
                                         setActiveCategory,
                                     }) {
+    // Adding City information status
+    const [cityInfo, setCityInfo] = useState(null);
+    const [cityInfoLoading, setCityInfoLoading] = useState(false);
+    const [cityInfoError, setCityInfoError] = useState(null);
+
+    // Get city detail
+    useEffect(() => {
+        const fetchCityInfo = async () => {
+            if (!destinationCity || !destinationCountry) return;
+            
+            setCityInfoLoading(true);
+            setCityInfoError(null);
+            
+            try {
+                const data = await getCityInfo(destinationCity, destinationCountry);
+                if (data) {
+                    setCityInfo(data);
+                } else {
+                    setCityInfoError('未找到城市信息');
+                }
+            } catch (error) {
+                console.error('获取城市信息失败:', error);
+                setCityInfoError('获取城市信息时发生错误');
+            } finally {
+                setCityInfoLoading(false);
+            }
+        };
+        
+        fetchCityInfo();
+    }, [destinationCity, destinationCountry]);
+
     return (
         <div className="resultsPageContainer">
             <div className="resultsHeader">
@@ -33,20 +66,38 @@ export default function ResultsPage({
             </div>
 
             <div className="resultsMainContent">
-                {/* Left side - Destination image placeholder */}
+                {/* Left side - Destination image */}
                 <motion.div
                     className="destinationImageContainer"
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, delay: 0.2 }}
                 >
-                    <div className="destinationImagePlaceholder">
-                        <MapPin size={50} className="mb-4 mx-auto opacity-50" />
-                        <p>Destination image will be displayed here</p>
-                        <p className="text-sm mt-2">
-                            {destinationCity}, {destinationCountry}
-                        </p>
-                    </div>
+                    {cityInfoLoading ? (
+                        <div className="destinationImagePlaceholder">
+                            <MapPin size={50} className="mb-4 mx-auto opacity-50" />
+                            <p>Loading destination image...</p>
+                        </div>
+                    ) : cityInfoError ? (
+                        <div className="destinationImagePlaceholder">
+                            <MapPin size={50} className="mb-4 mx-auto opacity-50" />
+                            <p>Failed to load destination image</p>
+                        </div>
+                    ) : cityInfo?.locationPhotos?.[0] ? (
+                        <img 
+                            src={cityInfo.locationPhotos[0].images.large.url} 
+                            alt={destinationCity}
+                            className="destinationImage"
+                        />
+                    ) : (
+                        <div className="destinationImagePlaceholder">
+                            <MapPin size={50} className="mb-4 mx-auto opacity-50" />
+                            <p>No image available</p>
+                            <p className="text-sm mt-2">
+                                {destinationCity}, {destinationCountry}
+                            </p>
+                        </div>
+                    )}
                 </motion.div>
 
                 {/* Right side - Trip summary and destination description */}
@@ -90,13 +141,29 @@ export default function ResultsPage({
                         </div>
                     </div>
 
-                    {/* Destination description placeholder */}
+                    {/* Destination description */}
                     <div className="destinationDescription">
-                        <div className="descriptionPlaceholder">
-                            <Globe size={40} className="mb-3 mx-auto opacity-50" />
-                            <p>Destination description will be loaded here</p>
-                            <p className="text-sm mt-2">Information about {destinationCity} will be retrieved from the API</p>
-                        </div>
+                        {cityInfoLoading ? (
+                            <div className="descriptionPlaceholder">
+                                <Globe size={40} className="mb-3 mx-auto opacity-50" />
+                                <p>Loading destination description...</p>
+                            </div>
+                        ) : cityInfoError ? (
+                            <div className="descriptionPlaceholder">
+                                <Globe size={40} className="mb-3 mx-auto opacity-50" />
+                                <p>Failed to load destination description</p>
+                            </div>
+                        ) : cityInfo?.locationDetails?.description ? (
+                            <div className="descriptionContent">
+                                <h3 className="text-lg font-semibold mb-2">About {destinationCity}</h3>
+                                <p className="text-gray-600">{cityInfo.locationDetails.description}</p>
+                            </div>
+                        ) : (
+                            <div className="descriptionPlaceholder">
+                                <Globe size={40} className="mb-3 mx-auto opacity-50" />
+                                <p>No description available</p>
+                            </div>
+                        )}
                     </div>
                 </motion.div>
             </div>
@@ -113,7 +180,8 @@ export default function ResultsPage({
                 <CategoryTabs
                     activeCategory={activeCategory}
                     setActiveCategory={setActiveCategory}
-                    selectedCity={destinationCity}
+                    destinationCity={destinationCity}
+                    destinationCountry={destinationCountry}
                     calculateTripDuration={calculateTripDuration}
                 />
             </motion.div>
