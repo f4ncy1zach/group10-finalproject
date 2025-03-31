@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"
 import { getAggregatedLocationData } from "../../utils/tripAdvisorService"
 import ReloadButton from "../ui/reload-button"
 import { Landmark } from "lucide-react"
-import "./styles.css"
+import "../../styles/resultPageStyles.css"
 
 
 export default function AttractionsList({ destinationCity, destinationCountry }) {

@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"
 import { getAggregatedLocationData } from "../../utils/tripAdvisorService"
 import ReloadButton from "../ui/reload-button"
 import { Utensils } from "lucide-react"
-import "./styles.css"
+import "../../styles.css"
 
 export default function RestaurantsList({ destinationCity, destinationCountry }) {
     const [restaurants, setRestaurants] = useState([])
@@ -126,7 +126,7 @@ export default function RestaurantsList({ destinationCity, destinationCountry })
                                     </p>
                                 </div>
                                 <div className="listingFeatures">
-                                    <h4>Features</h4>
+                                    <h4>Style</h4>
                                     <ul className="featuresList">
                                         {restaurant.cuisine && restaurant.cuisine.map((cuisine, idx) => (
                                             <li key={idx}>{cuisine.name}</li>
