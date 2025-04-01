@@ -4,7 +4,8 @@ import { MapPin, Globe, ArrowLeft } from "lucide-react"
 import { Button } from "./ui/button"
 import { format } from "date-fns"
 import CategoryTabs from "./categories/CategoryTabs"
-import getDestination from "./api/chatGPT"
+import { getDestination, getHotelReccomendations } from "./api/chatGPT"
+import { useEffect } from "react"
 
 export default function ResultsPage({
                                         useAiRecommendation,
@@ -21,16 +22,26 @@ export default function ResultsPage({
                                         setActiveCategory,
                                     }) 
 {
-    let prompt;
-    if(useAiRecommendation == true){
-        prompt = {
-            "No. of travelers": travelers.length,
-            "Traveler(s) information": travelers,
-            "Departure Date": departDate,
-            "Return Date": returnDate,
-        };
-        getDestination(prompt);
+    const fetchData = async ()=>{
+        if(useAiRecommendation == true){
+            let prompt = {
+                "No. of travelers": travelers.length,
+                "Traveler(s) information": travelers,
+                "Departure Date": departDate,
+                "Return Date": returnDate,
+            };
+            const response = await getDestination(prompt);
+
+            console.log(response);
+            if(response != null){
+                getHotelReccomendations(response["data"]["state"], departDate);
+            }
+        }
     }
+    
+    useEffect(()=>{
+        fetchData();
+    }, []);
 
     return (
         <div className="resultsPageContainer">
