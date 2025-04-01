@@ -7,13 +7,14 @@ export async function getDestination(body){
         REQUIREMENTS:
         - ONLY return the resutlt in JSON Format.
         - Location must just be the Country.
-        - State must be a state from the country. Give a good location based things like weather on the day, not to popular places and greate for tourisum.
+        - State must be a state from the country. Give a good location based on things, places not too popular and try not to recommend the same place.
+        - From Asia, Europe, North America, South America, Oceania, and Africa choose one randomly that fits the passport requirements.
         - Make sure the selected location is not the place the users passport represents.
         - No desriptions needed.
         - Take into consideration all the possible places the user can travel with their given passports and visas for\
         a suitable holiday trip.
         - Consider locations which offers "Visa on arrival" and "Visa-Free Entry".
-        - If the user do not have a exsisting visa to a place they need to apply a visa to do not recommend that. 
+        - If the user does not have an exsisting visa to a place that they need to apply a visa to, do not recommend. 
         - If multiple people are traveling make sure that everyone can travel with whatever they have.
         - Validate each "Passort" and "Visa" if there are any. Try to understand what nationallity they are by plain text\
         but if the contents still dont make any sense throw "error" as true.
@@ -50,7 +51,7 @@ export async function getDestination(body){
                 'Authorization': `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`
             },
             body: JSON.stringify({
-                model: 'gpt-3.5-turbo',
+                model: 'gpt-4o-mini',
                 messages: [{role: 'system', content: 'You are a travel advisor who gives recommendations and feedback based on the users needs.'}, {role: 'user', content: prompt}],
                 temperature: 0.7
             })
