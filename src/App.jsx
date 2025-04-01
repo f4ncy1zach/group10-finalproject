@@ -10,6 +10,7 @@ import DateSelection from "./components/DateSelection"
 import ResultsPage from "./components/ResultsPage"
 import Footer from "./components/Footer"
 import FloatingChat from "./components/FloatingChat"
+import { processMessageToChatGPT } from "./utils/chatbot"
 import "./App.css"
 
 function TravelAdvisor() {
@@ -136,29 +137,38 @@ function TravelAdvisor() {
     }
 
     // Chat functionality
-    const sendFloatingChatMessage = () => {
+    const sendFloatingChatMessage = async () => {
         if (floatingChatMessage.trim()) {
-            setFloatingChatHistory([...floatingChatHistory, { message: floatingChatMessage, isUser: true }])
-            setFloatingChatMessage("")
-
-            // Simulate AI response
-            setTimeout(() => {
-                setFloatingChatHistory((prev) => [
-                    ...prev,
-                    {
-                        message:
-                            "Thanks for your message! This is your travel companion. The actual implementation will connect to the ChatGPT API.",
-                        isUser: false,
-                    },
-                ])
-
-                // Scroll to bottom of chat
-                if (floatingChatRef.current) {
-                    floatingChatRef.current.scrollTop = floatingChatRef.current.scrollHeight
-                }
-            }, 1000)
+            
+            // Add user message to chat history
+            const updatedHistory = [
+                ...floatingChatHistory, 
+                { message: floatingChatMessage, isUser: true }
+            ];
+            setFloatingChatHistory(updatedHistory);
+            
+            // Clear input field
+            setFloatingChatMessage("");
+            
+            try {
+                // Get response from OpenAI
+                const aiResponse = await processMessageToChatGPT(floatingChatMessage);
+                
+                // Add AI response to chat history
+                setFloatingChatHistory([
+                    ...updatedHistory,
+                    { message: aiResponse, isUser: false }
+                ]);
+            } catch (error) {
+                console.error("Error in chat:", error);
+                setFloatingChatHistory([
+                    ...updatedHistory,
+                    { message: "Sorry, I encountered an error processing your request.", isUser: false }
+                ]);
+            }
         }
-    }
+    };
+
 
     // Calculate trip duration
     const calculateTripDuration = () => {
