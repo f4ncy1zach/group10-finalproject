@@ -19,7 +19,7 @@ export async function getDestination(body){
         - Validate each "Passort" and "Visa" if there are any. Try to understand what nationallity they are by plain text\
         but if the contents still dont make any sense throw "error" as true.
         - If "error" is true, add a "error_message" field explaining why it is an error.
-        - Try to recommend less popular toruist locations. 
+        - Recommend a popular place half the time and the other half recommend a less popular place.
 
         WHAT TO EXPECT:
         - "No. of Travelers" tells how many people are traveling. (Required)
@@ -53,7 +53,7 @@ export async function getDestination(body){
             body: JSON.stringify({
                 model: 'gpt-4o-mini',
                 messages: [{role: 'system', content: 'You are a travel advisor who gives recommendations and feedback based on the users needs.'}, {role: 'user', content: prompt}],
-                temperature: 0.7
+                temperature: 1.0
             })
         }
     );
