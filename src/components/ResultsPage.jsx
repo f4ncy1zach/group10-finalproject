@@ -41,8 +41,12 @@ export default function ResultsPage({
                 "Return Date": returnDate,
             };
             const response = await getDestination(prompt);
+            
+            //update local
             destinationCity = response["data"]["state"];
             destinationCountry = response["data"]["location"];
+            
+            //update parent
             setDestinationCountry(response["data"]["location"]);
             setDestinationCity(response["data"]["state"]);
         }else{
