@@ -4,7 +4,7 @@ import { MapPin, Globe, ArrowLeft } from "lucide-react"
 import { Button } from "./ui/button"
 import { format } from "date-fns"
 import CategoryTabs from "./categories/CategoryTabs"
-import { getCityInfo } from "../utils/tripAdvisorService"
+import { getCityInfo } from "./api/tripAdvisorService"
 import { useState, useEffect } from "react"
 
 export default function ResultsPage({
@@ -39,11 +39,11 @@ export default function ResultsPage({
                 if (data) {
                     setCityInfo(data);
                 } else {
-                    setCityInfoError('未找到城市信息');
+                    setCityInfoError('Does Not Find City Detail');
                 }
             } catch (error) {
-                console.error('获取城市信息失败:', error);
-                setCityInfoError('获取城市信息时发生错误');
+                console.error('Failed to get city information:', error);
+                setCityInfoError('An error occurred while getting city information');
             } finally {
                 setCityInfoLoading(false);
             }

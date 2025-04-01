@@ -1,6 +1,6 @@
 // Restaurants list in result page
 import { useState, useEffect } from "react"
-import { getAggregatedLocationData } from "@/utils/tripAdvisorService.js"
+import { getAggregatedLocationData } from "@/components/api/tripAdvisorService.js"
 import ReloadButton from "../ui/reload-button"
 import { Utensils } from "lucide-react"
 import '@/styles/resultPageStyles.css';
