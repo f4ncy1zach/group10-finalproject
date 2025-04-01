@@ -1,26 +1,25 @@
-/* Category Tabs Component Styles */
 .categoryTabs {
     display: flex;
     gap: 1rem;
     margin-bottom: 1.5rem;
-    justify-content: center;
+    justify-content: center; /* Center the buttons */
 }
 
 .categoryTab {
-    padding: 0.75rem 2rem;
+    padding: 0.75rem 2rem; /* Made buttons larger */
     border-radius: 1rem;
     font-weight: 500;
     background: transparent;
     color: #475569;
     border: 1px solid rgba(56, 189, 248, 0.3);
-    transition: all 0.3s ease;
-    font-size: 1.1rem;
+    transition: all 0.3s ease; /* Smoother transition */
+    font-size: 1.1rem; /* Larger text */
 }
 
 .categoryTab:hover:not(.categoryTabActive) {
     background: rgba(255, 255, 255, 0.5);
     border-color: rgba(56, 189, 248, 0.5);
-    transform: scale(1.05);
+    transform: scale(1.05); /* Added hover magnification */
 }
 
 .categoryTabActive {
@@ -31,6 +30,7 @@
 }
 
 .categoryTabActive:hover {
+    /* No hover effect for active tab */
     transform: none;
     box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
 }
@@ -39,12 +39,12 @@
     background: rgba(255, 255, 255, 0.6);
     border-radius: 1rem;
     padding: 1.5rem;
-    height: 300px;
+    height: 500px;
     overflow-y: auto;
     border: 1px solid rgba(255, 255, 255, 0.8);
     margin-bottom: 1.5rem;
-    min-height: 400px;
-    max-height: 600px;
+    min-height: 500px;
+    max-height: 700px;
     transition: opacity 0.3s ease;
 }
 
