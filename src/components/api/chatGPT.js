@@ -12,10 +12,13 @@ export async function getDestination(body){
         - No desriptions needed.
         - Take into consideration all the possible places the user can travel with their given passports and visas for\
         a suitable holiday trip.
-        - Consider locations which offers "Visa on arrival", "Visa-Free Entry", and places where it is easy to get a Visa with the passport provided.
+        - Consider locations which offers "Visa on arrival" and "Visa-Free Entry".
+        - If the user do not have a exsisting visa to a place they need to apply a visa to do not recommend that. 
+        - If multiple people are traveling make sure that everyone can travel with whatever they have.
         - Validate each "Passort" and "Visa" if there are any. Try to understand what nationallity they are by plain text\
         but if the contents still dont make any sense throw "error" as true.
         - If "error" is true, add a "error_message" field explaining why it is an error.
+        - Try to recommend less popular toruist locations. 
 
         WHAT TO EXPECT:
         - "No. of Travelers" tells how many people are traveling. (Required)

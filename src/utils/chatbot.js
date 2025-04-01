@@ -1,4 +1,4 @@
-const API_KEY = import.meta.env.VITE_CHATGPT_VAR;
+const API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
 
 export async function processMessageToChatGPT(userMessage) {
     const messages = [
