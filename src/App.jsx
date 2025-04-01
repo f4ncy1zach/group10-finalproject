@@ -203,7 +203,9 @@ function TravelAdvisor() {
     const resultsProps = {
         useAiRecommendation,
         destinationCity,
+        setDestinationCity,
         destinationCountry,
+        setDestinationCountry,
         travelers,
         budget,
         departDate,

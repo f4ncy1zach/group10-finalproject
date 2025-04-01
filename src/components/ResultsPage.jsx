@@ -4,13 +4,16 @@ import { MapPin, Globe, ArrowLeft } from "lucide-react"
 import { Button } from "./ui/button"
 import { format } from "date-fns"
 import CategoryTabs from "./categories/CategoryTabs"
+import { getDestination, getHotelReccomendations } from "./api/chatGPT"
 import { getCityInfo } from "./api/tripAdvisorService"
 import { useState, useEffect } from "react"
 
 export default function ResultsPage({
                                         useAiRecommendation,
                                         destinationCity,
+                                        setDestinationCity,
                                         destinationCountry,
+                                        setDestinationCountry,
                                         travelers,
                                         budget,
                                         departDate,
@@ -20,7 +23,48 @@ export default function ResultsPage({
                                         resetForm,
                                         activeCategory,
                                         setActiveCategory,
-                                    }) {
+                                    }) 
+{
+    const fetchCityInfo = async () => {
+        setCityInfoLoading(true);
+        setCityInfoError(null);
+
+        let country;
+        let city;
+        
+        if(useAiRecommendation == true){
+            if(!travelers) return;
+            let prompt = {
+                "No. of travelers": travelers.length,
+                "Traveler(s) information": travelers,
+                "Departure Date": departDate,
+                "Return Date": returnDate,
+            };
+            const response = await getDestination(prompt);
+            destinationCity = response["data"]["state"];
+            destinationCountry = response["data"]["location"];
+            setDestinationCountry(response["data"]["location"]);
+            setDestinationCity(response["data"]["state"]);
+        }else{
+            if (!destinationCity || !destinationCountry) return;
+        }
+
+        try {
+            const data = await getCityInfo(destinationCity, destinationCity);
+            if (data) {
+                setCityInfo(data);
+            } else {
+                setCityInfoError('Does Not Find City Detail');
+            }
+        } catch (error) {
+            console.error('Failed to get city information:', error);
+            setCityInfoError('An error occurred while getting city information');
+        } finally {
+            setCityInfoLoading(false);
+        }
+    };
+
+
     // Adding City information status
     const [cityInfo, setCityInfo] = useState(null);
     const [cityInfoLoading, setCityInfoLoading] = useState(false);
@@ -28,29 +72,8 @@ export default function ResultsPage({
 
     // Get city detail
     useEffect(() => {
-        const fetchCityInfo = async () => {
-            if (!destinationCity || !destinationCountry) return;
-            
-            setCityInfoLoading(true);
-            setCityInfoError(null);
-            
-            try {
-                const data = await getCityInfo(destinationCity, destinationCountry);
-                if (data) {
-                    setCityInfo(data);
-                } else {
-                    setCityInfoError('Does Not Find City Detail');
-                }
-            } catch (error) {
-                console.error('Failed to get city information:', error);
-                setCityInfoError('An error occurred while getting city information');
-            } finally {
-                setCityInfoLoading(false);
-            }
-        };
-        
         fetchCityInfo();
-    }, [destinationCity, destinationCountry]);
+    }, []);
 
     return (
         <div className="resultsPageContainer">
