@@ -210,14 +210,16 @@ export const getAggregatedLocationDataAll = (() => {
     * Search for locations and get details and photos of all results
     * @param {string} searchQuery - Search key words
     * @param {string} [category] - type ('hotels', 'attractions', 'restaurants', 'geos')
+    * @param country
     * @returns {Promise} - return locations and details and photos of all results
 */
-export const getAggregatedLocationData = async (searchQuery, category = null) => {
+export const getAggregatedLocationData = async (searchQuery, category = null, country = null) => {
     try {
         // 1. search location
         const searchParams = {
                 searchQuery,
             ...(category && { category }),
+            ...(country && { country }),
         };
   
         const searchResponse = await apiClient.get('/location/search', { params: searchParams });
