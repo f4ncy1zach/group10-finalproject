@@ -163,6 +163,63 @@ export async function checkSpelling(location, state){
     return null;
 }
 
+export async function createItinerary(location, travelTime){
+    const prompt = `
+        Generate me an Itinerary.
+        Location: ${location}
+        Stay time: ${travelTime}
+        
+        REQUIREMENTS:
+        - ONLY return the result in JSON Format.
+        - Return it as a list of objects.
+        - Day will say on which day of the trip should the user should do what. 
+        - Plan is a array of objects. Generate the amount of plans base on how long they are staying for.
+        - Generate at least 2 plans.
+        - The object in array will give the Location of where to visit from the location.
+        - To-do is a description of what to do in that location.
+
+        JSON REQUIREMENTS:
+        - Do not add "\`\`\`json" when returning the result.
+
+        JSON format:
+        {
+            "Day" : int
+            "Plan": <array>[{
+                "Location": ""
+                "To-do": ""
+            }]
+        }
+    `
+
+    const response = await fetch(
+        "https://api.openai.com/v1/chat/completions",
+        {
+            method: "POST",
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization': `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`
+            },
+            body: JSON.stringify({
+                model: 'gpt-4o-mini',
+                messages: [{role: 'system', content: 'You are a travel advisor who gives recommendations and feedback based on the users needs.'}, {role: 'user', content: prompt}],
+                temperature: 0.9
+            })
+        }
+    );
+
+    if(response.ok){
+        const data = await response.json();
+        const answerExtract = data.choices[0].message.content.trim();
+        const jsonData = JSON.parse(answerExtract);
+
+        console.log(jsonData);
+
+        return jsonData;
+    }
+    
+    return null;
+}
+
 export async function getHotelReccomendations(location, tdate){
     const prompt = `
         Recommend me some good hotels in ${location}.

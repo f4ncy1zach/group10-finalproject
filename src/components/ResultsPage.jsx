@@ -4,7 +4,7 @@ import { MapPin, Globe, ArrowLeft } from "lucide-react"
 import { Button } from "./ui/button"
 import { format } from "date-fns"
 import CategoryTabs from "./categories/CategoryTabs"
-import { checkSpelling, getDestination, getGeneralInformation } from "./api/chatGPT"
+import { checkSpelling, createItinerary, getDestination, getGeneralInformation } from "./api/chatGPT"
 import { getCityInfo } from "./api/tripAdvisorService"
 import { useState, useEffect } from "react"
 
