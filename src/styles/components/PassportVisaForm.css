@@ -80,26 +80,39 @@
 .visaInputContainer {
     display: flex;
     gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    position: relative;
 }
 
 .addVisaButton {
+    background: linear-gradient(to right, #38bdf8, #8b5cf6);
+    color: white;
     border-radius: 0.5rem;
-    padding: 0.5rem;
+    padding: 0.5rem 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: all 0.2s ease;
+    font-weight: 500;
+    min-width: 100px;
+    box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
 }
 
 .addVisaButton:hover {
-    background-color: rgba(56, 189, 248, 0.1);
-    transform: scale(1.1);
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
 }
 
 .helperText {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     color: #64748b;
     margin-top: 0.25rem;
+    margin-bottom: 0.75rem;
+    font-style: italic;
+    background-color: rgba(56, 189, 248, 0.05);
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px dashed rgba(56, 189, 248, 0.2);
 }
 
 /* Visa tags */
@@ -108,17 +121,23 @@
     flex-wrap: wrap;
     gap: 0.5rem;
     margin-top: 0.75rem;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 0.75rem;
+    border: 1px solid rgba(56, 189, 248, 0.2);
 }
 
 .visaTag {
     display: flex;
     align-items: center;
     gap: 0.25rem;
-    background: rgba(56, 189, 248, 0.1);
+    background: rgba(56, 189, 248, 0.15);
     color: #0ea5e9;
-    padding: 0.25rem 0.5rem;
+    padding: 0.35rem 0.75rem;
     border-radius: 0.5rem;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .removeVisaButton {

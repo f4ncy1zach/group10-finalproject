@@ -134,7 +134,7 @@ export default function PassportVisaForm({
                                         }}
                                     />
                                     <Button
-                                        variant="outline"
+                                        variant="default"
                                         size="sm"
                                         className="addVisaButton"
                                         onClick={() => {
@@ -142,10 +142,10 @@ export default function PassportVisaForm({
                                             handleAddVisa(traveler.id, input.value)
                                         }}
                                     >
-                                        <Plus size={16} />
+                                        <Plus size={16} className="mr-1" /> Add Visa
                                     </Button>
                                 </div>
-                                <p className="helperText">Press Enter or click + to add a visa</p>
+                                <p className="helperText">Enter a country and click "Add Visa" or press Enter to add to your list</p>
 
                                 {/* Display selected visas */}
                                 {traveler.visas.length > 0 && (
