@@ -18,8 +18,6 @@ export default function ItineraryView({ selectedCity, tripDuration }) {
             try{
                 const result = await createItinerary(selectedCity, tripDuration);
                 setItinerary(result);
-
-                console.log(result);
                 
                 found = true;
             }catch{
