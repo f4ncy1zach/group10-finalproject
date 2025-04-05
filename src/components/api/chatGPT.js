@@ -5,7 +5,7 @@ export async function getDestination(body){
         ${JSON.stringify(body)}
 
         REQUIREMENTS:
-        - ONLY return the resutlt in JSON Format.
+        - ONLY return the result in JSON Format.
         - Location must just be the Country.
         - State must be a state from the country. Give a good location based on things, places not too popular and try not to recommend the same place.
         - From Asia, Europe, North America, South America, Oceania, and Africa choose one randomly that fits the passport requirements.
@@ -108,13 +108,68 @@ export async function getGeneralInformation(location){
     return null;
 }
 
+export async function checkSpelling(location, state){
+    const prompt = `
+        Check if the following have any spelling mistakes in them:
+        Country: ${location}
+        State: ${state}
+
+        REQUIREMENTS:
+        - ONLY return the result in JSON Format.
+        - Location must just be the Country.
+        - State must be a state from the country.
+        - If the location or state does not have any error or spelling mistakes in them, set "correction" as false, and dont give "data".
+        - If there is a mistake in one of them try to understand what the user was going for. Then sent "correction" as true and give whatever the user was expecting as "data".
+        - When checking for these locations make sure that they are valid locations in tripadvisor.
+        - If you still cannot understand what the user was going for return "error" as true with nothing else as a JSON.
+        
+        JSON REQUIREMENTS:
+        - Do not add "\`\`\`json" when returning the result.
+
+        JSON format:
+        {
+            "correction" : <bool>
+            "data": {
+                "location": "",
+                "state": ""
+            }
+        }
+    `
+
+    const response = await fetch(
+        "https://api.openai.com/v1/chat/completions",
+        {
+            method: "POST",
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization': `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`
+            },
+            body: JSON.stringify({
+                model: 'gpt-4o-mini',
+                messages: [{role: 'system', content: 'You are a travel advisor who gives recommendations and feedback based on the users needs.'}, {role: 'user', content: prompt}],
+                temperature: 0.2
+            })
+        }
+    );
+
+    if(response.ok){
+        const data = await response.json();
+        const answerExtract = data.choices[0].message.content.trim();
+        const jsonData = JSON.parse(answerExtract);
+
+        return jsonData;
+    }
+
+    return null;
+}
+
 export async function getHotelReccomendations(location, tdate){
     const prompt = `
         Recommend me some good hotels in ${location}.
         Time of depature: ${tdate}
 
         REQUIREMENTS:
-        - ONLY return the resutlt in JSON Format.
+        - ONLY return the result in JSON Format.
         - Hotel_ID must be a the hotel id for tripadvisor
         - Price must be a price per night the user can expect for the the following dates. Example "150$/night'(in cad)
         - Return at least 10 different hotels.

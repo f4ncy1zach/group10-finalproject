@@ -4,7 +4,7 @@ import { MapPin, Globe, ArrowLeft } from "lucide-react"
 import { Button } from "./ui/button"
 import { format } from "date-fns"
 import CategoryTabs from "./categories/CategoryTabs"
-import { getDestination, getGeneralInformation } from "./api/chatGPT"
+import { checkSpelling, getDestination, getGeneralInformation } from "./api/chatGPT"
 import { getCityInfo } from "./api/tripAdvisorService"
 import { useState, useEffect } from "react"
 
@@ -69,6 +69,30 @@ export default function ResultsPage({
             }
         }else{
             if (!destinationCity || !destinationCountry) return;
+            
+            let trys = 0;
+            let found = false;
+            while(!found && trys < 2){
+                try{
+                    const response = await checkSpelling(destinationCountry, destinationCity);
+
+                    console.log(response);
+                    if(response["correction"] == true){
+                        //update local
+                        destinationCity = response["data"]["state"];
+                        destinationCountry = response["data"]["location"];
+                        
+                        //update parent
+                        setDestinationCountry(response["data"]["location"]);
+                        setDestinationCity(response["data"]["state"]);
+                    }
+
+                    found = true;
+                }catch(error){
+                    trys+=1;
+                    continue;
+                }
+            }
         }
 
         try {
