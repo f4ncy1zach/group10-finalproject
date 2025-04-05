@@ -4,7 +4,7 @@ import { MapPin, Globe, ArrowLeft } from "lucide-react"
 import { Button } from "./ui/button"
 import { format } from "date-fns"
 import CategoryTabs from "./categories/CategoryTabs"
-import { getDestination, getHotelReccomendations } from "./api/chatGPT"
+import { getDestination, getGeneralInformation } from "./api/chatGPT"
 import { getCityInfo } from "./api/tripAdvisorService"
 import { useState, useEffect } from "react"
 
@@ -25,6 +25,11 @@ export default function ResultsPage({
                                         setActiveCategory,
                                     }) 
 {
+    // Adding City information status
+    const [cityInfo, setCityInfo] = useState(null);
+    const [cityInfoLoading, setCityInfoLoading] = useState(false);
+    const [cityInfoError, setCityInfoError] = useState(null);
+    
     const fetchCityInfo = async () => {
         setCityInfoLoading(true);
         setCityInfoError(null);
@@ -32,23 +37,36 @@ export default function ResultsPage({
         let country;
         let city;
         
+        //checks if useAiRecommendation is true or not
+        // if yes make chatGPT set destinationCity and destinationCountry if not keep whatever the user entered.
         if(useAiRecommendation == true){
-            if(!travelers) return;
-            let prompt = {
-                "No. of travelers": travelers.length,
-                "Traveler(s) information": travelers,
-                "Departure Date": departDate,
-                "Return Date": returnDate,
-            };
-            const response = await getDestination(prompt);
-            
-            //update local
-            destinationCity = response["data"]["state"];
-            destinationCountry = response["data"]["location"];
-            
-            //update parent
-            setDestinationCountry(response["data"]["location"]);
-            setDestinationCity(response["data"]["state"]);
+            let trys = 0;
+            let found = false;
+            while(!found && trys < 2){
+                try{
+                    if(!travelers) return;
+                    let prompt = {
+                        "No. of travelers": travelers.length,
+                        "Traveler(s) information": travelers,
+                        "Departure Date": departDate,
+                        "Return Date": returnDate,
+                    };
+                    const response = await getDestination(prompt);
+                    
+                    //update local
+                    destinationCity = response["data"]["state"];
+                    destinationCountry = response["data"]["location"];
+                    
+                    //update parent
+                    setDestinationCountry(response["data"]["location"]);
+                    setDestinationCity(response["data"]["state"]);
+
+                    found = true;
+                }catch(error){
+                    trys += 1;
+                    continue;
+                }
+            }
         }else{
             if (!destinationCity || !destinationCountry) return;
         }
@@ -56,6 +74,14 @@ export default function ResultsPage({
         try {
             const data = await getCityInfo(destinationCity, destinationCity);
             if (data) {
+                if(data.locationDetails?.description == undefined){
+                    try{
+                        const response = await getGeneralInformation(destinationCity);
+                        data.locationDetails.description = response;
+                    }catch(error){
+                        console.log(error);
+                    }
+                }
                 setCityInfo(data);
             } else {
                 setCityInfoError('Does Not Find City Detail');
@@ -67,12 +93,6 @@ export default function ResultsPage({
             setCityInfoLoading(false);
         }
     };
-
-
-    // Adding City information status
-    const [cityInfo, setCityInfo] = useState(null);
-    const [cityInfoLoading, setCityInfoLoading] = useState(false);
-    const [cityInfoError, setCityInfoError] = useState(null);
 
     // Get city detail
     useEffect(() => {

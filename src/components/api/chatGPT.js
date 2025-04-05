@@ -73,6 +73,41 @@ export async function getDestination(body){
     return null;
 }
 
+export async function getGeneralInformation(location){
+    const prompt = `
+        Give me some general information about this location ${location}.
+
+        REQUIREMENTS:
+        - Return only the result and dont add any unnecessary fillers like "Here is your result:".
+        - The information must be said within 50 to 60 words.
+    `;
+
+    const response = await fetch(
+        "https://api.openai.com/v1/chat/completions",
+        {
+            method: "POST",
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization': `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`
+            },
+            body: JSON.stringify({
+                model: 'gpt-4o-mini',
+                messages: [{role: 'system', content: 'You are a travel advisor who gives recommendations and feedback based on the users needs.'}, {role: 'user', content: prompt}],
+                temperature: 1.0
+            })
+        }
+    );
+
+    if(response.ok){
+        const data = await response.json();
+        const info = data.choices[0].message.content;
+
+        return info;
+    }
+
+    return null;
+}
+
 export async function getHotelReccomendations(location, tdate){
     const prompt = `
         Recommend me some good hotels in ${location}.
@@ -119,7 +154,6 @@ export async function getHotelReccomendations(location, tdate){
         const answerExtract = data.choices[0].message.content.trim();
         const jsonData = JSON.parse(answerExtract);
 
-        console.log(jsonData);
         return jsonData;
     }
 
