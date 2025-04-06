@@ -38,7 +38,6 @@ export default function ResultsPage({
                                         destinationCountry,
                                         setDestinationCountry,
                                         travelers,
-                                        budget,
                                         departDate,
                                         returnDate,
                                         calculateTripDuration,
@@ -62,9 +61,6 @@ export default function ResultsPage({
         // Set loading state
         setCityInfoLoading(true)
         setCityInfoError(null)
-
-        let country
-        let city
 
         // Handle AI recommendation vs. manual destination entry
         if (useAiRecommendation == true) {
