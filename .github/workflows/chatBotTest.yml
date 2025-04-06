@@ -20,5 +20,5 @@ jobs:
         with:
           build: npm run build
           start: npm run dev
-
-      
+        env:
+          VITE_OPENAI_API_KEY: ${{ secrets.VITE_OPENAI_API_KEY }}
