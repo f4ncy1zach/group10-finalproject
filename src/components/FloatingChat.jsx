@@ -29,7 +29,7 @@ export default function FloatingChat({
     return (
         <>
             <motion.div
-                className="floatingOrb"
+                data-test="Chatbot-Button" className="floatingOrb"
                 whileHover={{ scale: 1.1, boxShadow: "0 0 20px rgba(56, 189, 248, 0.5)" }}
                 whileTap={{ scale: 0.9 }}
                 onClick={() => setFloatingChatOpen(!floatingChatOpen)}
@@ -61,7 +61,9 @@ export default function FloatingChat({
                     <div className="floatingChatBody">
                         <div className="floatingChatMessages" ref={floatingChatRef}>
                             {floatingChatHistory.map((chat, index) => (
-                                <div key={index} className={chat.isUser ? "floatingChatUserMessage" : "floatingChatAiMessage"} ref={index === floatingChatHistory.length - 1 ? lastMessageRef : null}>
+                                <div key={index} className={chat.isUser ? "floatingChatUserMessage" : "floatingChatAiMessage"} ref={index === floatingChatHistory.length - 1 ? lastMessageRef : null}
+                                data-test={chat.isUser ? "" : "response"}
+                                >
                                     {chat.message}
                                 </div>
                             ))}
@@ -75,7 +77,7 @@ export default function FloatingChat({
                         </div>
                         <div className="floatingChatInput">
               <textarea
-                  className="floatingChatTextarea"
+                  data-test="Question-Field" className="floatingChatTextarea"
                   placeholder="Ask about your trip..."
                   value={floatingChatMessage}
                   onChange={(e) => setFloatingChatMessage(e.target.value)}
@@ -86,7 +88,7 @@ export default function FloatingChat({
                       }
                   }}
               />
-                            <button className="floatingChatSend" onClick={sendFloatingChatMessage}>
+                            <button data-test="Send-Button" className="floatingChatSend" onClick={sendFloatingChatMessage}>
                                 <Send size={16} />
                             </button>
                         </div>

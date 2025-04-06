@@ -28,7 +28,7 @@ export default function HomePage({ nextStep }) {
                     <Logo size={110} />
                 </motion.div>
                 <motion.h2
-                    className="welcomeTitle"
+                    data-test="Website-Name" className="welcomeTitle"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.3 }}

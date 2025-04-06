@@ -1,0 +1,24 @@
+name: ChatBot Tests
+
+on:
+  push:
+    branches:
+      - chatGPT-chatbot
+
+jobs:
+  run-tests:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+    
+    # Using Cypress to test e2e
+    # Install NPM depedencies, cache them correctly
+    # and run all Cypress tests
+    - name: Cypress run
+      uses: cypress-io/github-action@v6
+      with:
+        build: npm run build
+        start: npm start
+        
+      
