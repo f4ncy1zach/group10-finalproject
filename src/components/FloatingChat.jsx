@@ -1,7 +1,7 @@
 // Floating chat component for AI assistant - Trippy
 import { motion } from "framer-motion"
 import { MessageSquare, Send } from "lucide-react"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import Logo from "./Logo"
 
 export default function FloatingChat({
@@ -15,9 +15,14 @@ export default function FloatingChat({
                                          isTyping,
                                      }) {
     // Auto-scroll for new messages
+    const lastMessageRef = useRef(null);
+
     useEffect(() => {
-        if (floatingChatRef.current) {
-            floatingChatRef.current.scrollTop = floatingChatRef.current.scrollHeight
+        if (lastMessageRef.current) {
+            lastMessageRef.current.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            });
         }
     }, [floatingChatHistory, isTyping])
 
@@ -56,7 +61,7 @@ export default function FloatingChat({
                     <div className="floatingChatBody">
                         <div className="floatingChatMessages" ref={floatingChatRef}>
                             {floatingChatHistory.map((chat, index) => (
-                                <div key={index} className={chat.isUser ? "floatingChatUserMessage" : "floatingChatAiMessage"}>
+                                <div key={index} className={chat.isUser ? "floatingChatUserMessage" : "floatingChatAiMessage"} ref={index === floatingChatHistory.length - 1 ? lastMessageRef : null}>
                                     {chat.message}
                                 </div>
                             ))}

@@ -118,6 +118,7 @@
     border-radius: 1rem 1rem 1rem 0;
     max-width: 80%;
     font-family: "Exo 2", sans-serif;
+    white-space: pre-wrap;
 }
 
 /* Add typing indicator animation */
