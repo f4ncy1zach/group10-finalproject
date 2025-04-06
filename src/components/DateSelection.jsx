@@ -1,4 +1,3 @@
-// Date selection by implementing calendar functionality
 import { motion } from "framer-motion"
 import { ArrowLeft, ArrowRight, Calendar, ChevronDown } from "lucide-react"
 import { Button } from "./ui/button"

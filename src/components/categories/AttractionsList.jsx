@@ -1,4 +1,3 @@
-// Attractions list in result page
 import { useState, useEffect } from "react"
 import { getAggregatedLocationData } from "@/components/api/tripAdvisorService.js"
 import ReloadButton from "../ui/reload-button"

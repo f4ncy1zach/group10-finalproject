@@ -1,4 +1,3 @@
-// Floating chat component for AI assistant - Trippy
 import { motion } from "framer-motion"
 import { MessageSquare, Send } from "lucide-react"
 import { useEffect, useRef } from "react"

@@ -1,4 +1,3 @@
-// Tabs for hotels, attractions, restaurants, and itinerary
 import { motion, AnimatePresence } from "framer-motion"
 import HotelsList from "./HotelsList"
 import AttractionsList from "./AttractionsList"
