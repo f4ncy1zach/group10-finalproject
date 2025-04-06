@@ -110,17 +110,17 @@ export default function ResultsPage({
                 try {
                     const response = await checkSpelling(destinationCountry, destinationCity)
 
-                    console.log(response)
+                    console.log(response);
 
                     // If correction is needed, update destination values
                     if (response["correction"] == true) {
                         // Update local variables
-                        destinationCity = response["data"]["state"]
+                        destinationCity = response["data"]["city"]
                         destinationCountry = response["data"]["location"]
 
                         // Update parent state
                         setDestinationCountry(response["data"]["location"])
-                        setDestinationCity(response["data"]["state"])
+                        setDestinationCity(response["data"]["city"])
                     }
 
                     found = true

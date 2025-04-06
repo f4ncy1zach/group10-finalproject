@@ -22,7 +22,7 @@ export default function Footer() {
                         © 2025 <strong>Travel Advisor Project</strong> — <em>For educational use only.</em>
                     </p>
                     <p className="footerDisclaimer">
-                        Data provided by <strong>TripAdvisor API</strong>.
+                        Data provided by <strong>TripAdvisor API</strong> &amp; <strong>OpenAI API</strong>.
                         <br />
                         <em>This site is a student project and not affiliated with any official travel service.</em>
                     </p>

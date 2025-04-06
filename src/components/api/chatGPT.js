@@ -136,18 +136,21 @@ export async function getGeneralInformation(location) {
  * @param {string} state - The state/city name to check
  * @returns {Promise<Object>} Object indicating if correction is needed and corrected values
  */
-export async function checkSpelling(location, state) {
+export async function checkSpelling(location, city) {
     const prompt = `
         Check if the following have any spelling mistakes in them:
         Country: ${location}
-        State: ${state}
+        City: ${city}
 
         REQUIREMENTS:
         - ONLY return the result in JSON Format.
-        - Location must just be the Country.
-        - State must be a state from the country.
-        - If the location or state does not have any error or spelling mistakes in them, set "correction" as false, and dont give "data".
-        - If there is a mistake in one of them try to understand what the user was going for. Then sent "correction" as true and give whatever the user was expecting as "data".
+        - When checking for spelling mistakes, consider the relationship between country and city:
+            - If city exists in a country with a similar spelling to the provided country, prefer that correction.
+            - If country contains a city with a similar spelling to the provided city, prefer that correction.
+        - Location must be the country name.
+        - City must be a city that exists in the country.
+        - If the location or city does not have any error or spelling mistakes, set "correction" as false, and don't give "data".
+        - If there is a mistake in one or both, prioritize corrections that maintain a valid country-city relationship.
         - When checking for these locations make sure that they are valid locations in tripadvisor.
         - If you still cannot understand what the user was going for return "error" as true with nothing else as a JSON.
         
@@ -159,7 +162,7 @@ export async function checkSpelling(location, state) {
             "correction" : <bool>
             "data": {
                 "location": "",
-                "state": ""
+                "city": ""
             }
         }
     `

@@ -1,20 +1,33 @@
 const API_KEY = import.meta.env.VITE_OPENAI_API_KEY;
 
+let conversationHistory = [
+    {
+        role: "system",
+        content: "You are a helpful travel assistant providing clear and accurate travel advice."
+    }
+];
+
 export async function processMessageToChatGPT(userMessage) {
-    const messages = [
-        {
-            role: "system",
-            content: "You are a helpful travel assistant providing clear and accurate travel advice." // Can be changed like making it talk like a pirate
-        },
-        {
-            role: "user",
-            content: userMessage
-        }
-    ];
+
+    conversationHistory.push({
+        role: "user",
+        content: userMessage
+    });
+
+    // const messages = [
+    //     {
+    //         role: "system",
+    //         content: `You are a helpful travel assistant providing clear and accurate travel advice.` // Can be changed like making it talk like a pirate
+    //     },
+    //     {
+    //         role: "user",
+    //         content: userMessage
+    //     }
+    // ];
 
     const apiRequestBody = {
         "model": "gpt-4o-mini",
-        "messages": messages
+        "messages": conversationHistory
     };
 
     try {
@@ -31,7 +44,14 @@ export async function processMessageToChatGPT(userMessage) {
         
         if (data.choices && data.choices.length > 0) {
             // Return the assistant's response
-            return data.choices[0].message.content;
+            const response =  data.choices[0].message.content;
+
+            conversationHistory.push({
+                role: "assistant",
+                content: response
+            });
+
+            return response;
         } else {
             console.error("Unexpected API response format:", data);
             return "Sorry, I couldn't process your request.";
