@@ -13,7 +13,7 @@ export async function processMessageToChatGPT(userMessage) {
     ];
 
     const apiRequestBody = {
-        "model": "gpt-3.5-turbo",
+        "model": "gpt-4o-mini",
         "messages": messages
     };
 
