@@ -1,4 +1,14 @@
-export async function getDestination(body){
+/**
+ * Gets an AI-recommended destination based on traveler information
+ *
+ * @param {Object} body - The traveler information and trip details
+ * @param {number} body["No. of travelers"] - Number of travelers
+ * @param {Array} body["Traveler(s) information"] - Array of traveler objects with passport and visa info
+ * @param {Date} body["Departure Date"] - When the user wants to leave
+ * @param {Date} body["Return Date"] - When the user wants to return
+ * @returns {Promise<Object>} Object containing location and state recommendations
+ */
+export async function getDestination(body) {
     const prompt = `
         Based on these following criterias and current situations give the best possible place to travel to.
         Here are the criterias:
@@ -40,75 +50,93 @@ export async function getDestination(body){
 
         JSON REQUIREMENTS:
         - Do not add "\`\`\`json" when returning the result.
-    `;
+    `
 
-    const response = await fetch(
-        "https://api.openai.com/v1/chat/completions",
-        {
-            method: "POST",
-            headers: {
-                'Content-Type' : 'application/json',
-                'Authorization': `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`
-            },
-            body: JSON.stringify({
-                model: 'gpt-4o-mini',
-                messages: [{role: 'system', content: 'You are a travel advisor who gives recommendations and feedback based on the users needs.'}, {role: 'user', content: prompt}],
-                temperature: 1.0
-            })
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
+        },
+        body: JSON.stringify({
+            model: "gpt-4o-mini",
+            messages: [
+                {
+                    role: "system",
+                    content: "You are a travel advisor who gives recommendations and feedback based on the users needs.",
+                },
+                { role: "user", content: prompt },
+            ],
+            temperature: 1.0,
+        }),
+    })
+
+    if (response.ok) {
+        const data = await response.json()
+        const answerExtract = data.choices[0].message.content.trim()
+        const jsonData = JSON.parse(answerExtract)
+
+        if (jsonData["error"] == true) {
+            return null
         }
-    );
-
-    if(response.ok){
-        const data = await response.json();
-        const answerExtract = data.choices[0].message.content.trim();
-        const jsonData = JSON.parse(answerExtract);
-
-        // console.log(jsonData);
-        if(jsonData["error"] == true){
-            return null;
-        }
-        return jsonData;
+        return jsonData
     }
 
-    return null;
+    return null
 }
 
-export async function getGeneralInformation(location){
+/**
+ * Gets general information about a location
+ *
+ * @param {string} location - The location to get information about
+ * @returns {Promise<string>} A short description of the location
+ */
+export async function getGeneralInformation(location) {
     const prompt = `
         Give me some general information about this location ${location}.
 
         REQUIREMENTS:
         - Return only the result and dont add any unnecessary fillers like "Here is your result:".
         - The information must be said within 50 to 60 words.
-    `;
+    `
 
-    const response = await fetch(
-        "https://api.openai.com/v1/chat/completions",
-        {
-            method: "POST",
-            headers: {
-                'Content-Type' : 'application/json',
-                'Authorization': `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`
-            },
-            body: JSON.stringify({
-                model: 'gpt-4o-mini',
-                messages: [{role: 'system', content: 'You are a travel advisor who gives recommendations and feedback based on the users needs.'}, {role: 'user', content: prompt}],
-                temperature: 1.0
-            })
-        }
-    );
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
+        },
+        body: JSON.stringify({
+            model: "gpt-4o-mini",
+            messages: [
+                {
+                    role: "system",
+                    content: "You are a travel advisor who gives recommendations and feedback based on the users needs.",
+                },
+                { role: "user", content: prompt },
+            ],
+            temperature: 1.0,
+        }),
+    })
 
-    if(response.ok){
-        const data = await response.json();
-        const info = data.choices[0].message.content;
+    if (response.ok) {
+        const data = await response.json()
+        const info = data.choices[0].message.content
 
-        return info;
+        return info
     }
 
-    return null;
+    return null
 }
 
-export async function checkSpelling(location, state){
+/**
+ * Checks spelling of location and state names and provides corrections
+ *
+ * @param {string} location - The country name to check
+ * @param {string} state - The state/city name to check
+ * @returns {Promise<Object>} Object indicating if correction is needed and corrected values
+ */
+export async function checkSpelling(location, state) {
     const prompt = `
         Check if the following have any spelling mistakes in them:
         Country: ${location}
@@ -136,34 +164,44 @@ export async function checkSpelling(location, state){
         }
     `
 
-    const response = await fetch(
-        "https://api.openai.com/v1/chat/completions",
-        {
-            method: "POST",
-            headers: {
-                'Content-Type' : 'application/json',
-                'Authorization': `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`
-            },
-            body: JSON.stringify({
-                model: 'gpt-4o-mini',
-                messages: [{role: 'system', content: 'You are a travel advisor who gives recommendations and feedback based on the users needs.'}, {role: 'user', content: prompt}],
-                temperature: 0.2
-            })
-        }
-    );
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
+        },
+        body: JSON.stringify({
+            model: "gpt-4o-mini",
+            messages: [
+                {
+                    role: "system",
+                    content: "You are a travel advisor who gives recommendations and feedback based on the users needs.",
+                },
+                { role: "user", content: prompt },
+            ],
+            temperature: 0.2,
+        }),
+    })
 
-    if(response.ok){
-        const data = await response.json();
-        const answerExtract = data.choices[0].message.content.trim();
-        const jsonData = JSON.parse(answerExtract);
+    if (response.ok) {
+        const data = await response.json()
+        const answerExtract = data.choices[0].message.content.trim()
+        const jsonData = JSON.parse(answerExtract)
 
-        return jsonData;
+        return jsonData
     }
 
-    return null;
+    return null
 }
 
-export async function createItinerary(location, travelTime){
+/**
+ * Creates a day-by-day itinerary for a location
+ *
+ * @param {string} location - The location to create an itinerary for
+ * @param {number} travelTime - The duration of the trip in days
+ * @returns {Promise<Array>} Array of day objects with plans
+ */
+export async function createItinerary(location, travelTime) {
     const prompt = `
         Generate me an Itinerary.
         Location: ${location}
@@ -191,36 +229,45 @@ export async function createItinerary(location, travelTime){
         }
     `
 
-    const response = await fetch(
-        "https://api.openai.com/v1/chat/completions",
-        {
-            method: "POST",
-            headers: {
-                'Content-Type' : 'application/json',
-                'Authorization': `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`
-            },
-            body: JSON.stringify({
-                model: 'gpt-4o-mini',
-                messages: [{role: 'system', content: 'You are a travel advisor who gives recommendations and feedback based on the users needs.'}, {role: 'user', content: prompt}],
-                temperature: 0.9
-            })
-        }
-    );
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
+        },
+        body: JSON.stringify({
+            model: "gpt-4o-mini",
+            messages: [
+                {
+                    role: "system",
+                    content:
+                        "You are a travel advisor who gives recommendations and feedback based on the users needs  content: 'You are a travel advisor who gives recommendations and feedback based on the users needs.",
+                },
+                { role: "user", content: prompt },
+            ],
+            temperature: 0.9,
+        }),
+    })
 
-    if(response.ok){
-        const data = await response.json();
-        const answerExtract = data.choices[0].message.content.trim();
-        const jsonData = JSON.parse(answerExtract);
+    if (response.ok) {
+        const data = await response.json()
+        const answerExtract = data.choices[0].message.content.trim()
+        const jsonData = JSON.parse(answerExtract)
 
-        console.log(jsonData);
-
-        return jsonData;
+        return jsonData
     }
-    
-    return null;
+
+    return null
 }
 
-export async function getHotelReccomendations(location, tdate){
+/**
+ * Gets hotel recommendations for a location
+ *
+ * @param {string} location - The location to get hotel recommendations for
+ * @param {string} tdate - The departure date
+ * @returns {Promise<Object>} Object containing hotel recommendations
+ */
+export async function getHotelReccomendations(location, tdate) {
     const prompt = `
         Recommend me some good hotels in ${location}.
         Time of depature: ${tdate}
@@ -245,29 +292,32 @@ export async function getHotelReccomendations(location, tdate){
         - Do not add "\`\`\`json" when returning the result.
     `
 
-    const response = await fetch(
-        "https://api.openai.com/v1/chat/completions",
-        {
-            method: "POST",
-            headers: {
-                'Content-Type' : 'application/json',
-                'Authorization': `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`
-            },
-            body: JSON.stringify({
-                model: 'gpt-3.5-turbo',
-                messages: [{role: 'system', content: 'You are a travel advisor who gives recommendations and feedback based on the users needs.'}, {role: 'user', content: prompt}],
-                temperature: 0.7
-            })
-        }
-    );
+    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${import.meta.env.VITE_OPENAI_API_KEY}`,
+        },
+        body: JSON.stringify({
+            model: "gpt-3.5-turbo",
+            messages: [
+                {
+                    role: "system",
+                    content: "You are a travel advisor who gives recommendations and feedback based on the users needs.",
+                },
+                { role: "user", content: prompt },
+            ],
+            temperature: 0.7,
+        }),
+    })
 
-    if(response.ok){
-        const data = await response.json();
-        const answerExtract = data.choices[0].message.content.trim();
-        const jsonData = JSON.parse(answerExtract);
+    if (response.ok) {
+        const data = await response.json()
+        const answerExtract = data.choices[0].message.content.trim()
+        const jsonData = JSON.parse(answerExtract)
 
-        return jsonData;
+        return jsonData
     }
 
-    return null;
+    return null
 }

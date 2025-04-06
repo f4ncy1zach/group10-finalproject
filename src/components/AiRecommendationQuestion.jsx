@@ -1,12 +1,28 @@
-// First question asking the user if they want a destination recommended by the AI
 import { motion } from "framer-motion"
 import { useState } from "react"
 import { ArrowLeft, ArrowRight, Bot } from "lucide-react"
 import { Button } from "./ui/button"
 
+/**
+ * AiRecommendationQuestion Component
+ * Asks the user if they want an AI-recommended destination
+ * First step in the travel planning flow
+ *
+ * @param {Object} props - Component props
+ * @param {Function} props.setUseAiRecommendation - Function to set AI recommendation preference
+ * @param {Function} props.nextStep - Function to advance to next step
+ * @param {Function} props.prevStep - Function to go back to previous step
+ * @returns {JSX.Element} The AI recommendation question component
+ */
 export default function AiRecommendationQuestion({ setUseAiRecommendation, nextStep, prevStep }) {
+    // State to track which option is selected
     const [selectedOption, setSelectedOption] = useState(null)
 
+    /**
+     * Handles option selection and updates parent state
+     *
+     * @param {boolean} option - Whether to use AI recommendation (true/false)
+     */
     const handleOptionSelect = (option) => {
         setSelectedOption(option)
         setUseAiRecommendation(option)
@@ -38,6 +54,7 @@ export default function AiRecommendationQuestion({ setUseAiRecommendation, nextS
                 </div>
 
                 <div className="optionsGrid">
+                    {/* Yes option */}
                     <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.95 }}>
                         <Button
                             variant={selectedOption === true ? "default" : "outline"}
@@ -48,6 +65,7 @@ export default function AiRecommendationQuestion({ setUseAiRecommendation, nextS
                         </Button>
                     </motion.div>
 
+                    {/* No option */}
                     <motion.div whileHover={{ scale: 1.01 }} whileTap={{ scale: 0.95 }}>
                         <Button
                             variant={selectedOption === false ? "default" : "outline"}
@@ -59,6 +77,7 @@ export default function AiRecommendationQuestion({ setUseAiRecommendation, nextS
                     </motion.div>
                 </div>
 
+                {/* Navigation buttons */}
                 <div className="buttonContainer">
                     <Button variant="outline" onClick={prevStep} className="backButton">
                         <ArrowLeft className="buttonIcon" />

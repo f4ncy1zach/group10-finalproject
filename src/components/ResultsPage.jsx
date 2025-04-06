@@ -1,10 +1,33 @@
+/**
+ * ResultsPage Component
+ * Displays the final travel plan with destination details and category tabs
+ * Shows destination image, trip summary, and description
+ * Handles AI recommendation processing if selected
+ *
+ * @param {Object} props - Component props
+ * @param {boolean} props.useAiRecommendation - Whether AI recommendation was selected
+ * @param {string} props.destinationCity - Selected destination city
+ * @param {Function} props.setDestinationCity - Function to update destination city
+ * @param {string} props.destinationCountry - Selected destination country
+ * @param {Function} props.setDestinationCountry - Function to update destination country
+ * @param {Array} props.travelers - Array of traveler objects with passport and visa info
+ * @param {number} props.budget - Trip budget amount
+ * @param {Date} props.departDate - Selected departure date
+ * @param {Date} props.returnDate - Selected return date
+ * @param {Function} props.calculateTripDuration - Function to calculate trip duration
+ * @param {Function} props.prevStep - Function to go back to previous step
+ * @param {Function} props.resetForm - Function to reset the form and start over
+ * @param {string} props.activeCategory - Currently selected category tab
+ * @param {Function} props.setActiveCategory - Function to change the active category
+ * @returns {JSX.Element} The results page component
+ */
 // Result page, showing destination image, trip summary, destination description, and 4 category tabs
 import { motion } from "framer-motion"
 import { MapPin, Globe, ArrowLeft } from "lucide-react"
 import { Button } from "./ui/button"
 import { format } from "date-fns"
 import CategoryTabs from "./categories/CategoryTabs"
-import { checkSpelling, createItinerary, getDestination, getGeneralInformation } from "./api/chatGPT"
+import { checkSpelling, getDestination, getGeneralInformation } from "./api/chatGPT"
 import { getCityInfo } from "./api/tripAdvisorService"
 import { useState, useEffect } from "react"
 
@@ -15,7 +38,6 @@ export default function ResultsPage({
                                         destinationCountry,
                                         setDestinationCountry,
                                         travelers,
-                                        budget,
                                         departDate,
                                         returnDate,
                                         calculateTripDuration,
@@ -23,108 +45,128 @@ export default function ResultsPage({
                                         resetForm,
                                         activeCategory,
                                         setActiveCategory,
-                                    }) 
-{
-    // Adding City information status
-    const [cityInfo, setCityInfo] = useState(null);
-    const [cityInfoLoading, setCityInfoLoading] = useState(false);
-    const [cityInfoError, setCityInfoError] = useState(null);
-    
-    const fetchCityInfo = async () => {
-        setCityInfoLoading(true);
-        setCityInfoError(null);
+                                    }) {
+    // State for city information data, loading status, and errors
+    const [cityInfo, setCityInfo] = useState(null)
+    const [cityInfoLoading, setCityInfoLoading] = useState(false)
+    const [cityInfoError, setCityInfoError] = useState(null)
 
-        let country;
-        let city;
-        
-        //checks if useAiRecommendation is true or not
-        // if yes make chatGPT set destinationCity and destinationCountry if not keep whatever the user entered.
-        if(useAiRecommendation == true){
-            let trys = 0;
-            let found = false;
-            while(!found && trys < 2){
-                try{
-                    if(!travelers) return;
-                    let prompt = {
+    /**
+     * Fetches city information from TripAdvisor API
+     * If AI recommendation is enabled, gets destination from ChatGPT
+     * Otherwise, checks spelling of user-entered destination
+     * Then fetches city details and description
+     */
+    const fetchCityInfo = async () => {
+        // Set loading state
+        setCityInfoLoading(true)
+        setCityInfoError(null)
+
+        // Handle AI recommendation vs. manual destination entry
+        if (useAiRecommendation == true) {
+            // AI recommendation flow - get destination from ChatGPT
+            let trys = 0
+            let found = false
+
+            // Retry logic - attempts up to 2 times to get a destination
+            while (!found && trys < 2) {
+                try {
+                    if (!travelers) return
+
+                    // Prepare prompt with traveler information
+                    const prompt = {
                         "No. of travelers": travelers.length,
                         "Traveler(s) information": travelers,
                         "Departure Date": departDate,
                         "Return Date": returnDate,
-                    };
-                    const response = await getDestination(prompt);
-                    
-                    //update local
-                    destinationCity = response["data"]["state"];
-                    destinationCountry = response["data"]["location"];
-                    
-                    //update parent
-                    setDestinationCountry(response["data"]["location"]);
-                    setDestinationCity(response["data"]["state"]);
-
-                    found = true;
-                }catch(error){
-                    trys += 1;
-                    continue;
-                }
-            }
-        }else{
-            if (!destinationCity || !destinationCountry) return;
-            
-            let trys = 0;
-            let found = false;
-            while(!found && trys < 2){
-                try{
-                    const response = await checkSpelling(destinationCountry, destinationCity);
-
-                    console.log(response);
-                    if(response["correction"] == true){
-                        //update local
-                        destinationCity = response["data"]["state"];
-                        destinationCountry = response["data"]["location"];
-                        
-                        //update parent
-                        setDestinationCountry(response["data"]["location"]);
-                        setDestinationCity(response["data"]["state"]);
                     }
 
-                    found = true;
-                }catch(error){
-                    trys+=1;
-                    continue;
+                    // Get destination recommendation from ChatGPT
+                    const response = await getDestination(prompt)
+
+                    // Update local variables
+                    destinationCity = response["data"]["state"]
+                    destinationCountry = response["data"]["location"]
+
+                    // Update parent state
+                    setDestinationCountry(response["data"]["location"])
+                    setDestinationCity(response["data"]["state"])
+
+                    found = true
+                } catch (error) {
+                    trys += 1
+                    continue
+                }
+            }
+        } else {
+            // Manual destination entry flow - check spelling
+            if (!destinationCity || !destinationCountry) return
+
+            let trys = 0
+            let found = false
+
+            // Retry logic - attempts up to 2 times to check spelling
+            while (!found && trys < 2) {
+                try {
+                    const response = await checkSpelling(destinationCountry, destinationCity)
+
+                    console.log(response)
+
+                    // If correction is needed, update destination values
+                    if (response["correction"] == true) {
+                        // Update local variables
+                        destinationCity = response["data"]["state"]
+                        destinationCountry = response["data"]["location"]
+
+                        // Update parent state
+                        setDestinationCountry(response["data"]["location"])
+                        setDestinationCity(response["data"]["state"])
+                    }
+
+                    found = true
+                } catch (error) {
+                    trys += 1
+                    continue
                 }
             }
         }
 
+        // Fetch city information from TripAdvisor API
         try {
-            const data = await getCityInfo(destinationCity, destinationCity);
+            const data = await getCityInfo(destinationCity, destinationCity)
             if (data) {
-                if(data.locationDetails?.description == undefined){
-                    try{
-                        const response = await getGeneralInformation(destinationCity);
-                        data.locationDetails.description = response;
-                    }catch(error){
-                        console.log(error);
+                // If description is missing, get it from ChatGPT
+                if (data.locationDetails?.description == undefined) {
+                    try {
+                        const response = await getGeneralInformation(destinationCity)
+                        data.locationDetails.description = response
+                    } catch (error) {
+                        console.log(error)
                     }
                 }
-                setCityInfo(data);
+                setCityInfo(data)
             } else {
-                setCityInfoError('Does Not Find City Detail');
+                setCityInfoError("Does Not Find City Detail")
             }
         } catch (error) {
-            console.error('Failed to get city information:', error);
-            setCityInfoError('An error occurred while getting city information');
+            console.error("Failed to get city information:", error)
+            setCityInfoError("An error occurred while getting city information")
         } finally {
-            setCityInfoLoading(false);
+            setCityInfoLoading(false)
         }
-    };
+    }
 
-    // Get city detail
+    /**
+     * Effect to fetch city information when component mounts
+     * Triggers the API calls to get destination details
+     */
     useEffect(() => {
-        fetchCityInfo();
-    }, []);
+        fetchCityInfo()
+    }, [])
 
     return (
         <div className="resultsPageContainer">
+            {/* Page header with title */}
             <div className="resultsHeader">
                 <motion.h2
                     className="resultsTitle"
@@ -137,7 +179,7 @@ export default function ResultsPage({
             </div>
 
             <div className="resultsMainContent">
-                {/* Left side - Destination image */}
+                {/* Left side - Destination image with loading/error states */}
                 <motion.div
                     className="destinationImageContainer"
                     initial={{ opacity: 0, x: -20 }}
@@ -145,22 +187,26 @@ export default function ResultsPage({
                     transition={{ duration: 0.5, delay: 0.2 }}
                 >
                     {cityInfoLoading ? (
+                        // Loading state
                         <div className="destinationImagePlaceholder">
                             <MapPin size={50} className="mb-4 mx-auto opacity-50" />
                             <p>Loading destination image...</p>
                         </div>
                     ) : cityInfoError ? (
+                        // Error state
                         <div className="destinationImagePlaceholder">
                             <MapPin size={50} className="mb-4 mx-auto opacity-50" />
                             <p>Failed to load destination image</p>
                         </div>
                     ) : cityInfo?.locationPhotos?.[0] ? (
-                        <img 
-                            src={cityInfo.locationPhotos[0].images.large.url} 
+                        // Image available
+                        <img
+                            src={cityInfo.locationPhotos[0].images.large.url || "/placeholder.svg"}
                             alt={destinationCity}
                             className="destinationImage"
                         />
                     ) : (
+                        // No image available
                         <div className="destinationImagePlaceholder">
                             <MapPin size={50} className="mb-4 mx-auto opacity-50" />
                             <p>No image available</p>
@@ -178,7 +224,7 @@ export default function ResultsPage({
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, delay: 0.3 }}
                 >
-                    {/* Trip summary */}
+                    {/* Trip summary section */}
                     <div className="tripSummary">
                         <h3 className="text-xl font-bold mb-4 text-gray-800">Trip Summary</h3>
 
@@ -192,6 +238,7 @@ export default function ResultsPage({
                             </div>
                         )}
 
+                        {/* Destination information */}
                         <div className="summaryItem">
                             <div className="summaryLabel">Destination:</div>
                             <div className="summaryValue">
@@ -199,6 +246,7 @@ export default function ResultsPage({
                             </div>
                         </div>
 
+                        {/* Travel dates */}
                         <div className="summaryItem">
                             <div className="summaryLabel">Travel Dates:</div>
                             <div className="summaryValue">
@@ -206,30 +254,35 @@ export default function ResultsPage({
                             </div>
                         </div>
 
+                        {/* Trip duration */}
                         <div className="summaryItem">
                             <div className="summaryLabel">Duration:</div>
                             <div className="summaryValue">{calculateTripDuration()} days</div>
                         </div>
                     </div>
 
-                    {/* Destination description */}
+                    {/* Destination description section with loading/error states */}
                     <div className="destinationDescription">
                         {cityInfoLoading ? (
+                            // Loading state
                             <div className="descriptionPlaceholder">
                                 <Globe size={40} className="mb-3 mx-auto opacity-50" />
                                 <p>Loading destination description...</p>
                             </div>
                         ) : cityInfoError ? (
+                            // Error state
                             <div className="descriptionPlaceholder">
                                 <Globe size={40} className="mb-3 mx-auto opacity-50" />
                                 <p>Failed to load destination description</p>
                             </div>
                         ) : cityInfo?.locationDetails?.description ? (
+                            // Description available
                             <div className="descriptionContent">
                                 <h3 className="text-lg font-semibold mb-2">About {destinationCity}</h3>
                                 <p className="text-gray-600">{cityInfo.locationDetails.description}</p>
                             </div>
                         ) : (
+                            // No description available
                             <div className="descriptionPlaceholder">
                                 <Globe size={40} className="mb-3 mx-auto opacity-50" />
                                 <p>No description available</p>
@@ -257,7 +310,7 @@ export default function ResultsPage({
                 />
             </motion.div>
 
-            {/* Action buttons */}
+            {/* Action buttons for navigation */}
             <div className="resultsActions">
                 <Button variant="outline" onClick={prevStep} className="backButton">
                     <ArrowLeft className="buttonIcon" />

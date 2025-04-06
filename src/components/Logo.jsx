@@ -1,6 +1,16 @@
-// Logo component
+/**
+ * TravelIcon Component
+ * Renders the Travel Advisor logo SVG with customizable size
+ *
+ * @param {Object} props - Component props
+ * @param {number} props.size - Size of the logo in pixels (default: 24)
+ * @returns {JSX.Element} The logo SVG component
+ */
 const TravelIcon = ({ size = 24 }) => {
+    // Calculate viewBox size based on the original SVG dimensions
     const viewBoxSize = 128
+
+    // Set explicit width and height based on the size prop
     const width = size
     const height = size
 
@@ -12,6 +22,7 @@ const TravelIcon = ({ size = 24 }) => {
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
             style={{ minWidth: width, minHeight: height, maxWidth: width, maxHeight: height }}
+            aria-label="Travel Advisor Logo"
         >
             <defs>
                 <radialGradient id="globeGradient" cx="50%" cy="50%" r="50%">

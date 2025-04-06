@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-
-//It will change the URL, when it publish
+//It will change the URL, when it publishes
 const BASE_URL = import.meta.env.VITE_PROD
   ? 'https://travel-advisor-seven-mu.vercel.app/api'
   : 'http://localhost:3000/api';
@@ -232,7 +231,7 @@ export const getAggregatedLocationData = async (searchQuery, category = null, co
             };
         }
   
-        // 2. Get details and photos for each search result
+        // Get details and photos for each search result
         const aggregatedData = await Promise.all(
                 searchResults.data.map(async (location) => {
                 const locationId = location.location_id;
@@ -257,7 +256,7 @@ export const getAggregatedLocationData = async (searchQuery, category = null, co
   
                         console.log("Aggregated Data:", aggregatedData);
   
-        // 3. return 
+        // return
         return {
             data: aggregatedData
         };

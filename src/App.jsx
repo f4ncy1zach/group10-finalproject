@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useRef, useEffect } from "react"
 import { differenceInDays } from "date-fns"
 import BackgroundElements from "./components/BackgroundElements"
@@ -42,8 +40,8 @@ function TravelAdvisor() {
     const [budget, setBudget] = useState(2000)
 
     // Dropdown states
-    const [countryDropdownOpen, setCountryDropdownOpen] = useState(false)
-    const [cityDropdownOpen, setCityDropdownOpen] = useState(false)
+    const [setCountryDropdownOpen] = useState(false)
+    const [setCityDropdownOpen] = useState(false)
 
     // Floating chat state and functionality
     const [floatingChatOpen, setFloatingChatOpen] = useState(false)

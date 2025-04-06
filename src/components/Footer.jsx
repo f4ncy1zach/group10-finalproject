@@ -1,4 +1,9 @@
-// Footer component, showing project information
+/**
+ * Footer Component
+ * Displays project information, authors, and disclaimers
+ *
+ * @returns {JSX.Element} The footer component
+ */
 export default function Footer() {
     return (
         <footer className="footer">

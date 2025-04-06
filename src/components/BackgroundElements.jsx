@@ -1,10 +1,16 @@
-// Background icons and elements for styling and decorations, with animations and dynamic effects
 import { motion } from "framer-motion"
 import { Plane, Globe, MapIcon, Camera, Luggage, Mountain, Landmark, Sun, Cloud } from "lucide-react"
 
+/**
+ * BackgroundElements Component
+ * Creates animated background elements for visual interest
+ *
+ * @returns {JSX.Element} The background elements component
+ */
 export default function BackgroundElements() {
     return (
         <div className="backgroundElements">
+            {/* Animated plane flying across the screen from left to right */}
             <div className="backgroundElement plane1">
                 <motion.div
                     animate={{
@@ -21,6 +27,7 @@ export default function BackgroundElements() {
                 </motion.div>
             </div>
 
+            {/* Animated plane flying across the screen from right to left */}
             <div className="backgroundElement plane2">
                 <motion.div
                     animate={{
@@ -38,6 +45,7 @@ export default function BackgroundElements() {
                 </motion.div>
             </div>
 
+            {/* Animated rotating globe */}
             <div className="backgroundElement globe">
                 <motion.div
                     animate={{
@@ -61,6 +69,7 @@ export default function BackgroundElements() {
                 </motion.div>
             </div>
 
+            {/* Animated map icon */}
             <div className="backgroundElement map">
                 <motion.div
                     animate={{
@@ -77,6 +86,7 @@ export default function BackgroundElements() {
                 </motion.div>
             </div>
 
+            {/* Animated camera icon */}
             <div className="backgroundElement camera">
                 <motion.div
                     animate={{
@@ -93,6 +103,7 @@ export default function BackgroundElements() {
                 </motion.div>
             </div>
 
+            {/* Animated luggage icon */}
             <div className="backgroundElement luggage">
                 <motion.div
                     animate={{
@@ -109,6 +120,7 @@ export default function BackgroundElements() {
                 </motion.div>
             </div>
 
+            {/* Animated mountain icon */}
             <div className="backgroundElement mountain">
                 <motion.div
                     animate={{
@@ -124,6 +136,7 @@ export default function BackgroundElements() {
                 </motion.div>
             </div>
 
+            {/* Animated landmark icon */}
             <div className="backgroundElement landmark">
                 <motion.div
                     animate={{
@@ -140,6 +153,7 @@ export default function BackgroundElements() {
                 </motion.div>
             </div>
 
+            {/* Animated sun icon */}
             <div className="backgroundElement sun">
                 <motion.div
                     animate={{
@@ -163,7 +177,7 @@ export default function BackgroundElements() {
                 </motion.div>
             </div>
 
-            {/* Clouds */}
+            {/* Multiple animated clouds with different speeds and positions */}
             {[...Array(5)].map((_, i) => (
                 <div
                     key={i}
