@@ -4,6 +4,20 @@ import { ArrowLeft, ArrowRight, MapPin } from "lucide-react"
 import { Button } from "./ui/button"
 import { useState } from "react"
 
+/**
+ * DestinationSelection Component
+ * Allows users to manually enter their desired destination
+ * Used when AI recommendation is not selected
+ *
+ * @param {Object} props - Component props
+ * @param {string} props.destinationCountry - Selected destination country
+ * @param {Function} props.setDestinationCountry - Function to update destination country
+ * @param {string} props.destinationCity - Selected destination city
+ * @param {Function} props.setDestinationCity - Function to update destination city
+ * @param {Function} props.nextStep - Function to advance to next step
+ * @param {Function} props.prevStep - Function to go back to previous step
+ * @returns {JSX.Element} The destination selection component
+ */
 export default function DestinationSelection({
                                                  destinationCountry,
                                                  setDestinationCountry,
@@ -12,15 +26,20 @@ export default function DestinationSelection({
                                                  nextStep,
                                                  prevStep,
                                              }) {
-    // State for validation
+    // State for validation errors
     const [countryError, setCountryError] = useState("")
     const [cityError, setCityError] = useState("")
 
-    // Handle country input change
+    /**
+     * Handles country input change and validation
+     *
+     * @param {React.ChangeEvent<HTMLInputElement>} e - Input change event
+     */
     const handleCountryChange = (e) => {
         const value = e.target.value
         setDestinationCountry(value)
 
+        // Validate input
         if (!value.trim()) {
             setCountryError("Country is required")
         } else {
@@ -28,11 +47,16 @@ export default function DestinationSelection({
         }
     }
 
-    // Handle city input change
+    /**
+     * Handles city input change and validation
+     *
+     * @param {React.ChangeEvent<HTMLInputElement>} e - Input change event
+     */
     const handleCityChange = (e) => {
         const value = e.target.value
         setDestinationCity(value)
 
+        // Validate input
         if (!value.trim()) {
             setCityError("City is required")
         } else {
@@ -40,7 +64,7 @@ export default function DestinationSelection({
         }
     }
 
-    // Check if form is valid
+    // Check if form is valid (both fields have values)
     const isFormValid = destinationCountry.trim() !== "" && destinationCity.trim() !== ""
 
     return (
@@ -84,8 +108,14 @@ export default function DestinationSelection({
                             onChange={handleCountryChange}
                             placeholder="Enter destination country"
                             className="textInput"
+                            aria-required="true"
+                            aria-invalid={!!countryError}
                         />
-                        {countryError && <p className="errorText">{countryError}</p>}
+                        {countryError && (
+                            <p className="errorText" role="alert">
+                                {countryError}
+                            </p>
+                        )}
                     </div>
 
                     {/* City Input */}
@@ -100,11 +130,18 @@ export default function DestinationSelection({
                             onChange={handleCityChange}
                             placeholder="Enter destination city"
                             className="textInput"
+                            aria-required="true"
+                            aria-invalid={!!cityError}
                         />
-                        {cityError && <p className="errorText">{cityError}</p>}
+                        {cityError && (
+                            <p className="errorText" role="alert">
+                                {cityError}
+                            </p>
+                        )}
                     </div>
                 </div>
 
+                {/* Navigation buttons */}
                 <div className="buttonContainer">
                     <Button variant="outline" onClick={prevStep} className="backButton">
                         <ArrowLeft className="buttonIcon" />
