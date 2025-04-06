@@ -1,3 +1,5 @@
+"use client"
+
 import { useState, useRef, useEffect } from "react"
 import { differenceInDays } from "date-fns"
 import BackgroundElements from "./components/BackgroundElements"
@@ -53,6 +55,9 @@ function TravelAdvisor() {
         },
     ])
 
+    // Add isTyping state for the chat
+    const [isTyping, setIsTyping] = useState(false)
+
     // Refs for handling outside clicks
     const floatingChatRef = useRef(null)
     const calendarRef = useRef(null)
@@ -103,6 +108,7 @@ function TravelAdvisor() {
         }
     }
 
+    // Update the resetForm function to properly reset all states
     const resetForm = () => {
         setStep(0)
         setUseAiRecommendation(null)
@@ -112,6 +118,7 @@ function TravelAdvisor() {
         setDepartDate(undefined)
         setReturnDate(undefined)
         setBudget(2000)
+        setActiveCategory("Hotels") // Reset the active category to default
     }
 
     // Add a new traveler
@@ -139,36 +146,33 @@ function TravelAdvisor() {
     // Chat functionality
     const sendFloatingChatMessage = async () => {
         if (floatingChatMessage.trim()) {
-            
             // Add user message to chat history
-            const updatedHistory = [
-                ...floatingChatHistory, 
-                { message: floatingChatMessage, isUser: true }
-            ];
-            setFloatingChatHistory(updatedHistory);
-            
+            const updatedHistory = [...floatingChatHistory, { message: floatingChatMessage, isUser: true }]
+            setFloatingChatHistory(updatedHistory)
+
             // Clear input field
-            setFloatingChatMessage("");
-            
+            setFloatingChatMessage("")
+
+            // Show typing indicator
+            setIsTyping(true)
+
             try {
                 // Get response from OpenAI
-                const aiResponse = await processMessageToChatGPT(floatingChatMessage);
-                
-                // Add AI response to chat history
-                setFloatingChatHistory([
-                    ...updatedHistory,
-                    { message: aiResponse, isUser: false }
-                ]);
+                const aiResponse = await processMessageToChatGPT(floatingChatMessage)
+
+                // Hide typing indicator and add AI response
+                setIsTyping(false)
+                setFloatingChatHistory([...updatedHistory, { message: aiResponse, isUser: false }])
             } catch (error) {
-                console.error("Error in chat:", error);
+                console.error("Error in chat:", error)
+                setIsTyping(false)
                 setFloatingChatHistory([
                     ...updatedHistory,
-                    { message: "Sorry, I encountered an error processing your request.", isUser: false }
-                ]);
+                    { message: "Sorry, I encountered an error processing your request.", isUser: false },
+                ])
             }
         }
-    };
-
+    }
 
     // Calculate trip duration
     const calculateTripDuration = () => {
@@ -285,6 +289,7 @@ function TravelAdvisor() {
                 floatingChatHistory={floatingChatHistory}
                 sendFloatingChatMessage={sendFloatingChatMessage}
                 floatingChatRef={floatingChatRef}
+                isTyping={isTyping}
             />
         </div>
     )
