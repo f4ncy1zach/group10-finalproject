@@ -31,6 +31,12 @@ export async function getDestination(body) {
         - If "error" is true, add a "error_message" field explaining why it is an error.
         - Recommend a popular place half the time and the other half recommend a less popular place.
 
+        IMPORTANT RANDOMIZATION INSTRUCTIONS:
+        - For each recommended destination, deliberately consider both mainstream tourist destinations AND lesser-known countries that still offer visa-free travel for the given passport.
+        - Ensure truly random selection by first selecting a random continent (that's accessible with the passport), then selecting a random country within that continent.
+        - IMPORTANT: Include countries from ALL tiers of popularity - from major tourist destinations to hidden gems and everything in between.
+        - In each recommendation, deliberately avoid suggesting destinations that are typically overrepresented in travel recommendations for that passport type.
+
         WHAT TO EXPECT:
         - "No. of Travelers" tells how many people are traveling. (Required)
         - "Traveler(s) information" says the following
@@ -63,11 +69,11 @@ export async function getDestination(body) {
             messages: [
                 {
                     role: "system",
-                    content: "You are a travel advisor who gives recommendations and feedback based on the users needs.",
+                    content: "You are a travel advisor who gives diverse and unexpected recommendations based on the users needs.",
                 },
                 { role: "user", content: prompt },
             ],
-            temperature: 1.0,
+            temperature: 1.5,
         }),
     })
 
