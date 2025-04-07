@@ -3,7 +3,12 @@ name: Cypress Test
 on:
   push:
     branches:
+      - main
       - chatGPT-chatbot
+
+  pull_request:
+    branches:
+      - main
 
 jobs:
   run-tests:
