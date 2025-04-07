@@ -106,6 +106,7 @@ export default function DestinationSelection({
                             value={destinationCountry}
                             onChange={handleCountryChange}
                             placeholder="Enter destination country"
+                            data-test="Country-Input"
                             className="textInput"
                             aria-required="true"
                             aria-invalid={!!countryError}
@@ -128,6 +129,7 @@ export default function DestinationSelection({
                             value={destinationCity}
                             onChange={handleCityChange}
                             placeholder="Enter destination city"
+                            data-test="City-Input"
                             className="textInput"
                             aria-required="true"
                             aria-invalid={!!cityError}
@@ -142,11 +144,11 @@ export default function DestinationSelection({
 
                 {/* Navigation buttons */}
                 <div className="buttonContainer">
-                    <Button variant="outline" onClick={prevStep} className="backButton">
+                    <Button variant="outline" onClick={prevStep} data-test="Back-Button-Des" className="backButton">
                         <ArrowLeft className="buttonIcon" />
                         Back
                     </Button>
-                    <Button onClick={nextStep} disabled={!isFormValid} className="nextButton">
+                    <Button onClick={nextStep} disabled={!isFormValid} data-test="Next-Button-Des" className="nextButton">
                         Next
                         <ArrowRight className="buttonIcon" />
                     </Button>

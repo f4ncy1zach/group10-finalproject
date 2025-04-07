@@ -71,6 +71,7 @@ export default function AiRecommendationQuestion({ setUseAiRecommendation, nextS
                         <Button
                             variant={selectedOption === false ? "default" : "outline"}
                             onClick={() => handleOptionSelect(false)}
+                            data-test="Choose-Own-Button"
                             className={`optionButton ${selectedOption === false ? "optionButtonActive" : ""}`}
                         >
                             No, I'll choose my destination
