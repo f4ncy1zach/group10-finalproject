@@ -92,7 +92,7 @@ export default function ItineraryView({ selectedCity, tripDuration }) {
                             </p>
                             {error && <p className="itineraryError">{error}</p>}
                             <div className="itineraryGenerateButton">
-                                <button className="generateButton" onClick={initializePlan} disabled={isLoading}>
+                                <button data-test="Itinerary-Button" className="generateButton" onClick={initializePlan} disabled={isLoading}>
                                     <span>Generate Itinerary</span>
                                 </button>
                             </div>
@@ -105,7 +105,7 @@ export default function ItineraryView({ selectedCity, tripDuration }) {
                     {/* Map through each day in the itinerary */}
                     {itinerary.map((day) => (
                         <div key={day.Day} className="itineraryDay">
-                            <h4 className="dayTitle">Day {day.Day}</h4>
+                            <h4 data-test={`Day-${day.Day}`} className="dayTitle">Day {day.Day}</h4>
                             <div className="dayContent">
                                 {/* Map through each activity/location for the day */}
                                 {day.Plan.map((item, index) => (
@@ -125,6 +125,7 @@ export default function ItineraryView({ selectedCity, tripDuration }) {
                     ))}
                     <div className="itineraryActions">
                         <button
+                            data-test="Another-Itinerary"
                             className="resetButton"
                             onClick={() => {
                                 // Clear the current itinerary and generate a new one

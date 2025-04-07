@@ -14,6 +14,7 @@ export default function ReloadButton({ onClick, isLoading }) {
         <button
             onClick={onClick}
             disabled={isLoading}
+            data-test="Reload-Button"
             className="reloadButton"
             aria-label={isLoading ? "Loading..." : "Reload data"}
         >

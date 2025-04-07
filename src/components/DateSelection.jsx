@@ -154,7 +154,7 @@ export default function DateSelection({
 
                 <div className="inputContainer" ref={currentRef}>
                     {/* Date selection button */}
-                    <div className="dateButton" onClick={() => setIsCalendarOpen(!isCalendarOpen)}>
+                    <div data-test="Calender-Button" className="dateButton" onClick={() => setIsCalendarOpen(!isCalendarOpen)}>
                         {currentDate ? format(currentDate, "PPP") : `Select ${isReturn ? "return" : "departure"} date`}
                         <ChevronDown size={16} />
                     </div>
@@ -162,7 +162,7 @@ export default function DateSelection({
                     {/* Trip duration display (only shown for return date when both dates are selected) */}
                     {isReturn && departDate && returnDate && (
                         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="tripDuration">
-                            <div className="tripDurationText">Trip duration: {calculateTripDuration()} days</div>
+                            <div data-test="Trip-Duration" className="tripDurationText">Trip duration: {calculateTripDuration()} days</div>
                         </motion.div>
                     )}
 
@@ -172,11 +172,11 @@ export default function DateSelection({
                             <div className="calendar">
                                 {/* Calendar header with month navigation */}
                                 <div className="calendarHeader">
-                                    <button className="calendarNavButton" onClick={handlePrevMonth} aria-label="Previous month">
+                                    <button data-test="Previous-Month" className="calendarNavButton" onClick={handlePrevMonth} aria-label="Previous month">
                                         <ArrowLeft size={18} />
                                     </button>
                                     <div className="calendarMonthTitle">{format(monthToDisplay, "MMMM yyyy")}</div>
-                                    <button className="calendarNavButton" onClick={handleNextMonth} aria-label="Next month">
+                                    <button data-test="Next-Month" className="calendarNavButton" onClick={handleNextMonth} aria-label="Next month">
                                         <ArrowRight size={18} />
                                     </button>
                                 </div>
@@ -206,6 +206,7 @@ export default function DateSelection({
                                             return (
                                                 <button
                                                     key={day}
+                                                    data-test={`Date-${day}`}
                                                     className={`calendarDay ${isSelected ? "calendarDaySelected" : ""} ${
                                                         disabled ? "calendarDayDisabled" : ""
                                                     }`}
@@ -232,13 +233,14 @@ export default function DateSelection({
 
                 {/* Navigation buttons */}
                 <div className="buttonContainer">
-                    <Button variant="outline" onClick={prevStep} className="backButton">
-                        <ArrowLeft className="buttonIcon" />
+                    <Button variant="outline" onClick={prevStep} data-test="Start-Date-Back" className="backButton">
+                        <ArrowLeft data-test="End-Date-Back" className="buttonIcon" />
                         Back
                     </Button>
                     <Button
                         onClick={nextStep}
                         disabled={!currentDate}
+                        data-test="Next-Button-Cal"
                         className="nextButton"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
