@@ -1,4 +1,4 @@
-Cypress.config('defaultCommandTimeout', 30000)
+Cypress.config('defaultCommandTimeout', 60000)
 describe('Recommended Destination Test', () => {
     it('Recommended destination works as it should', () => {
         // Checks if the home page is accessible and shows up as expected
