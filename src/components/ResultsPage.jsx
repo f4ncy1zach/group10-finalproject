@@ -169,6 +169,7 @@ export default function ResultsPage({
             {/* Page header with title */}
             <div className="resultsHeader">
                 <motion.h2
+                    data-test="Results-Text"
                     className="resultsTitle"
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -232,7 +233,7 @@ export default function ResultsPage({
                         {useAiRecommendation && (
                             <div className="summaryItem">
                                 <div className="summaryLabel">Travelers:</div>
-                                <div className="summaryValue">
+                                <div data-test="Traveler-Number" className="summaryValue">
                                     {travelers.length} {travelers.length === 1 ? "person" : "people"}
                                 </div>
                             </div>
@@ -249,7 +250,7 @@ export default function ResultsPage({
                         {/* Travel dates */}
                         <div className="summaryItem">
                             <div className="summaryLabel">Travel Dates:</div>
-                            <div className="summaryValue">
+                            <div data-test="Travel-Date" className="summaryValue">
                                 {departDate && format(departDate, "MMM d, yyyy")} - {returnDate && format(returnDate, "MMM d, yyyy")}
                             </div>
                         </div>
@@ -257,7 +258,7 @@ export default function ResultsPage({
                         {/* Trip duration */}
                         <div className="summaryItem">
                             <div className="summaryLabel">Duration:</div>
-                            <div className="summaryValue">{calculateTripDuration()} days</div>
+                            <div data-test="Travel-Duration" className="summaryValue">{calculateTripDuration()} days</div>
                         </div>
                     </div>
 
@@ -312,11 +313,11 @@ export default function ResultsPage({
 
             {/* Action buttons for navigation */}
             <div className="resultsActions">
-                <Button variant="outline" onClick={prevStep} className="backButton">
+                <Button data-test="Results-Back" variant="outline" onClick={prevStep} className="backButton">
                     <ArrowLeft className="buttonIcon" />
                     Back
                 </Button>
-                <Button onClick={resetForm} className="nextButton">
+                <Button onClick={resetForm} data-test="Start-Over" className="nextButton">
                     Start Over
                 </Button>
             </div>

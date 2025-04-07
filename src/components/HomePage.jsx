@@ -57,7 +57,7 @@ export default function HomePage({ nextStep }) {
 
                 {/* Start button with animation */}
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.7 }}>
-                    <Button onClick={nextStep} className="startButton" whileTap={{ scale: 0.95 }}>
+                    <Button onClick={nextStep} data-test="Start-Button" className="startButton" whileTap={{ scale: 0.95 }}>
                         Start Your Journey
                         <ArrowRight className="buttonIcon" />
                     </Button>

@@ -142,6 +142,7 @@ export default function PassportVisaForm({
                                     <Button
                                         variant="ghost"
                                         size="sm"
+                                        data-test={`Remove-Button-${traveler.id}`}
                                         className="removeButton"
                                         onClick={() => removeTraveler(traveler.id)}
                                         aria-label={`Remove traveler ${traveler.id}`}
@@ -156,12 +157,13 @@ export default function PassportVisaForm({
                                 <label htmlFor={`passport-${traveler.id}`} className="inputLabel">
                                     Passport Country
                                 </label>
-                                <input
+                                <input spellCheck="true"
                                     id={`passport-${traveler.id}`}
                                     type="text"
                                     value={traveler.passport}
                                     onChange={(e) => handlePassportChange(traveler.id, e.target.value)}
                                     placeholder="Enter passport country"
+                                    data-test={`Traveler-ID-${traveler.id}`}
                                     className="textInput"
                                     aria-required="true"
                                     aria-invalid={!!errors[`passport-${traveler.id}`]}
@@ -180,9 +182,11 @@ export default function PassportVisaForm({
                                 <div className="visaInputContainer">
                                     {/* Visa input field with Enter key handler */}
                                     <input
+                                        spellCheck="true"   
                                         id={`visa-input-${traveler.id}`}
                                         type="text"
                                         placeholder="Enter visa country"
+                                        data-test={`Visa-ID-${traveler.id}`}
                                         className="textInput"
                                         onKeyDown={(e) => {
                                             // Add visa when Enter key is pressed
@@ -197,6 +201,7 @@ export default function PassportVisaForm({
                                     <Button
                                         variant="default"
                                         size="sm"
+                                        data-test={`Visa-Button-${traveler.id}`}
                                         className="addVisaButton"
                                         onClick={() => {
                                             const input = document.getElementById(`visa-input-${traveler.id}`)
@@ -218,6 +223,7 @@ export default function PassportVisaForm({
                                                 {visa}
                                                 {/* Remove visa button */}
                                                 <button
+                                                    data-test={`Visa-Remove-${traveler.id}`}
                                                     className="removeVisaButton"
                                                     onClick={() => removeVisa(traveler.id, visa)}
                                                     aria-label={`Remove ${visa} visa`}
@@ -235,6 +241,7 @@ export default function PassportVisaForm({
                     {/* Add Traveler Button */}
                     <Button
                         variant="outline"
+                        data-test="Add-Traveler"
                         className="addTravelerButton"
                         onClick={addTraveler}
                         aria-label="Add another traveler"
@@ -246,7 +253,7 @@ export default function PassportVisaForm({
 
                 {/* Navigation buttons */}
                 <div className="buttonContainer">
-                    <Button variant="outline" onClick={prevStep} className="backButton">
+                    <Button variant="outline" onClick={prevStep} data-test="Pass-Back" className="backButton">
                         <ArrowLeft className="buttonIcon" />
                         Back
                     </Button>
@@ -254,6 +261,7 @@ export default function PassportVisaForm({
                         onClick={nextStep}
                         disabled={!isFormValid()}
                         className="nextButton"
+                        data-test="Next-Button-Pass"
                         aria-label="Continue to next step"
                     >
                         Next

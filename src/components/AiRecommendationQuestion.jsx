@@ -59,6 +59,7 @@ export default function AiRecommendationQuestion({ setUseAiRecommendation, nextS
                         <Button
                             variant={selectedOption === true ? "default" : "outline"}
                             onClick={() => handleOptionSelect(true)}
+                            data-test="Recommend-Button"
                             className={`optionButton ${selectedOption === true ? "optionButtonActive" : ""}`}
                         >
                             Yes, recommend a destination
@@ -79,11 +80,11 @@ export default function AiRecommendationQuestion({ setUseAiRecommendation, nextS
 
                 {/* Navigation buttons */}
                 <div className="buttonContainer">
-                    <Button variant="outline" onClick={prevStep} className="backButton">
+                    <Button variant="outline" onClick={prevStep} data-test="AiRec-Back" className="backButton">
                         <ArrowLeft className="buttonIcon" />
                         Back
                     </Button>
-                    <Button onClick={nextStep} disabled={selectedOption === null} className="nextButton">
+                    <Button onClick={nextStep} disabled={selectedOption === null} data-test="Next-Button-AiRec" className="nextButton">
                         Next
                         <ArrowRight className="buttonIcon" />
                     </Button>

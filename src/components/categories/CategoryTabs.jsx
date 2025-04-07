@@ -34,6 +34,7 @@ export default function CategoryTabs({
                 {categories.map((category) => (
                     <button
                         key={category}
+                        data-test={`Category-Button-${category}`}
                         className={`categoryTab ${activeCategory === category ? "categoryTabActive" : ""}`}
                         onClick={() => setActiveCategory(category)}
                         aria-selected={activeCategory === category}
