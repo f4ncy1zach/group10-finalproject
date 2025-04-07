@@ -225,6 +225,9 @@ export async function createItinerary(location, travelTime) {
         - The object in array will give the Location of where to visit from the location.
         - To-do is a description of what to do in that location.
 
+        IMPORTANT:
+        - GENERATE EXACTLY ${travelTime} PLANS. NO MORE, NO LESS
+
         JSON REQUIREMENTS:
         - Do not add "\`\`\`json" when returning the result.
 
@@ -254,7 +257,7 @@ export async function createItinerary(location, travelTime) {
                 },
                 { role: "user", content: prompt },
             ],
-            temperature: 0.9,
+            temperature: 0.7,
         }),
     })
 

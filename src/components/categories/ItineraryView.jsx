@@ -32,14 +32,17 @@ export default function ItineraryView({ selectedCity, tripDuration }) {
         let trys = 0
         let found = false
 
-        // Retry logic - attempts up to 2 times to generate an itinerary
-        while (!found && trys < 2) {
+        // Retry logic - attempts up to 5 times to generate an itinerary
+        while (!found && trys < 5) {
             try {
                 const result = await createItinerary(selectedCity, tripDuration)
+                if(result.length != tripDuration){
+                    throw "count not reached";
+                }
                 setItinerary(result)
                 found = true
             } catch {
-                if (trys < 2) {
+                if (trys < 5) {
                     trys += 1
                     continue
                 }
