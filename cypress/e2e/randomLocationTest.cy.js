@@ -2,7 +2,7 @@ describe('Recommended Destination Test', () => {
     it('Recommended destination works as it should', () => {
         // Checks if the home page is accessible and shows up as expected
         cy.intercept('POST', 'https://api.openai.com/v1/chat/completions').as('apiRequestChat')
-        cy.intercept('GET', 'https://travel-advisor-seven-mu.vercel.app/api/location/*').as('apiRequestTravel')
+        cy.intercept('https://travel-advisor-seven-mu.vercel.app/api/location/*').as('apiRequestTravel')
         cy.visit('http://localhost:5173/group10-finalproject/')
         cy.getDataTest('Website-Name').should('contain.text', 'TRAVEL ADVISOR')
 
