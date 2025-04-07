@@ -1,8 +1,9 @@
+Cypress.config('defaultCommandTimeout', 30000)
 describe('Recommended Destination Test', () => {
     it('Recommended destination works as it should', () => {
         // Checks if the home page is accessible and shows up as expected
         cy.intercept('POST', 'https://api.openai.com/v1/chat/completions').as('apiRequestChat')
-        cy.intercept('https://travel-advisor-seven-mu.vercel.app/api/location/*').as('apiRequestTravel')
+        cy.intercept('GET', 'https://travel-advisor-seven-mu.vercel.app/api/location/**').as('apiRequestTravel')
         cy.visit('http://localhost:5173/group10-finalproject/')
         cy.getDataTest('Website-Name').should('contain.text', 'TRAVEL ADVISOR')
 
@@ -69,6 +70,7 @@ describe('Recommended Destination Test', () => {
         cy.getDataTest('Traveler-Number').should('contain.text', '1 person')
         cy.getDataTest('Travel-Date').should('contain.text', 'May 15, 2025 - May 30, 2025')
         cy.getDataTest('Travel-Duration').should('contain.text', '16 days')
+        cy.wait('@apiRequestTravel').its('response.statusCode').should('eq', 200)
         cy.getDataTest('Reload-Button').should('be.enabled')
         cy.wait('@apiRequestTravel').its('response.statusCode').should('eq', 200)
         cy.getDataTest('Reload-Button').click()
