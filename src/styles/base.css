@@ -1,0 +1,244 @@
+/* Base styles for the website */
+@import url("https://fonts.googleapis.com/css2?family=Exo+2:wght@400;500;700&display=swap");
+
+:root {
+    --background: 210 40% 98%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 196 80% 53%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 262 83% 58%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 262 83% 96%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 196 80% 53%;
+    --radius: 0.5rem;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Exo 2", sans-serif;
+}
+
+body {
+    font-family: "Exo 2", sans-serif;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+div,
+button,
+input,
+select,
+textarea {
+    font-family: "Exo 2", sans-serif;
+}
+
+/* Custom animations */
+@keyframes float {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes spin-slow {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes pulse-glow {
+    0%,
+    100% {
+        box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(56, 189, 248, 0.8);
+    }
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+    animation: spin-slow 15s linear infinite;
+}
+
+.animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.glass {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+}
+
+/* Gradient text */
+.gradient-text {
+    background: linear-gradient(to right, #2ec4b6, #a855f7);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* Utility classes */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Main container */
+.container {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #e0f7ff 0%, #f0e6ff 100%);
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    font-family: "Exo 2", sans-serif;
+    padding-bottom: 0;
+}
+
+/* Main content */
+.mainContent {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 7rem 1rem 7rem;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    min-height: calc(100vh - 170px);
+}
+
+/* Glass card */
+.glassCard {
+    width: 100%;
+    max-width: 600px;
+    padding: 2rem;
+    border-radius: 2rem;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 10px 15px rgba(56, 189, 248, 0.1), inset 0 0 0 1px
+    rgba(255, 255, 255, 0.5);
+    position: relative;
+    overflow: hidden;
+    animation: pulse-glow 3s infinite;
+    min-height: 500px;
+}
+
+.glassCard::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 70%);
+    transform: rotate(30deg);
+    pointer-events: none;
+    z-index: -1;
+}
+
+button,
+input,
+select,
+textarea {
+    border: none;
+    outline: none;
+}
+
+*:focus {
+    outline: none;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.3);
+}
+
+/* Add cursor pointer to all buttons */
+button {
+    cursor: pointer;
+}
+
+/* Button hover effects */
+.backButton:hover,
+.nextButton:hover,
+.sendButton:hover,
+.calendarNavButton:hover,
+.calendarDay:hover:not(:disabled),
+.floatingChatSend:hover,
+.floatingChatClose:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
+}
+
+/* Add subtle hover effect for option buttons */
+.optionButton:hover {
+    transform: scale(1.03);
+    transition: transform 0.2s ease;
+}
+
+input[type="range"] {
+    cursor: pointer;
+}
+
+/* Simple Responsive adjustments */
+@media (max-width: 768px) {
+    .listingCard {
+        flex-direction: column;
+    }
+
+    .listingImage {
+        width: 100%;
+        height: 150px;
+    }
+
+    .listingDetails {
+        flex-direction: column;
+    }
+}

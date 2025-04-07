@@ -1,0 +1,210 @@
+/* Itinerary styles */
+.itineraryContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.itineraryHeader {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.itineraryTitle {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 0.5rem;
+}
+
+.itinerarySubtitle {
+    color: #64748b;
+    font-size: 1rem;
+}
+
+.itineraryPlaceholder {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3rem;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 1rem;
+    border: 1px dashed rgba(56, 189, 248, 0.3);
+    margin-bottom: 2rem;
+    min-height: 350px;
+}
+
+.itineraryMessage {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 1rem;
+}
+
+.itineraryDescription {
+    color: #64748b;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+}
+
+.itineraryGenerateButton {
+    margin-top: 1.5rem;
+}
+
+.generateButton {
+    background: linear-gradient(to right, #38bdf8, #8b5cf6);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 1rem;
+    font-weight: 500;
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: none;
+    cursor: pointer;
+    opacity: 1;
+}
+
+.generateButton:hover {
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.5);
+    transform: translateY(-2px) scale(1.03);
+    transition: all 0.3s ease;
+}
+
+.generateButton:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Loading animation */
+.loadingAnimation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.loadingIcon {
+    color: #38bdf8;
+    animation: spin 1.5s linear infinite;
+}
+
+.loadingText {
+    font-size: 1.1rem;
+    color: #1e293b;
+    font-weight: 500;
+    background: linear-gradient(to right, #38bdf8, #8b5cf6);
+    -webkit-background-clip: text;
+    background-clip: text;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.itineraryError {
+    color: #ef4444;
+    margin-top: 1rem;
+    font-weight: 500;
+}
+
+/*Result Style*/
+.itineraryResults {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    margin-bottom: 2rem;
+    overflow-y: auto;
+}
+
+.itineraryDay {
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 1.5rem;
+}
+
+.dayTitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #38bdf8;
+    display: inline-block;
+}
+
+.dayContent {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.itineraryItem {
+    background: #f8fafc;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    border-left: 3px solid #8b5cf6;
+}
+
+.itemLocation,
+.itemTodo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.itemLocation {
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.itemTodo {
+    color: #475569;
+}
+
+.locationIcon {
+    color: #8b5cf6;
+}
+
+.todoIcon {
+    color: #38bdf8;
+}
+
+.itineraryActions {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.resetButton {
+    background: #f1f5f9;
+    color: #475569;
+    padding: 0.75rem 1.5rem;
+    border-radius: 1rem;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.resetButton:hover {
+    background: #e2e8f0;
+}
