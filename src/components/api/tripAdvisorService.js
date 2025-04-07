@@ -1,10 +1,6 @@
 import axios from 'axios';
 
-//It will change the URL, when it publishes
-// const BASE_URL = import.meta.env.VITE_PROD
-//   ? 'https://travel-advisor-seven-mu.vercel.app/api'
-//   : 'http://localhost:3000/api';
-
+// Based URL for the tripadvisor backend
 const BASE_URL = 'https://travel-advisor-seven-mu.vercel.app/api';
 
 // Create axios
