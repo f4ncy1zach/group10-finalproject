@@ -1,4 +1,4 @@
-name: ChatBot Tests
+name: Cypress Test
 
 on:
   push:
