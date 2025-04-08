@@ -1,3 +1,5 @@
+import { motion } from "framer-motion";
+
 /**
  * Button Component
  * Reusable button component with different variants and sizes
@@ -33,8 +35,8 @@ export function Button({ children, className = "", variant = "default", size = "
     const classes = `${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`
 
     return (
-        <button className={classes} {...props}>
+        <motion.button className={classes} {...props}>
             {children}
-        </button>
+        </motion.button>
     )
 }

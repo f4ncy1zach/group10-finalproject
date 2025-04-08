@@ -1,7 +1,12 @@
 describe('Own Destination Test', () => {
     it('Choosing own destination works as it should', () => {
         // Checks if the home page is accessible and shows up as expected
-        cy.intercept('POST', 'https://api.openai.com/v1/chat/completions').as('apiRequestChat')
+        cy.intercept('POST', 'https://api.openai.com/v1/chat/completions', (req=>{
+            req.on('response', (res) => {
+                console.log('API Response:', res.statusCode);
+                console.log('API Response Body:', res.body);
+            });
+        })).as('apiRequestChat')
         cy.intercept('GET', 'https://travel-advisor-seven-mu.vercel.app/api/location/**').as('apiRequestTravel')
         cy.visit('http://localhost:5173/group10-finalproject/')
         cy.getDataTest('Website-Name').should('contain.text', 'TRAVEL ADVISOR')
@@ -76,7 +81,7 @@ describe('Own Destination Test', () => {
         }        
         cy.getDataTest('Another-Itinerary').should('be.enabled')
         cy.getDataTest('Another-Itinerary').click()
-        cy.wait('@apiRequestChat', { timeout: 60000 }).its('response.statusCode').should('eq', 200)
+        cy.wait('@apiRequestChat', { timeout: 100000 }).its('response.statusCode').should('eq', 200)
         for (let i = 1; i < 32; i++) {
             cy.getDataTest(`Day-${i}`).should('contain.text', `Day ${i}`);
         }
