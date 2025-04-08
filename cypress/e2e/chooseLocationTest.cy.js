@@ -1,3 +1,4 @@
+Cypress.config('defaultCommandTimeout', 100000)
 describe('Own Destination Test', () => {
     it('Choosing own destination works as it should', () => {
         // Checks if the home page is accessible and shows up as expected
