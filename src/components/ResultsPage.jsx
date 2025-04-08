@@ -110,8 +110,6 @@ export default function ResultsPage({
                 try {
                     const response = await checkSpelling(destinationCountry, destinationCity)
 
-                    console.log(response);
-
                     // If correction is needed, update destination values
                     if (response["correction"] == true) {
                         // Update local variables

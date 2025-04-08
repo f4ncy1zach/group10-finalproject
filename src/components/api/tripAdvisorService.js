@@ -70,7 +70,7 @@ export const getFirstLocationData = async (searchQuery, category = null) => {
   
         // If no data return back, then return
         if (!searchResults?.data?.length) {
-            console.log(`No results found for: ${searchQuery}`);
+            // console.log(`No results found for: ${searchQuery}`);
             return { data: null };
         }
   
@@ -117,18 +117,18 @@ export const getCityInfo = (() => {
     
             // check cache
             if (cache.has(cityName)) {
-                console.log("Get from cache:", cityName);
+                // console.log("Get from cache:", cityName);
                 return cache.get(cityName);
             }
     
             // check modular lock
             if (isFetching) {
-                console.log("Request is locked, please waiting:", cityName);
+                // console.log("Request is locked, please waiting:", cityName);
                 await new Promise((resolve) => setTimeout(resolve, 100)); 
                 return cache.has(cityName) ? cache.get(cityName) : null; // return or get null
             }
     
-            console.log("Fetching city info for:", cityName);
+            // console.log("Fetching city info for:", cityName);
             isFetching = true; // modular lock
     
             // Get city data 
@@ -136,10 +136,10 @@ export const getCityInfo = (() => {
     
             // If there is no data, then return null
             if (!response.data) {
-                console.log("No city info found for:", cityName);
+                // console.log("No city info found for:", cityName);
                 cache.set(cityName, null);
             } else {
-                console.log("City info found:", response.data);
+                // console.log("City info found:", response.data);
                 cache.set(cityName, response.data);
             }
     
@@ -171,23 +171,23 @@ export const getAggregatedLocationDataAll = (() => {
   
             // Check if there are requests in progress
             if (fetchPromises.has(key)) {
-                console.log("Already requested, please waiting:", key);
+                // console.log("Already requested, please waiting:", key);
                 return fetchPromises.get(key);
             }
   
-            console.log("Fetching aggregated info for:", key);
+            // console.log("Fetching aggregated info for:", key);
             const promise = getAggregatedLocationData(searchQuery, category)
                 .then((response) => {
-                    console.log("聚合1response", response);
+                    // console.log("聚合1response", response);
                     if (!response?.data) {
-                        console.log("No aggregated info found for:", key);
+                        // console.log("No aggregated info found for:", key);
                         return null;
                     }
-                    console.log("Aggregated info found:", response.data);
+                    // console.log("Aggregated info found:", response.data);
                     return response.data;
                 })
                 .catch((error) => {
-                    console.error("Error fetching aggregated info:", error);
+                    // console.error("Error fetching aggregated info:", error);
                     return null;
                 })
                 .finally(() => {
