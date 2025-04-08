@@ -1,4 +1,3 @@
-Cypress.config('defaultCommandTimeout', 100000)
 describe('Own Destination Test', () => {
     it('Choosing own destination works as it should', () => {
         // Checks if the home page is accessible and shows up as expected
@@ -77,7 +76,7 @@ describe('Own Destination Test', () => {
         }        
         cy.getDataTest('Another-Itinerary').should('be.enabled')
         cy.getDataTest('Another-Itinerary').click()
-        cy.wait('@apiRequestChat', { timeout: 60000 }).its('response.statusCode').should('eq', 200)
+        cy.wait('@apiRequestChat', { timeout: 100000 }).its('response.statusCode').should('eq', 200)
         for (let i = 1; i < 32; i++) {
             cy.getDataTest(`Day-${i}`).should('contain.text', `Day ${i}`);
         }
