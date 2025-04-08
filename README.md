@@ -6,6 +6,8 @@ Live Build: [https://travle-advisor.vercel.app/](https://travle-advisor.vercel.a
 
 Travel Advisor is a modern Vite + React application that helps users discover new travel destinations and receive personalized recommendations powered by AI. This guide provides step-by-step instructions for setting up the project locally and deploying it.
 
+> **Note**: The Tripadvisor backend for this project is deployed using Express on Vercel. To view the source code for the backend, check out the [TripAdvisor Backend Repository](https://github.com/f4ncy1zach/cmpt276-group10-backend).
+
 ## 🚀 Getting Started Locally
 
 Follow these instructions to deploy and run the application on your device.
