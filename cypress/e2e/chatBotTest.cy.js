@@ -11,7 +11,7 @@ describe('Chatbot Test', () => {
     cy.contains(/Hi there! I'm your AI travel assistant. How can I help you plan your perfect trip today?/i).should('not.exist')
     cy.getDataTest('Chatbot-Button').click()
 
-    // Asks the chatbot a question and checking if the the api request is going though and being received by clicking the enter button on screen
+    // Asks the chatbot a question and checking if the api request is going though and being received by clicking the enter button on screen
     cy.getDataTest('Question-Field').type('What are some of the best places to travel to in the summer time?')
     cy.getDataTest('').should('not.exist')
     cy.getDataTest('Send-Button').click()

@@ -51,7 +51,6 @@ export default function RestaurantsList({ destinationCity, destinationCountry })
                 setRestaurantsError("No restaurant information found")
             }
         } catch (error) {
-            console.error("Failed to fetch restaurant data:", error)
             setRestaurantsError("Error occurred while fetching restaurant data")
         } finally {
             setRestaurantsLoading(false)

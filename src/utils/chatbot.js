@@ -14,17 +14,6 @@ export async function processMessageToChatGPT(userMessage) {
         content: userMessage
     });
 
-    // const messages = [
-    //     {
-    //         role: "system",
-    //         content: `You are a helpful travel assistant providing clear and accurate travel advice.` // Can be changed like making it talk like a pirate
-    //     },
-    //     {
-    //         role: "user",
-    //         content: userMessage
-    //     }
-    // ];
-
     const apiRequestBody = {
         "model": "gpt-4o-mini",
         "messages": conversationHistory

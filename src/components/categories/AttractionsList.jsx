@@ -40,7 +40,6 @@ export default function AttractionsList({ destinationCity, destinationCountry })
                 setAttractionsError("No attraction information found")
             }
         } catch (error) {
-            console.error("Failed to fetch attraction data:", error)
             setAttractionsError("Error occurred while fetching attraction data")
         } finally {
             setAttractionsLoading(false)

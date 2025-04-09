@@ -162,7 +162,6 @@ function TravelAdvisor() {
                 setIsTyping(false)
                 setFloatingChatHistory([...updatedHistory, { message: aiResponse, isUser: false }])
             } catch (error) {
-                console.error("Error in chat:", error)
                 setIsTyping(false)
                 setFloatingChatHistory([
                     ...updatedHistory,

@@ -51,7 +51,6 @@ export default function HotelsList({ destinationCity, destinationCountry }) {
                 setHotelsError("No hotel information found")
             }
         } catch (error) {
-            console.error("Failed to fetch hotel data:", error)
             setHotelsError("Error occurred while fetching hotel data")
         } finally {
             setHotelsLoading(false)

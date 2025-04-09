@@ -63,7 +63,7 @@ describe('Recommended Destination Test', () => {
         cy.getDataTest('Trip-Duration').should('contain.text', 'Trip duration: 16 days')
         cy.getDataTest('Next-Button-Cal').click()
 
-        // Checks if all the information is recieved and correct
+        // Checks if all the information is received and correct
         cy.wait('@apiRequestChat').its('response.statusCode').should('eq', 200)
         cy.wait('@apiRequestTravel').its('response.statusCode').should('eq', 200)
         cy.getDataTest('Results-Text').should('contain.text', 'THE DESTINATION DESIGNATED FOR YOU AWAITS')

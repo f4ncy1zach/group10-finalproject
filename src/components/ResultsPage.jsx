@@ -139,7 +139,6 @@ export default function ResultsPage({
                         const response = await getGeneralInformation(destinationCity)
                         data.locationDetails.description = response
                     } catch (error) {
-                        console.log(error)
                     }
                 }
                 setCityInfo(data)
@@ -147,7 +146,6 @@ export default function ResultsPage({
                 setCityInfoError("Does Not Find City Detail")
             }
         } catch (error) {
-            console.error("Failed to get city information:", error)
             setCityInfoError("An error occurred while getting city information")
         } finally {
             setCityInfoLoading(false)
