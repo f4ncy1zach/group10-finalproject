@@ -156,8 +156,6 @@ export async function checkSpelling(location, city) {
         - Location must be the country name.
         - City must be a city that exists in the country.
         - If the location or city does not have any error or spelling mistakes, set "correction" as false, and don't give "data".
-        - If the city does not belong to the specified country, replace the city with the correct capital for that country.
-        - If the country does not have the specified city, replace the city with the capital of the specified country.
         - If there is a mistake in one or both, prioritize corrections that maintain a valid country-city relationship.
         - When checking for these locations make sure that they are valid locations in tripadvisor.
         - If you still cannot understand what the user was going for return "error" as true with nothing else as a JSON.

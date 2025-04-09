@@ -38,7 +38,6 @@ export default function HotelsList({ destinationCity, destinationCountry }) {
      * Updates state with results, loading status, and any errors
      */
     const fetchHotels = async () => {
-        console.log("fetchHotels", destinationCity, destinationCountry)
         if (!destinationCity || !destinationCountry) return
 
         setHotelsLoading(true)
