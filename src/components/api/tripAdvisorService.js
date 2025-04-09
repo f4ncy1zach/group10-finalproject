@@ -28,7 +28,7 @@ export const searchLocations = async (searchQuery, category = null) => {
       const { data } = await apiClient.get('/location/search', { params });
       return data;
     } catch (error) {
-        console.error('An error occurred while searching for a location:', error);
+        //console.error('An error occurred while searching for a location:', error);
         throw error;
     }
 };
@@ -44,7 +44,7 @@ export const getLocationDetails = async (locationId) => {
         const { data } = await apiClient.get(`/location/${locationId}/details`);
         return data;
     } catch (error) {
-        console.error('An error occurred while searching for a location:', error);
+        //console.error('An error occurred while searching for a location:', error);
         throw error;
     }
 };
@@ -57,7 +57,7 @@ export const getLocationDetails = async (locationId) => {
 */
 export const getFirstLocationData = async (searchQuery, category = null) => {
     try {
-        console.log(`Fetching first location data for: ${searchQuery}, category: ${category || 'all'}`);
+        //console.log(`Fetching first location data for: ${searchQuery}, category: ${category || 'all'}`);
   
         // 1. Search position
         const searchParams = {
@@ -78,7 +78,7 @@ export const getFirstLocationData = async (searchQuery, category = null) => {
         const firstLocation = searchResults.data[0];
         const locationId = firstLocation.location_id;
     
-        console.log(`Found location: ${firstLocation.name} (ID: ${locationId})`);
+        //console.log(`Found location: ${firstLocation.name} (ID: ${locationId})`);
     
         // 3. Get the location detail
         const detailsResponse = await apiClient.get(`/location/${locationId}/details`);
@@ -97,7 +97,7 @@ export const getFirstLocationData = async (searchQuery, category = null) => {
     
         return { data: result };
     } catch (error) {
-        console.error('An error occurred while searching for a location:', error);
+        //console.error('An error occurred while searching for a location:', error);
         return { data: null, error: error.message };
     }
 };
@@ -145,7 +145,7 @@ export const getCityInfo = (() => {
     
             return response.data;
         } catch (error) {
-            console.error("Error fetching city info:", error);
+            //console.error("Error fetching city info:", error);
             cache.set(cityName, null);
             return null;
         } finally {
@@ -178,7 +178,7 @@ export const getAggregatedLocationDataAll = (() => {
             // console.log("Fetching aggregated info for:", key);
             const promise = getAggregatedLocationData(searchQuery, category)
                 .then((response) => {
-                    // console.log("聚合1response", response);
+                    // console.log("response", response);
                     if (!response?.data) {
                         // console.log("No aggregated info found for:", key);
                         return null;
@@ -197,7 +197,7 @@ export const getAggregatedLocationDataAll = (() => {
             fetchPromises.set(key, promise);
             return promise;
         } catch (error) {
-            console.error("Unexpected error:", error);
+            //console.error("Unexpected error:", error);
             return null;
         }
     };
@@ -252,7 +252,7 @@ export const getAggregatedLocationData = async (searchQuery, category = null, co
             })
         );
   
-                        console.log("Aggregated Data:", aggregatedData);
+                        //console.log("Aggregated Data:", aggregatedData);
   
         // return
         return {
@@ -260,7 +260,7 @@ export const getAggregatedLocationData = async (searchQuery, category = null, co
         };
   
     } catch (error) {
-        console.error('Have error when Aggregated data:', error);
+        //console.error('Have error when Aggregated data:', error);
         throw error;
     }
 }

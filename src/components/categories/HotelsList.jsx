@@ -153,7 +153,7 @@ export default function HotelsList({ destinationCity, destinationCountry }) {
                     {hotel.rating || "0.0"}/5.0 ({hotel.num_reviews || 0} reviews)
                   </span>
                                 </div>
-                                <p className="listingPrice">{hotel.price_level || "/Night"}</p>
+                                <p className="listingPrice">{hotel.price_level || "Price not available"}</p>
                                 <p className="listingPhone">{hotel.phone || "Phone not available"}</p>
                             </div>
                             <div className="listingSecondaryInfo">
