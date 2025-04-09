@@ -8,7 +8,17 @@ Travel Advisor is a modern Vite + React application that helps users discover ne
 
 > **Note**: The Tripadvisor backend for this project is deployed using Express on Vercel. To view the source code for the backend, check out the [TripAdvisor Backend Repository](https://github.com/f4ncy1zach/cmpt276-group10-backend).
 
-## 🚀 Getting Started Locally
+## 🎥 Video Presentation
+
+Watch our full project presentation here:  
+👉 [Video Presentation on Google Drive](https://drive.google.com/file/d/1XvrvX8FSCE4AEr4jEBwm7ABnHE8nOTMh/view?usp=sharing)
+
+## 📄 Project Report 
+
+Here is our Project's Final Report:  
+👉 [Final Report](./misc/cmpt276-final-report.pdf)
+
+## 🚀 Running a Local Deployment
 
 Follow these instructions to deploy and run the application on your device.
 
