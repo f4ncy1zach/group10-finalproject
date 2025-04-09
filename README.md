@@ -1,6 +1,6 @@
 # Travel Advisor 🌍
 
-Live Build: [https://travle-advisor.vercel.app/](https://travle-advisor.vercel.app/)
+Live Build: [https://travel-advisor-project.vercel.app/](https://travel-advisor-project.vercel.app/)
 
 ## Project Overview
 
@@ -86,7 +86,7 @@ Now that everything is set up, you can run the application.
 ## 🔗 Live Build
 
 You can view the deployed version here:  
-👉 [https://travle-advisor.vercel.app/](https://travle-advisor.vercel.app/)
+👉 [https://travel-advisor-project.vercel.app/](https://travel-advisor-project.vercel.app/)
 
 ---
 
